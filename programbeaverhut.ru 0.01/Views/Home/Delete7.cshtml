@@ -1,0 +1,58 @@
+﻿@model programbeaverhut.ru.Models.LegalEntity
+@{
+    ViewBag.Title = "Удаление компании";
+}
+
+<div class="card border-primary" style="margin: 0px 0px 15px 0px;">
+
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h4>Удаление юридического наименования "@Html.DisplayFor(LegalEntitys => LegalEntitys.LegalEntityName)"</h4>
+        </form>
+    </div>
+
+    <div class="card-body">
+
+        <h6>Данные нельзя будет востоновить! Проверьте данные перед удалением.</h6>
+        <div style="margin: 0px 0px 10px 0px;">
+            <a>The data cannot be restored!</a>
+        </div>
+
+        <dl class="dl-horizontal">
+            <dt>Телефон</dt>
+            <dd>
+                @Html.DisplayFor(LegalEntitys => LegalEntitys.Telephone)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Адрес</dt>
+            <dd>
+                @Html.DisplayFor(LegalEntitys => LegalEntitys.Address)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>ИНН/КПП</dt>
+            <dd>
+                @Html.DisplayFor(LegalEntitys => LegalEntitys.LegalEntityINN)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>ОГРНИП</dt>
+            <dd>
+                @Html.DisplayFor(LegalEntitys => LegalEntitys.LegalEntityOGRIP)
+            </dd>
+        </dl>
+
+        <div>
+            <form asp-controller="Home" asp-action="Delete7" method="post">
+                <div class="form-group">
+                    <input type="submit" class="form-group btn btn-outline-dark" value="Удалить" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

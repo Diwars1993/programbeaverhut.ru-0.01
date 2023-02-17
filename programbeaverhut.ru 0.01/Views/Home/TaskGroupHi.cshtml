@@ -1,0 +1,102 @@
+﻿@using programbeaverhut.ru.Models
+@using System.Security.Claims;
+@model programbeaverhut.ru.Models.CombinedLoginRegisterViewModel
+
+@{
+    ViewBag.Title = "Группа задач";
+}
+
+<head>
+    <meta charset="utf-8">
+    <title>:hover</title>
+    <style>
+
+        /* Эфекты при наведении таблицы */
+        .hover {
+        }
+
+            .hover tr:hover {
+                background: #9e9e9e !important; /* Цвет фона при наведении */
+                color: #fff !important; /* Цвет текста при наведении */
+            }
+            /* Изменяет на руку при наведении на таблицу */
+            .hover tr:hover {
+                cursor: pointer;
+            }
+
+        .test {
+            font-size: 90%;
+        }
+
+        [data-tooltip] {
+            position: relative; /* Относительное позиционирование */
+        }
+
+            [data-tooltip]::after {
+                opacity: 1;
+                font-size: 70%;
+                content: attr(data-tooltip); /* Выводим текст */
+                position: absolute; /* Абсолютное позиционирование */
+                z-index: 100;
+                width: auto; /* Ширина подсказки */
+                left: 0px;
+                top: 0px; /* Положение подсказки */
+                background: #3989c9; /* Синий цвет фона */
+                color: #fff; /* Цвет текста */
+                padding: 0.5em; /* Поля вокруг текста */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+                pointer-events: none; /* Подсказка */
+                opacity: 0; /* Подсказка невидима */
+                transition: 1.5s; /* Время появления подсказки */
+            }
+
+            [data-tooltip]:hover::after {
+                opacity: 1; /* Показываем подсказку */
+                top: -3em; /* Положение подсказки */
+            }
+    </style>
+</head>
+
+<html>
+<body>
+
+    <div class="card">
+
+        <!-- card-header -->
+        <div class="card-header">
+            <h5>
+                Группы задач
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <form class="form-row align-items-center ">
+                <a asp-action="TaskGroupNew" type="submit" class="form-group btn btn-primary" style="margin: 0px 10px 10px 6px;">+ Добавить группу задач</a>
+            </form>
+
+            <table class="table table-striped hover">
+
+                @foreach (TaskGroupHi task in Model.TaskGroupHi1)
+                {
+                    <!--Показывать только задачи этого пользователя-->
+                    @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == task.UserId1)
+                    {
+                        <tr>
+                            <td width="80%">
+                                <h5 onclick="document.location = 'https://localhost:44330/Home/Tasks/@task.TaskGroupHiId';">@task.NameTaskGroup</h5>
+                            </td>
+
+                            <td align="right">
+                                <a data-tooltip="Редактировать" asp-action="Edit5" asp-controller="Home" asp-route-id="@task.TaskGroupHiId" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
+                                <a data-tooltip="Удалить" asp-action="Delete9" asp-controller="Home" asp-route-id="@task.TaskGroupHiId" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

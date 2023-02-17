@@ -1,0 +1,33 @@
+﻿@model programbeaverhut.ru.Models.CombinedLoginRegisterViewModel
+@{
+    ViewBag.Title = "Список пользователей";
+
+    <a asp-action="Create" class="btn btn-sm btn-primary" style="margin-bottom: 8px;">Добавить пользователя</a>
+    <a asp-area="" asp-controller="Roles" asp-action="Index" class="btn btn-sm btn-primary" style="margin-bottom: 8px;">Список ролей</a>
+    <a asp-area="" asp-controller="Roles" asp-action="UserList" class="btn btn-sm btn-primary" style="margin-bottom: 8px;">Права доступа</a>
+
+    <table class="table table-striped">
+        <tr><th>Email</th><th>Год</th><th>Сообщения</th><th></th></tr>
+
+        @foreach (var user in Model.User1)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.Year</td>
+                <td>
+                    <a asp-area="" asp-controller="Home" asp-action="RequestPageHi" asp-route-id="@user.Id"> Непрочитанные сообщения: @user.UnreadUser</a>
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                        <a class="btn btn-sm btn-primary" style="margin-bottom: 8px;" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                        <a class="btn btn-sm btn-primary" asp-action="ChangePassword" style="margin-bottom: 8px;" asp-route-id="@user.Id">Сменить пароль</a>
+                        <button type="submit" class="btn btn-sm btn-danger" style="margin-bottom: 8px;">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+
+    </table>
+}

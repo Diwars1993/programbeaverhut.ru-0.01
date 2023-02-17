@@ -1,0 +1,110 @@
+﻿@using System.Security.Claims;
+@using programbeaverhut.ru.Models
+@model programbeaverhut.ru.Models.CombinedLoginRegisterViewModel
+@{
+    ViewBag.Title = "Скачать документы";
+}
+
+<style>
+    @@font-face {
+        font-family: 'FontAwesome';
+        src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal
+    }
+
+    .glyphicon {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale
+    }
+
+    .glyphicon-chevron-right:before {
+        content: "\f054";
+    }
+
+    .glyphicon-chevron-left:before {
+        content: "\f053";
+    }
+</style>
+
+@foreach (var reportingPeriod in Model.ReportingPeriod1)
+{
+    <!--Показывать только клиентов этого пользователя-->
+    @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == reportingPeriod.UserId1)
+    {
+        if (reportingPeriod.Id == ViewBag.ClientId1)
+        {
+            <table>
+                <tr>
+                   
+                    <td>
+                        <a asp-action="ClientRegistration" asp-controller="Home" asp-route-id="@reportingPeriod.Id" style="margin-bottom: 4px;" class="astext"> Вернуться назад к группе клиентов &raquo</a>
+                    </td>
+                </tr>
+            </table>
+        }
+
+    }
+}
+
+<div class="card border" style="margin: 0px 0px 15px 0px;">
+
+    <!-- card-header -->
+    <div class="card-header">
+
+        @foreach (var cl in Model.Clients1)
+        {
+            if (cl.ClientId == ViewBag.ClientID)
+            {
+                <form class="form-row align-items-center ">
+                    <h5>Документы клиента "@cl.SNM"</h5>
+                </form>
+            }
+
+        }
+
+    </div>
+
+    <div class="card-body">
+
+        <a asp-action="AddContract" type="submit" asp-route-id="@ViewBag.ClientId" class="form-group btn btn-primary" style="margin: 0px 10px 10px 0px;">+ Добавить новый договор</a>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Название договора</th>
+                <th>В какой группе клиентов был содан</th>
+                <th>
+                </th>
+            </tr>
+            @foreach (Contract contract in Model.Contract1)
+            {
+                <!--Проверка на совподение открытого клиента и выводимого внем товара.
+            Если ViewBag.ClientId равен @contract.UserId1 то товар выводиться если не равен то не выводиться
+            ViewBag.***** представляет такой объект, который позволяет определить любую переменную
+            и передать ей некоторое значение, а затем в представлении извлечь это значение-->
+                @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == @contract.UserId1)
+                {
+                    <tr>
+                        <td>@contract.Name</td>
+                        <td>@contract.NameReportingPeriod</td>
+                        <td>
+
+                            <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" asp-action="ExportingContract">Скачать договор &#11123</a>
+                            <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.ClientId" asp-action="OnPostExport">Скачать бланк заказа &#11123</a>
+                            <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" asp-action="TermsUse">Скачать акты &#11123</a>
+
+                            <a asp-action="CopyContract" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" class="btn btn-sm btn-primary" style="margin-bottom: 4px;">Копировать</a>
+                            <a asp-action="Edit4" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" class="btn btn-sm btn-primary" style="margin-bottom: 4px;">Изменить</a>
+                            <a asp-action="Delete8" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" class="btn btn-sm btn-danger" style="margin-bottom: 4px;">Удалить</a>
+
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>

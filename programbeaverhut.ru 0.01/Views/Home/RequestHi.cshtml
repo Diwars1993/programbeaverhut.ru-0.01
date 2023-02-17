@@ -1,0 +1,34 @@
+﻿
+@model programbeaverhut.ru.Views.Home.RequestHiModel
+@{
+    ViewBag.Title = "Создать запрос";
+}
+
+<html>
+<body>
+
+    <div class="card border">
+        <!-- card-header -->
+        <div class="card-header">
+            <form class="form-row align-items-center ">
+                <h5>Создать запрос</h5>
+            </form>
+        </div>
+
+        <form method="post" asp-action="RequestHi" asp-controller="home" class="card-body">
+
+            <div class="form-group">
+                <label name="Topic" class="control-label">Тема запроса</label>
+                <input type="text" name="Topic" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
+            </div>
+
+        </form>
+    </div>
+
+
+</body>
+</html>

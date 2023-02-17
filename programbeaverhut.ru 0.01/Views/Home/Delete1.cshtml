@@ -1,0 +1,71 @@
+﻿@model programbeaverhut.ru.Models.Product
+@{
+    ViewBag.Title = "Удаление заказа";
+}
+
+<div class="card border-primary" style="margin: 0px 0px 15px 0px;">
+
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h4>Удаление продукта "@Html.DisplayFor(Product => Product.Description)"</h4>
+        </form>
+    </div>
+
+    <div class="card-body">
+
+        <h6>Данные нельзя будет востоновить! Проверьте данные перед удалением.</h6>
+        <div style="margin: 0px 0px 10px 0px;">
+            <a>The data cannot be restored!</a>
+        </div>
+
+        <dl class="dl-horizontal">
+            <dt>Описание</dt>
+            <dd>
+                @Html.DisplayFor(Product => Product.Description)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Цвет</dt>
+            <dd>
+                @Html.DisplayFor(Product => Product.Colour)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Стекло</dt>
+            <dd>
+                @Html.DisplayFor(Product => Product.Glass)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Количество</dt>
+            <dd>
+                @Html.DisplayFor(Product => Product.Quantity)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Цена</dt>
+            <dd>
+                @Html.DisplayFor(Product => Product.Price)
+            </dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Скидка</dt>
+            <dd>
+                @Html.DisplayFor(Product => Product.Discount)%
+            </dd>
+        </dl>
+
+        <div>
+            <form asp-controller="Home" asp-action="Delete1" method="post">
+                <div class="form-group">
+                    <input type="submit" class="form-group btn btn-outline-dark" value="Удалить" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace programbeaverhut.ru.Models
+{
+    public class ServiceName
+    {
+        public int Id { get; set; }
+        public string ServName { get; set; }
+
+        public string UserName { get; set; }
+        public string UserId1 { get; set; }
+        public User User { get; set; }
+
+    }
+}

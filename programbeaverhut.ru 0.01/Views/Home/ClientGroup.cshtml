@@ -1,0 +1,55 @@
+﻿@using System.Security.Claims;
+@using programbeaverhut.ru.Models
+@model programbeaverhut.ru.Models.ReportingPeriod
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<html>
+<body>
+
+
+    <div class="card border">
+        <!-- card-header -->
+        <div class="card-header">
+            <form class="form-row align-items-center ">
+                <h5>Создать группу клиентов</h5>
+            </form>
+        </div>
+
+        <form method="post" asp-action="ClientGroup" asp-controller="home" class="card-body">
+            <div class="form-group">
+                <span asp-validation-for="PasswordVeri"></span>
+            </div>
+            <div class="form-group">
+                <span asp-validation-for="NameReportingPeriod"></span>
+            </div>
+
+            <div class="form-group">
+                <label name="NameReportingPeriod" class="control-label">Название группы клиентов</label>
+                <input type="text" name="NameReportingPeriod" class="form-control" />
+            </div>
+            <!--Выпадающий список -->
+            <div class="form-group">
+                <label name="ColorId">Выделить группу цветом</label>
+                <select name="ColorId" asp-items="ViewBag.ColorSelections" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label name="Password" class="control-label">Пароль</label>
+                <input type="password" name="Password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label name="PasswordVeri" class="control-label">Проверка пароля</label>
+                <input type="password" name="PasswordVeri" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
+            </div>
+
+        </form>
+    </div>
+
+     
+</body>
+</html>

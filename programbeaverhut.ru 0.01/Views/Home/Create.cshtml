@@ -1,0 +1,99 @@
+﻿@using programbeaverhut.ru.Models
+@model programbeaverhut.ru.Models.Client
+@{
+    ViewBag.Title = "Добавление клиента";
+}
+
+<div class="card border">
+    <!-- card-header -->
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h5>Создать нового клиента</h5>
+        </form>
+    </div>
+    <form method="post" asp-action="create" asp-controller="home" class="card-body">
+        <!--Это нужно что бы передать ReportingPeriodId и так как нам не надо что бы туда внасили он в скрытом формате -->
+        <input type="hidden" value="@ViewBag.reportingPeriodId" name="ReportingPeriodId" />
+
+        <div class="form-group">
+            <label asp-for="ContractNumber" class="control-label">Номер договора</label>
+            <input type="text" asp-for="ContractNumber" class="form-control" />
+        </div>
+
+        <!--Выпадающий список -->
+        <div class="form-group">
+            <label asp-for="NameLegalEntity">Юридическое лицо</label>
+            <select asp-for="LegalEntityId" asp-items="ViewBag.LegalEntitys" class="form-control"></select>
+
+            <a asp-action="Settings" asp-controller="Home" class="astext">Добавить новое юридичекое лицо &raquo</a>
+
+        </div>
+        <!--Выпадающий список -->
+        <div class="form-group">
+            <label asp-for="NameCategory">Категории</label>
+            <select asp-for="CategoryId" asp-items="ViewBag.Сategories" class="form-control"></select>
+
+            <a asp-action="Settings" asp-controller="Home" class="astext">Добавить новую категорию &raquo</a>
+
+        </div>
+        <!-- Выпадающий список офисы. Тут очень сложный замес был с ошибкой после того как сделал совмещение пагинация, фильтрации, поиск и т.д дело было в добовлении OfficesId -->
+        <div class="form-group">
+            <label asp-for="Name">Офис</label>
+            <select asp-for="OfficesId" asp-items="ViewBag.Offices" class="form-control"></select>
+
+
+            <a asp-action="Settings" asp-controller="Home" class="astext">Добавить новый офис &raquo</a>
+
+        </div>
+        <!-- Выпадающий список офисы. -->
+        <div class="form-group">
+            <label asp-for="Manager">ФИО заполняющего менеджера</label>
+            <select asp-for="StaffId" asp-items="ViewBag.Staffs" class="form-control"></select>
+
+
+            <a asp-action="Settings" asp-controller="Home" class="astext">Добавить ного менеджера &raquo</a>
+
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="SNM" class="control-label">Клиент</label>
+            <input type="text" asp-for="SNM" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" class="control-label">Адрес доставки</label>
+            <input type="text" asp-for="Address" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Telephone" class="control-label">Контактный телефон</label>
+            <input type="text" asp-for="Telephone" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Date" class="control-label">Дата оформления</label>
+            <input type="date" asp-for="Date" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="PassportData" class="control-label">Паспортные данные (Для физ лиц)</label>
+            <input type="text" asp-for="PassportData" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ClientINN" class="control-label">ИНН (Для юр лиц)</label>
+            <input type="text" asp-for="ClientINN" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ClientOGRIP" class="control-label">ОГРИП (Для юр лиц)</label>
+            <input type="text" asp-for="ClientOGRIP" class="form-control" />
+        </div>
+        <!--Выпадающий список -->
+        <div class="form-group">
+            <label asp-for="Name">Выделить клиента цветом</label>
+            <select asp-for="ColorId" asp-items="ViewBag.ColorSelections" class="form-control"></select>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" />
+        </div>
+    </form>
+
+</div>

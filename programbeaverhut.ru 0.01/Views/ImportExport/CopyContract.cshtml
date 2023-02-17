@@ -1,0 +1,243 @@
+﻿@model programbeaverhut.ru.Models.Contract
+@{
+    ViewBag.Title = "Редактирование договора";
+}
+
+<div class="card border" style="margin: 0px 0px 15px 0px;">
+
+    <!-- card-header -->
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h4>Копировать договор</h4>
+        </form>
+    </div>
+    <!--Эта форма аналогична форме в представлении для создания нового объекта за исключением атрибута asp-route-id="@Model.ContractId".
+    Установка этого атрибута позволяет при отправке данных вместе с ними также отправить и значение Model.Id.
+    Без этого значения Entity Framework не сможет обновить соответствующую модель в базе данных.-->
+    <form asp-action="CopyContract" asp-controller="importExport" asp-route-id="@Model.ContractId" class="card-body">
+
+        <!--нужно передолвать ReportingPeriodId -->
+        <div class="form-group">
+            <input type="hidden" asp-for="ReportingPeriodId" />
+        </div>
+
+        <!--Это нужно что бы передать UserId1 и так как нам не надо что бы туда внасили он в скрытом формате -->
+        <input type="hidden" value="@ViewBag.UserId1" name="UserId1" />
+        <!--Это нужно что бы передать NameReportingPeriod и так как нам не надо что бы туда внасили он в скрытом формате -->
+        <input type="hidden" value="@ViewBag.NameReportingPeriod" name="NameReportingPeriod" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Заголовок договора</label>
+            <input type="text" asp-for="Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="TitleName" class="control-label">Заголовок договора</label>
+            <input type="text" asp-for="TitleName" class="form-control" />
+        </div>
+
+        <p> *Номер договора заполняется автоматически. В зависимости от клиента.</p>
+        <p>В данном случае, номер договора будет <b>@ViewBag.ContractNumber</b> </p>
+
+        <div class="form-group">
+            <label asp-for="Address" class="control-label">Адрес заключения договора</label>
+            <input type="text" asp-for="Address" class="form-control" />
+        </div>
+
+        <p> *Дата оформление договора заполняется автоматически. В зависимости от клиента.</p>
+        <p>В данном случае, дата оформление договора <b>@ViewBag.Date</b> </p>
+
+        <p>
+            <b>@ViewBag.NameLegalEntity</b>, именуемый в дальнейшем "Исполнитель", с одной стороны, и <b>@ViewBag.SNM</b>,
+            именуемый  в  дальнейшем  "Заказчик", с  другой  стороны,  заключили настоящий договор о нижеследующем:
+        </p>
+
+        <h5> Пункт №1. Предмет договора </h5>
+
+        <p>
+            *Подпункт 1.1 оформляться автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            1.1	Заказчик поручает, а Исполнитель обязуется оказать услугу (и) (или) передать в собственность Заказчика товар,
+            который (и) (или) которая в настоящем договоре именуется: <b>@ViewBag.NameCategory</b>.
+        </p>
+
+        <p>
+            *Подпункт 1.2 оформляться автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            1.2  Характеристика товара: ассортимент, точные размеры, количество, цена и другое, указываются в листе заказа № 1 от <b>@ViewBag.Date</b>
+            которые являются неотъемлемой частью договора.
+        </p>
+
+        <div class="form-group">
+            <label asp-for="ItemOne" class="control-label">Другие подпункты, пункта №1 </label>
+            <textarea type="text" asp-for="ItemOne" class="form-control" placeholder=" Пример: 1.3. После заключения настоящего договора любые изменения в листе заказаза и эскизе не допускаются. "></textarea>
+        </div>
+
+        <h5> Пункт №2. Стоимость работ и порядок расчетов </h5>
+
+        <p>
+            *Подпункт 2.1 оформляться автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            2.1.Стоимость договора без учота услуг, определяется сторонами в листе заказа №1 и составляет: <b>@ViewBag.AmountGoods</b>
+        </p>
+
+        <div class="form-group">
+            <label asp-for="ItemTwo" class="control-label">Другие подпункты, пунета №2 </label>
+            <textarea type="text" asp-for="ItemTwo" class="form-control" placeholder="Пример: 2.2. Оплата по настоящему договору производится в следующем порядке:
+          - 70% стоимости товара оплачивается при заключении настоящего договора;
+          - оставшуюся сумму Заказчик выплачивает по факту выполнения услуг, при получении товара и подписания акта сдачи-приемки
+          и товарной накладной.
+          2.3. Оплата работ производится путем перечисления денежных средств в кассу Исполнителя.
+          2.4. Если замер осуществляется после заключение договора, стоимость продукции может быть скорректирована по причине изменения
+         характеристик или комплектации."></textarea>
+        </div>
+
+        <h5> Пункт №3. Срок выполнения работ </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemThree" class="control-label">Пункт №3 </label>
+            <textarea type="text" asp-for="ItemThree" class="form-control"></textarea>
+        </div>
+
+        <h5> Пункт №4. Приемка работы </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemFour" class="control-label">Пункт №4 </label>
+            <textarea type="text" asp-for="ItemFour" class="form-control"></textarea>
+        </div>
+
+        <h5> Пункт №5. Права и обязанности сторон </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemFive" class="control-label">Пункт №5 </label>
+            <textarea type="text" asp-for="ItemFive" class="form-control"></textarea>
+        </div>
+
+        <h5> Пункт №6. Качество товара. </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemSix" class="control-label">Пункт №6 </label>
+            <textarea type="text" asp-for="ItemSix" class="form-control"></textarea>
+        </div>
+
+        <h5> Пункт №7. Гарантийный срок  </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemSeven" class="control-label">Пункт №7 </label>
+            <textarea type="text" asp-for="ItemSeven" class="form-control"></textarea>
+        </div>
+
+        <h5> Пункт №8. Ответственность сторон и порядок разрешения споров  </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemEight" class="control-label">Пункт №8 </label>
+            <textarea type="text" asp-for="ItemEight" class="form-control"></textarea>
+        </div>
+
+        <h5> Пункт №9. Форс-мажор.  </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemNine" class="control-label">Пункт №9 </label>
+            <textarea type="text" asp-for="ItemNine" class="form-control"></textarea>
+        </div>
+
+        <h5> Пункт №10. Заключительные положения.  </h5>
+
+        <div class="form-group">
+            <label asp-for="ItemTen" class="control-label">Пункт №10 </label>
+            <textarea type="text" asp-for="ItemTen" class="form-control"></textarea>
+        </div>
+
+        <h5> Реквизиты сторон (В качестве премера взят выбранный клиент)  </h5>
+
+        <p>
+            *Исполнитель оформляться автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            Исполнитель: <b>@ViewBag.LegalEntityName</b>
+        </p>
+        <p>
+            *ИНН оформляються автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            ИНН: <b>@ViewBag.LegalEntityINN</b>
+        </p>
+        <p>
+            *ОГРНИП оформляються автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            ОГРНИП: <b>@ViewBag.LegalEntityOGRIP</b>
+        </p>
+        <p>
+            *Адрес оформляються автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            Адрес: <b>@ViewBag.Address</b>
+        </p>
+        <p>
+            *Телефон оформляються автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            Контактный телефон: <b>@ViewBag.Telephone</b>
+        </p>
+
+
+        <p>
+            *Заказчик оформляться автоматически и индивидуально для каждого клиента
+        </p>
+        <p>
+            Заказчик: <b>@ViewBag.SNM</b>
+        </p>
+        <p>
+            *Паспортные данные (Для физ лиц) оформляються автоматически и индивидуально для каждого заказчика
+        </p>
+        <p>
+            Паспортные данные (Для физ лиц): <b>@ViewBag.PassportData</b>
+        </p>
+        <p>
+            *ИНН (Для юр лиц) оформляються автоматически и индивидуально для каждого заказчика
+        </p>
+        <p>
+            ИНН (Для юр лиц): <b>@ViewBag.ClientINN</b>
+        </p>
+        <p>
+            *ОГРНИП (Для юр лиц) оформляються автоматически и индивидуально для каждого заказчика
+        </p>
+        <p>
+            ОГРНИП (Для юр лиц): <b>@ViewBag.ClientOGRIP</b>
+        </p>
+        <p>
+            *Адрес оформляються автоматически и индивидуально для каждого заказчика
+        </p>
+        <p>
+            Адрес: <b>@ViewBag.Address1</b>
+        </p>
+        <p>
+            *Телефон оформляються автоматически и индивидуально для каждого заказчика
+        </p>
+        <p>
+            Контактный телефон: <b>@ViewBag.Telephone1</b>
+        </p>
+
+        <h5> Правила пользования </h5>
+
+        <div class="form-group">
+            <label asp-for="TermsUse" class="control-label">Пункты, правила пользования:</label>
+            <textarea type="text" asp-for="TermsUse" class="form-control"></textarea>
+        </div>
+
+        <h5> Акт приема-передачи  </h5>
+
+        <div class="form-group">
+            <label asp-for="AcceptanceCertificate" class="control-label">Пункты, акта приема-передачи:</label>
+            <textarea type="text" asp-for="AcceptanceCertificate" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
+        </div>
+    </form>
+</div>
