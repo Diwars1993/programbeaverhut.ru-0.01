@@ -1,0 +1,92 @@
+﻿@model programbeaverhut.ru.Models.ReportingPeriod
+@{
+    ViewBag.Title = "Редактирование группы клиентов";
+}
+
+<div class="card border" style="margin: 0px 0px 15px 0px;">
+
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h5>Редактирование группы</h5>
+        </form>
+    </div>
+
+    <form asp-action="edit3" asp-controller="home" asp-route-id="@Model.Id" class="card-body">
+
+        <div class="form-group">
+            <input type="hidden" asp-for="Password" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="PasswordVeri" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="VerificationPassword" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="OldPassword" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="NewPassword" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NameReportingPeriod" class="control-label">Имя</label>
+            <input type="text" asp-for="NameReportingPeriod" class="form-control" />
+        </div>
+        <!--Выпадающий список -->
+        <div class="form-group">
+            <label name="ColorId">Выделить отчетный период цветом</label>
+            <select name="ColorId" asp-items="ViewBag.ColorSelections" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
+        </div>
+    </form>
+</div>
+
+<div class="card border" style="margin: 0px 0px 15px 0px;">
+
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h5>Редактирование пароля</h5>
+        </form>
+    </div>
+    @if (null != Model.VerificationPassword)
+    {
+        <div class="card-body">
+            <a>@Model.VerificationPassword</a>
+        </div>
+    }
+
+    <form asp-action="edit3" asp-controller="home" asp-route-id="@Model.Id" class="card-body">
+
+        <div class="form-group">
+            <input type="hidden" asp-for="Password" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="PasswordVeri" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="VerificationPassword" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="NameReportingPeriod" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" asp-for="ColorId" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="OldPassword" class="control-label">Старый пароль</label>
+            <input type="password" asp-for="OldPassword" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="NewPassword" class="control-label">Новый пароль</label>
+            <input type="password" asp-for="NewPassword" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
+        </div>
+
+    </form>
+</div>

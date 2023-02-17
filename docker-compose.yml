@@ -1,0 +1,25 @@
+version: '3.5'
+services:
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    container_name: "mssql"
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=2wsx2WSX
+    restart: always
+  programbeaverhut:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "programbeaverhut"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=production
+    ports:
+      - "8080:80"
+      - "8443:443"
+    restart: always
+    depends_on:
+      - mssql
+    

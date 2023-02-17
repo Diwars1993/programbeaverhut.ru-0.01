@@ -1,0 +1,63 @@
+﻿@model programbeaverhut.ru.ViewModels.RegisterViewModel
+
+    <style>
+        .html {
+            background-color: #0d72ee;
+        }
+
+        .login-page {
+            width: 360px;
+            padding: 8% 0 0;
+            margin: auto;
+        }
+
+        .form {
+            border-radius: 5px;
+            position: relative;
+            z-index: 1;
+            background: #FFFFFF;
+            max-width: 360px;
+            margin: 0 auto 100px;
+            padding: 45px;
+            text-align: center;
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        }
+    </style>
+
+    <body class="html">
+
+        <div class="login-page">
+
+            <div class="form">
+                <h4>Регистрация новой компании</h4>
+                <form method="post" asp-controller="Account" asp-action="Register">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div>
+                        <label> </label> <br />
+                        <input asp-for="Email" class="form-control" placeholder="Email"/>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div>
+                        <label> </label> <br />
+                        <input asp-for="Year" class="form-control" placeholder="Год рождения"/>
+                        <span asp-validation-for="Year"></span>
+                    </div>
+                    <div>
+                        <label> </label> <br />
+                        <input asp-for="Password" class="form-control" placeholder="Пароль"/>
+                        <span asp-validation-for="Password" ></span>
+                    </div>
+                    <div>
+                        <label> </label> <br />
+                        <input asp-for="PasswordConfirm" class="form-control" placeholder="Подтвердить пароль" />
+                        <span asp-validation-for="PasswordConfirm"></span>
+                    </div>
+                    <div>
+                        <label> </label> <br />
+                        <input type="submit" value="Регистрация" class="form-group btn btn-outline-light col-md-12" style="background-color: #0d72ee;" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </body>

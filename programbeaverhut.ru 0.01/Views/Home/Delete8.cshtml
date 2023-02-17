@@ -1,0 +1,51 @@
+﻿@model programbeaverhut.ru.Models.Tasks
+@{
+    ViewBag.Title = "Удаление задачи";
+}
+
+<div class="card border-primary" style="margin: 0px 0px 15px 0px;">
+
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h4>Удаление задачи</h4>
+        </form>
+    </div>
+
+    <div class="card-body">
+
+        <h6>Данные нельзя будет востоновить! Проверьте данные перед удалением.</h6>
+        <div style="margin: 0px 0px 10px 0px;">
+            <a>The data cannot be restored!</a>
+        </div>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>Дата и время</dt>
+                <dd>
+                    @Html.DisplayFor(LegalEntitys => LegalEntitys.Date)
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>Сотрудник</dt>
+                <dd>
+                    @Html.DisplayFor(LegalEntitys => LegalEntitys.Employees)
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>Описание</dt>
+                <dd>
+                    @Html.DisplayFor(LegalEntitys => LegalEntitys.Description)
+                </dd>
+            </dl>
+
+            <div>
+                <form asp-controller="Home" asp-action="Delete8" method="post">
+                    <div class="form-group">
+                        <input type="submit" class="form-group btn btn-outline-dark" value="Удалить" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

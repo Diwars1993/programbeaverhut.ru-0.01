@@ -1,0 +1,205 @@
+﻿@using System.Security.Claims;
+@using programbeaverhut.ru.Models
+@model programbeaverhut.ru.Models.CombinedLoginRegisterViewModel
+
+@{
+    ViewBag.Title = "Чат с модератором в запросах";
+}
+
+<script>
+    window.addEventListener('click', function (event) {
+        if (event.target.classList.contains('smile')) {
+            let edit = document.querySelector('.edit');
+            edit.value += event.target.attributes['my-data-smile'].value;
+        }
+    });
+</script>
+<style>
+        .smile {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+</style>
+
+
+
+
+
+<html>
+<body>
+
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    @foreach (var chat1 in Model.MessagesRequests1)
+    {
+        if (chat1 != null)
+        {
+            <style>
+                .prokrutka {
+                    height: 300px; /* высота нашего блока */
+                    width: auto; /* ширина нашего блока */
+                    max-width: 1100px;
+                    background: #fff; /* цвет фона, белый */
+                    /*border: 1px solid #C1C1C1; /* размер и цвет границы блока */
+                    /*overflow-x: scroll; /* прокрутка по горизонтали */
+                    overflow-y: scroll; /* прокрутка по вертикали */
+                }
+            </style>
+        }
+    }
+
+
+    <div class="card border">
+
+        <!-- card-header -->
+        <div class="card-header">
+            <form class="form-row align-items-center ">
+                <h5>Запрос "@ViewBag.requestHiTopic" &#128172</h5>
+            </form>
+        </div>
+
+        @if (User.IsInRole("admin"))
+        {
+            <div class="prokrutka">
+                <div class="card-body">
+                    @foreach (var chat1 in Model.MessagesRequests1)
+                    {
+                        @if (@ViewBag.requestHiId == chat1.RequestHiId1)
+                        {
+
+                            <div style="margin: 0px 0px 15px 0px;">
+                                <div class="card border">
+
+                                    <div class="card-body">
+
+                                        <div class="form-row align-items-center">
+
+                                            <a style="font-size: 70%;">(@chat1.Date)</a>
+
+
+                                            <div class="dropdown">
+                                                <a href="#" data-toggle="dropdown" class="nav-link text-dark">
+                                                    <strong>
+                                                        &#9776
+                                                    </strong>
+
+                                                    <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li> <a asp-action="Edit8" asp-controller="Home" asp-route-id="@chat1.MessagesRequestsId" class="nav-link text-dark">Редактировать</a></li>
+                                                    <li><a asp-action="Delete24" asp-route-id="@chat1.MessagesRequestsId" method="post" type="submit" class="nav-link text-dark">Удалить</a></li>
+                                                </ul>
+                                            </div>
+
+
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a><strong>@chat1.UserName </strong></a>
+                                            </div>
+                                            <div>
+                                                <a>@chat1.Message</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="prokrutka">
+                <div class="card-body">
+                    @foreach (var chat1 in Model.MessagesRequests1)
+                    {
+                        @if (@ViewBag.requestHiId == chat1.RequestHiId1)
+                        {
+
+                            <div style="margin: 0px 0px 15px 0px;">
+                                <div class="card border">
+
+                                    <div class="card-body">
+
+                                        <div class="form-row align-items-center">
+
+                                            <a style="font-size: 70%;">(@chat1.Date)</a>
+
+                                            @if (@chat1.UserName != "Admin")
+                                            {
+                                                <div class="dropdown">
+                                                    <a href="#" data-toggle="dropdown" class="nav-link text-dark">
+                                                        <strong>
+                                                            &#9776
+                                                        </strong>
+
+                                                        <b class="caret"></b>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li> <a asp-action="Edit8" asp-controller="Home" asp-route-id="@chat1.MessagesRequestsId" class="nav-link text-dark">Редактировать</a></li>
+                                                        <li><a asp-action="Delete24" asp-route-id="@chat1.MessagesRequestsId" method="post" type="submit" class="nav-link text-dark">Удалить</a></li>
+                                                    </ul>
+                                                </div>
+                                            }
+
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a><strong>@chat1.UserName </strong></a>
+                                            </div>
+                                            <div>
+                                                <a>@chat1.Message</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+
+
+    </div>
+    
+    <form method="post" asp-action="messagesRequests" asp-controller="home" style="margin: 15px 0px 30px 0px;">
+        <!--Это нужно что бы передать requestHiTopic и так как нам не надо что бы туда внасили он в скрытом формате -->
+        <input type="hidden" value="@ViewBag.requestHiTopic" name="RequestHiName" />
+        <!--Это нужно что бы передать requestHiId и так как нам не надо что бы туда внасили он в скрытом формате -->
+        <input type="hidden" value="@ViewBag.requestHiId" name="RequestHiId1" />
+        <!--Это нужно что бы передать Date и так как нам не надо что бы туда внасили он в скрытом формате -->
+        <input type="hidden" value="@ViewBag.Date" name="Date" />
+
+        <div style="margin: 0px 0px 8px 0px;">
+            <div class='smile' my-data-smile='&#9888;'>&#9888;</div>
+            <div class='smile' my-data-smile='&#9940;'>&#9940;</div>
+            <div class='smile' my-data-smile='&#9989;'>&#9989;</div>
+            <div class='smile' my-data-smile='&#128512;'>&#128512;</div>
+            <div class='smile' my-data-smile='&#128517;'>&#128517;</div>
+            <div class='smile' my-data-smile='&#128521;'>&#128521;</div>
+            <div class='smile' my-data-smile='&#128519;'>&#128519;</div>
+            <div class='smile' my-data-smile='&#129392;'>&#129392;</div>
+            <div class='smile' my-data-smile='&#128520;'>&#128520;</div>
+            <div class='smile' my-data-smile='&#128169;'>&#128169;</div>
+            <div class='smile' my-data-smile='&#128123;'>&#128123;</div>
+            <div class='smile' my-data-smile='&#128554;'>&#128554;</div>
+            <div class='smile' my-data-smile='&#129397;'>&#129397;</div>
+            <div class='smile' my-data-smile='&#10084;'>&#10084;</div>
+        </div>
+
+        <div class="form-group" name="form1" method="post" action="">
+            <textarea type="text" name="Message" class="form-control edit" placeholder="Ваше сообщение"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Отправить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
+        </div>
+    </form>
+
+</body>
+</html>

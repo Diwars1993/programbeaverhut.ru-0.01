@@ -1,0 +1,391 @@
+﻿@using programbeaverhut.ru
+@using System.Security.Claims;
+@model programbeaverhut.ru.Models.CombinedLoginRegisterViewModel
+@{
+    ViewBag.Title = "Настройки";
+}
+
+<head>
+    <meta charset="utf-8">
+    <title>:hover</title>
+    <style>
+        .test {
+            font-size: 80%;
+        }
+
+        [data-tooltip] {
+            position: relative; /* Относительное позиционирование */
+        }
+
+            [data-tooltip]::after {
+                opacity: 1;
+                font-size: 70%;
+                content: attr(data-tooltip); /* Выводим текст */
+                position: absolute; /* Абсолютное позиционирование */
+                z-index: 100;
+                width: auto; /* Ширина подсказки */
+                left: 0px;
+                top: 0px; /* Положение подсказки */
+                background: #3989c9; /* Синий цвет фона */
+                color: #fff; /* Цвет текста */
+                padding: 0.5em; /* Поля вокруг текста */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+                pointer-events: none; /* Подсказка */
+                opacity: 0; /* Подсказка невидима */
+                transition: 1.5s; /* Время появления подсказки */
+            }
+
+            [data-tooltip]:hover::after {
+                opacity: 1; /* Показываем подсказку */
+                top: -3em; /* Положение подсказки */
+            }
+    </style>
+</head>
+
+<html>
+<body>
+
+    <div class="card border" style="margin: 0px 0px 15px 0px;">
+        <!-- card-header -->
+        <div class="card-header">
+            <form class="form-row align-items-center">
+                <div>
+                    <h3> Пользователь: @User.FindFirstValue(ClaimTypes.Name)</h3>
+                </div>
+                <div class="col-md-4">
+                    <a class=" btn-outline-dark test" data-tooltip="Изменить" asp-controller="Users" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">&#9999</a>
+                    <a class=" btn-outline-dark test" data-tooltip="Пароль" asp-controller="Users" asp-action="ChangePassword" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">&#128274</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card" style="margin: 0px 0px 15px 0px;">
+        <!-- card-header -->
+        <div class="card-header">
+            <h4>
+                Юридические лица
+            </h4>
+        </div>
+
+        <div class="card-body">
+            <div class="card" style="margin: 0px 0px 15px 0px;">
+                <div class="table-responsive card-body">
+                    <table class="table table-striped">
+                        <tr><th>Юридическое наименование(Вид предпринимательства)</th><th>Адрес</th><th>Телефон</th><th>ИНН/КПП</th><th>ОГРНИП</th><th></th></tr>
+
+                        @foreach (var LegalEntity in Model.LegalEntity1)
+                        {
+                            <!--Показывать только офисы этого пользователя-->
+                            @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == LegalEntity.UserId1)
+                            {
+                                <tr>
+                                    <td>@LegalEntity.LegalEntityName</td>
+                                    <td>@LegalEntity.Address</td>
+                                    <td>@LegalEntity.Telephone</td>
+                                    <td>@LegalEntity.LegalEntityINN</td>
+                                    <td>@LegalEntity.LegalEntityOGRIP</td>
+                                    <td align="right">
+                                        <a data-tooltip="Удалить" asp-action="Delete7" asp-controller="Home" asp-route-id="@LegalEntity.Id" class="form-group btn btn-outline-dark test">&#128465</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+
+
+                <div class="card-header btn-outline-dark" type="button"  data-toggle="collapse" data-target="#footwear1"
+                     aria-expanded="false" aria-controls="footwear">
+
+                    <h5>Добавить юридическое лицо</h5>
+
+                </div>
+
+
+                <div class="collapse" id="footwear1">
+                    <div class="table-responsive card-body">
+                        <form method="post" asp-action="settings" asp-controller="home">
+                            <div class="form-group">
+                                <label name="LegalEntityName" class="control-label">Юридическое наименование(Вид предпринимательства)</label>
+                                <input type="text" name="LegalEntityName" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label name="Address" class="control-label">Адрес</label>
+                                <input type="text" name="Address" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label name="Telephone" class="control-label">Телефон</label>
+                                <input type="text" name="Telephone" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label name="LegalEntityINN" class="control-label">ИНН/КПП</label>
+                                <input type="text" name="LegalEntityINN" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label name="LegalEntityOGRIP" class="control-label">ОГРНИП</label>
+                                <input type="text" name="LegalEntityOGRIP" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark test" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card" style="margin: 0px 0px 15px 0px;">
+        <!-- card-header -->
+        <div class="card-header">
+            <h4>
+                Офисы
+            </h4>
+        </div>
+
+        <div class="card-body">
+            <div class="card" style="margin: 0px 0px 15px 0px;">
+                <div class="table-responsive card-body">
+                    <table class="table table-striped">
+                        <tr><th>Наименование офиса</th><th>Адрес</th><th>Телефон</th><th></th></tr>
+
+                        @foreach (var offices in Model.Officess1)
+                        {
+                            <!--Показывать только офисы этого пользователя-->
+                            @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == offices.UserId1)
+                            {
+                                <tr>
+                                    <td>@offices.Name</td>
+                                    <td>@offices.Address</td>
+                                    <td>@offices.Telephone</td>
+                                    <td align="right">
+                                        <a data-tooltip="Удалить" asp-action="Delete2" asp-controller="Home" asp-route-id="@offices.Id" class="form-group btn btn-outline-dark test">&#128465</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <!-- card-header -->
+                <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear2"
+                     aria-expanded="false" aria-controls="footwear">
+
+                    <h5>Добавить офис</h5>
+
+                </div>
+                <div class="collapse" id="footwear2">
+                    <div class="table-responsive card-body">
+                        <form method="post" asp-action="settings" asp-controller="home">
+                            <div class="form-group">
+                                <label name="Name" class="control-label">Наименование офиса</label>
+                                <input type="text" name="Name" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label name="Address" class="control-label">Адрес</label>
+                                <input type="text" name="Address" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label name="Telephone" class="control-label">Телефон</label>
+                                <input type="text" name="Telephone" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark test" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card" style="margin: 0px 0px 15px 0px;">
+        <!-- card-header -->
+        <div class="card-header">
+            <h4>
+                Категории товара
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="card" style="margin: 0px 0px 15px 0px;">
+                <div class="table-responsive card-body">
+                    <table class="table table-striped">
+                        <tr><th>Наименование категории</th><th></th></tr>
+
+                        @foreach (var category in Model.Categorys1)
+                        {
+                            <!--Показывать только категории этого пользователя-->
+                            @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == category.UserId1)
+                            {
+                                <tr>
+                                    <td>@category.NameCategory</td>
+                                    <td align="right">
+                                        <a data-tooltip="Удалить" asp-action="Delete3" asp-controller="Home" asp-route-id="@category.Id" class="form-group btn btn-outline-dark test">&#128465</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <!-- card-header -->
+                <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear3"
+                     aria-expanded="false" aria-controls="footwear">
+
+                    <h5>Добавить категорию</h5>
+
+                </div>
+                <div class="collapse" id="footwear3">
+                    <div class="table-responsive card-body">
+                        <form method="post" asp-action="settings" asp-controller="home">
+                            <div class="form-group">
+                                <label name="NameCategory" class="control-label">Название категории</label>
+                                <input type="text" name="NameCategory" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark test" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card" style="margin: 0px 0px 35px 0px;">
+        <!-- card-header -->
+        <div class="card-header">
+            <h4>
+                Услуги
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="card" style="margin: 0px 0px 15px 0px;">
+                <div class="table-responsive card-body">
+                    <table class="table table-striped">
+                        <tr><th>Наименование услуги</th><th></th></tr>
+
+                        @foreach (var serviceName in Model.ServiceName1)
+                        {
+                            <!--Показывать только категории этого пользователя-->
+                            @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == serviceName.UserId1)
+                            {
+                                <tr>
+                                    <td>@serviceName.ServName</td>
+                                    <td align="right">
+                                        <a data-tooltip="Удалить" asp-action="Delete4" asp-controller="Home" asp-route-id="@serviceName.Id" class="form-group btn btn-outline-dark test">&#128465</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <!-- card-header -->
+                <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear4"
+                     aria-expanded="false" aria-controls="footwear">
+
+                    <h5>Добавить услугу</h5>
+
+                </div>
+                <div class="collapse" id="footwear4">
+                    <div class="table-responsive card-body">
+
+                        <form method="post" asp-action="settings" asp-controller="home">
+                            <div class="form-group">
+                                <label name="ServName" class="control-label">Название услуги</label>
+                                <input type="text" name="ServName" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark test" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card" style="margin: 0px 0px 35px 0px;">
+        <!-- card-header -->
+        <div class="card-header">
+            <h4>
+                Сотрудники
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="card" style="margin: 0px 0px 15px 0px;">
+                <div class="table-responsive card-body">
+                    <table class="table table-striped">
+                        <tr><th>ФИО Сотрудника</th><th>Телефон</th><th></th></tr>
+
+                        @foreach (var staff in Model.Staff1)
+                        {
+                            <!--Показывать только категории этого пользователя-->
+                            @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == staff.UserId1)
+                            {
+                                <tr>
+                                    <td>@staff.StaffName</td>
+                                    <td>@staff.StaffTelephone</td>
+                                    <td align="right">
+                                        <a data-tooltip="Удалить" asp-action="Delete10" asp-controller="Home" asp-route-id="@staff.Id" class="form-group btn btn-outline-dark test">&#128465</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <!-- card-header -->
+                <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear5"
+                     aria-expanded="false" aria-controls="footwear">
+
+                    <h5>Добавить сотрудника</h5>
+
+                </div>
+                <div class="collapse" id="footwear5">
+                    <div class="table-responsive card-body">
+
+                        <form method="post" asp-action="settings" asp-controller="home">
+                            <div class="form-group">
+                                <label name="StaffName" class="control-label">ФИО сотрудника</label>
+                                <input type="text" name="StaffName" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label name="StaffTelephone" class="control-label">Телефон</label>
+                                <input type="text" name="StaffTelephone" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark test" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

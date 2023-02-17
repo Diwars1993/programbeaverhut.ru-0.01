@@ -1,0 +1,81 @@
+﻿@model programbeaverhut.ru.Models.Client
+@{
+    ViewBag.Title = "Удаление клиента";
+}
+
+<div class="card border-primary" style="margin: 0px 0px 15px 0px;">
+
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h4>Удаление клинета "@Html.DisplayFor(Client => Client.SNM)"</h4>
+        </form>
+    </div>
+
+    <div class="card-body">
+
+        <h6>Данные нельзя будет востоновить! Проверьте данные перед удалением.</h6>
+        <div style="margin: 0px 0px 10px 0px;">
+            <a>The data cannot be restored!</a>
+        </div>
+
+        <dl class="dl-horizontal">
+            <dt>Номер договора</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.ContractNumber)
+            </dd>
+
+            <dt>Катекория товара</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.NameCategory)
+            </dd>
+
+            <dt>Офис</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.Name)
+            </dd>
+
+            <dt>Менеджер</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.Manager)
+            </dd>
+
+            <dt>ФИО Клиента</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.SNM)
+            </dd>
+
+            <dt>Адрес</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.Address)
+            </dd>
+
+            <dt>Телефон</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.Telephone)
+            </dd>
+
+            <dt>Дата</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.Date)
+            </dd>
+
+            <dt>Паспортные данные</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.PassportData)
+            </dd>
+
+            <dt>Выделение цветом</dt>
+            <dd>
+                @Html.DisplayFor(Client => Client.NameColor)
+            </dd>
+        </dl>
+
+        <div>
+            <form asp-controller="Home" asp-action="Delete" method="post">
+                <div class="form-group">
+                    <input type="submit" class="form-group btn btn-outline-dark" value="Удалить" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

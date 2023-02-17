@@ -1,0 +1,31 @@
+﻿@model programbeaverhut.ru.Models.EditUserViewModel
+@{
+    ViewBag.Title = "Редактирование пользователя";
+}
+
+<div class="card border" style="margin: 0px 0px 15px 0px;">
+
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h5>Редактирование пользователя</h5>
+        </form>
+    </div>
+
+    <form asp-action="Edit" asp-controller="Users" class="card-body">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <input type="hidden" asp-for="Id" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label">Email</label>
+            <input type="text" asp-for="Email" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Year" class="control-label">Год рождения</label>
+            <input type="number" asp-for="Year" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark"/>
+        </div>
+    </form>
+</div>

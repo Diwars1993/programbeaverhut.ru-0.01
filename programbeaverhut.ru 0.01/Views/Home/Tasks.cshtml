@@ -1,0 +1,195 @@
+﻿@using System.Security.Claims;
+@using programbeaverhut.ru.Models
+@model programbeaverhut.ru.Models.CombinedLoginRegisterViewModel
+
+
+@{
+    ViewBag.Title = "Задачи";
+}
+
+<head>
+    <meta charset="utf-8">
+    <title>:hover</title>
+    <style>
+        .test {
+            font-size: 90%;
+        }
+
+        [data-tooltip] {
+            position: relative; /* Относительное позиционирование */
+        }
+
+            [data-tooltip]::after {
+                opacity: 1;
+                font-size: 70%;
+                content: attr(data-tooltip); /* Выводим текст */
+                position: absolute; /* Абсолютное позиционирование */
+                z-index: 100;
+                width: auto; /* Ширина подсказки */
+                left: 0px;
+                top: 0px; /* Положение подсказки */
+                background: #3989c9; /* Синий цвет фона */
+                color: #fff; /* Цвет текста */
+                padding: 0.5em; /* Поля вокруг текста */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+                pointer-events: none; /* Подсказка */
+                opacity: 0; /* Подсказка невидима */
+                transition: 1.5s; /* Время появления подсказки */
+            }
+
+            [data-tooltip]:hover::after {
+                opacity: 1; /* Показываем подсказку */
+                top: -3em; /* Положение подсказки */
+            }
+    </style>
+</head>
+
+<html>
+<body>
+
+    <form class="form-row align-items-center">
+
+        <div>
+            <a asp-action="NewTask" type="submit" asp-route-id1="@ViewBag.TaskGroupHiId" class="form-group btn btn-primary" style="margin: 0px 10px 16px 6px;">+ Добавить задачу</a>
+        </div>
+        <div class="form-group col-md-3">
+            <input name="name" class="form-control" placeholder="Поиск по описанию задачи..." />
+        </div>
+        <div class="form-group col-md-2">
+            <select name="staff" asp-items="Model.Staffss" class="form-control"></select>
+        </div>
+
+        <input type="submit" value="Применить фильтры" class="form-group btn btn-outline-dark" style="margin: 0px 0px 16px 5px;" />
+    </form>
+
+    <div class="card" style="margin: 0px 0px 15px 0px;">
+
+        <!-- card-header -->
+        <div class="card-header">
+            <h4>
+                Приоритетные задачи (@DateTime.UtcNow.AddDays(-3).ToString("d") - @DateTime.UtcNow.AddDays(3).ToString("d"))
+            </h4>
+        </div>
+        <!-- card-body -->
+        <div class="table-responsive card-body">
+
+            <table class="table table-striped">
+
+                <tr>
+                    <th>
+                        <a>Дата и время задачи</a>
+                    </th>
+                    <th>
+                        <a>Сотрудник(и)</a>
+                    </th>
+                    <th>
+                        <a>Описание задачи</a>
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+
+                @foreach (Tasks tasks in Model.Tasks1)
+                {
+                    <!--Показывать только задачи этого пользователя-->
+                    @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                    {
+                        if (tasks.TaskGroupHiId == @ViewBag.TaskGroupHiId)
+                        {
+                            if (tasks.Date <= DateTime.UtcNow.AddDays(3))
+                            {
+                                if (tasks.Date >= DateTime.UtcNow.AddDays(-3))
+                                {
+                                    if (DateTime.UtcNow <= tasks.Date)
+                                    {
+                                        <tr style="background: #FFFF00 ">
+                                            <td>@tasks.Date</td>
+                                            <td>@tasks.Employees</td>
+                                            <td>@tasks.Description</td>
+                                            <td>
+                                                <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
+                                                <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    else
+                                    {
+                                        <tr>
+                                            <td>@tasks.Date</td>
+                                            <td>@tasks.Employees</td>
+                                            <td>@tasks.Description</td>
+
+                                            <td>
+                                                <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
+                                                <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <!-- card-header -->
+        <div class="card-header">
+            <h4>
+                Все задачи
+            </h4>
+        </div>
+        <!-- card-body -->
+        <div class="table-responsive card-body">
+            <table class="table table-striped">
+
+                <tr>
+                    <th>
+                        <a>Дата и время задачи</a>
+                    </th>
+                    <th>
+                        <a>Сотрудник(и)</a>
+                    </th>
+                    <th>
+                        <a>Описание задачи</a>
+                    </th>
+                    <th>
+                        
+                    </th>
+                </tr>
+
+                @foreach (Tasks tasks in Model.Tasks1)
+                {
+                    <!--Показывать только задачи этого пользователя-->
+                    @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                    {
+                        if (tasks.TaskGroupHiId == @ViewBag.TaskGroupHiId)
+                        {
+                            <tr>
+                                <td>@tasks.Date</td>
+                                <td>@tasks.Employees</td>
+                                <td>@tasks.Description</td>
+
+                                <td>
+                                    <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
+                                    <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

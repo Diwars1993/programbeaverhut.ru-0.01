@@ -1,0 +1,177 @@
+﻿@using System.Security.Claims;
+@using programbeaverhut.ru.Models
+@model programbeaverhut.ru.Models.CombinedLoginRegisterViewModel
+@{
+    ViewBag.Title = "Запросы пользователя в поддержку";
+}
+
+<head>
+    <meta charset="utf-8">
+    <title>:hover</title>
+    <style>
+
+
+        .test {
+            font-size: 80%;
+        }
+
+        [data-tooltip] {
+            position: relative; /* Относительное позиционирование */
+        }
+
+            [data-tooltip]::after {
+                opacity: 1;
+                font-size: 70%;
+                content: attr(data-tooltip); /* Выводим текст */
+                position: absolute; /* Абсолютное позиционирование */
+                z-index: 100;
+                width: auto; /* Ширина подсказки */
+                left: 0px;
+                top: 0px; /* Положение подсказки */
+                background: #3989c9; /* Синий цвет фона */
+                color: #fff; /* Цвет текста */
+                padding: 0.5em; /* Поля вокруг текста */
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+                pointer-events: none; /* Подсказка */
+                opacity: 0; /* Подсказка невидима */
+                transition: 1.5s; /* Время появления подсказки */
+            }
+
+            [data-tooltip]:hover::after {
+                opacity: 1; /* Показываем подсказку */
+                top: -3em; /* Положение подсказки */
+            }
+    </style>
+</head>
+
+<html>
+<body>
+    <div class="card" style="margin: 0px 0px 35px 0px;">
+        <!-- card-header -->
+        <div class="card-header">
+
+            <!-- Это для того, что бы когда заходят в -->
+            @if (User.IsInRole("admin"))
+            {
+                @if (@ViewBag.UserName == null)
+                {
+                    <h5>
+                        Запросы пользователя @User.FindFirstValue(ClaimTypes.Name)
+                    </h5>
+                }
+                else
+                {
+                    <h5>
+                        Запросы пользователя @ViewBag.UserName
+                    </h5>
+                }
+            }
+            else
+            {
+                <h5>
+                    Запросы пользователя @User.FindFirstValue(ClaimTypes.Name)
+                </h5>
+            }
+
+        </div>
+
+        <form class="form-row align-items-center card-body">
+            <a asp-action="RequestHi" asp-controller="Home" asp-route-id="@ViewBag.UserId1" type="submit" class="form-group btn btn-primary" style="margin: 0px 10px 10px 6px;">Добавить новый запрос</a>
+        </form>
+
+        <!-- card-body -->
+        <div class="table-responsive card-body" style="margin: -30px 0px 0px 0px;">
+
+            <div class="wrap-expand-table">
+
+                <table class="table table-striped">
+                    
+
+                    @foreach (var tasks in Model.RequestHi1)
+                    {
+                        <!-- Что видит админ зайдя к выбраному пользователю (Тут меняеться непрочитанные сообщения для админа)-->
+                        if (User.IsInRole("admin"))
+                        {
+                            <!-- При нажатии на прочиать письма пользователя в админке передаеться ViewBag.UserId1-->
+                            if (@ViewBag.UserId1 == tasks.UserId1)
+                            {
+                                <tr>
+                                    <td>
+
+                                        <a asp-action="MessagesRequests" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark">@tasks.Topic</a>
+
+                                    </td>
+
+                                    <td>
+                                        @if (@tasks.UnreadUser != 0)
+                                        {
+                                            <a data-tooltip="Непрочитанные сообщения" asp-action="MessagesRequests" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark">&#128233 @tasks.UnreadUser </a>
+                                        }
+                                    </td>
+
+                                    <td align="right">
+                                        <a data-tooltip="Изменить" asp-action="Edit7" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test">&#9999</a>
+                                        <a data-tooltip="Удалить" asp-action="Delete23" asp-route-id="@tasks.Id" asp-route-id1="@ViewBag.UserId1" method="post" type="submit" class="form-group btn btn-outline-dark test">&#128465</a>
+                                    </td>
+                                </tr>
+                            }
+                            <!-- Если при нажатии передаеться Null то значит это админ пытаеться зайти не через админку, а в Поддержке внизу-->
+                            if (@ViewBag.UserId1 == null)
+                            {
+                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                                {
+                                    <tr>
+                                        <td>
+
+                                            <a asp-action="MessagesRequests" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark">@tasks.Topic</a>
+
+                                        </td>
+
+                                        <td>
+                                            @if (@tasks.UnreadAdmin != 0)
+                                            {
+                                                <a data-tooltip="Непрочитанные сообщения" asp-action="MessagesRequests" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark">&#128233 @tasks.UnreadAdmin</a>
+                                            }
+                                        </td>
+
+                                        <td align="right">
+                                            <a data-tooltip="Изменить" asp-action="Edit7" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test">&#9999</a>
+                                            <a data-tooltip="Удалить" asp-action="Delete23" asp-route-id="@tasks.Id" asp-route-id1="@ViewBag.UserId1" method="post" type="submit" class="form-group btn btn-outline-dark test">&#128465</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <!--Показывать только задачи этого пользователя-->
+                            @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                            {
+                                <tr>
+                                    <td>
+
+                                        <a asp-action="MessagesRequests" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark">@tasks.Topic</a>
+
+                                    </td>
+
+                                    <td>
+                                        @if (@tasks.UnreadAdmin != 0)
+                                        {
+                                            <a data-tooltip="Непрочитанные сообщения" asp-action="MessagesRequests" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark">&#128233 @tasks.UnreadAdmin</a>
+                                        }
+                                    </td>
+
+                                    <td align="right">
+                                        <a data-tooltip="Изменить" asp-action="Edit7" asp-controller="Home" asp-route-id="@tasks.Id" class="form-group btn btn-outline-dark test">&#9999</a>
+                                        <a data-tooltip="Удалить" asp-action="Delete23" asp-route-id="@tasks.Id" asp-route-id1="@ViewBag.UserId1" method="post" type="submit" class="form-group btn btn-outline-dark test">&#128465</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
