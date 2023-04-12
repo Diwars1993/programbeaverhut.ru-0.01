@@ -9,6 +9,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
     restart: always
+    
   programbeaverhut:
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
