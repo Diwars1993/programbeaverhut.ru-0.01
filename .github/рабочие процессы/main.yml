@@ -1,12 +1,18 @@
 name: Build 
 
+# Когда действие запустится (триггеры)
 on:
   push:
+    # при push в master
     branches: [ "master" ]
 
+# Что будем делать (экшены)
 jobs:
+  # Имя действия
   build:
+    # На какой ОС будет работать виртуальная машин
     runs-on: self-hosted
+    # Шаги действия
     steps:
  - name: Checkout
         uses: actions/checkout@v3
