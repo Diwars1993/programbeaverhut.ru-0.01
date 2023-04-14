@@ -11,6 +11,7 @@ on:
 jobs:
   # Имя действия
   build:
+    # self-hosted - Запустите это задание на автономном исполнителе.
     runs-on: self-hosted
     steps:
       - name: Checkout
