@@ -1,10 +1,15 @@
+# Имя флоу
 name: Build and deploy bot
 
+# Когда действие запустится (триггеры)
 on:
   push:
+    # при push в master
     branches: [ "master" ]
 
+# Что будем делать (экшены)
 jobs:
+  # Имя действия
   build:
     runs-on: self-hosted
     steps:
