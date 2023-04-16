@@ -28,7 +28,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # Создает образ контейнера и помещает его в репозиторий Docker Hub, используя Сборку и отправку образов Docker.
+      # Создает образ контейнера и помещает его в репозиторий Docker Hub, используя Сборку и отправку образов Docker
  - name: Build and push
         uses: docker/build-push-action@v3
         with:
