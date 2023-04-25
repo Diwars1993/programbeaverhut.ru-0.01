@@ -27,4 +27,4 @@ jobs:
           tags: diwars/programbeaverhutru001:latest
       - name: Run terminal commands
         run: |
-          cd /programbeaverhut.ru-0.01 && docker-compose down -t 15 && docker-compose pull && docker-compose up -t 15 -d --force-recreate
+          cd programbeaverhut.ru-0.01 && docker-compose down -t 15 && docker-compose pull && docker-compose up -t 15 -d --force-recreate
