@@ -24,4 +24,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: diwars / programbeaverhutru001:latest
+          tags: diwars/programbeaverhutru001:latest
