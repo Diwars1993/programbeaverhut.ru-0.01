@@ -27,4 +27,4 @@ jobs:
           tags: diwars/programbeaverhutru001:latest
       - name: Run terminal commands
         run: |
-          docker-compose down -t 15 -v && docker-compose pull --ignore-pull-failures && docker-compose up -t 15 -d --force-recreate
+          docker-compose down -v -t 15 && docker-compose pull --ignore-pull-failures && docker-compose up -t 15 -d --force-recreate
