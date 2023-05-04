@@ -6,9 +6,9 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - ./data:/var/opt/mssql/data
-      - ./log:/var/opt/mssql/log
-      - ./secrets:/var/opt/mssql/secrets
+      - /var/mssql/data:/var/opt/mssql/data
+      - /var/mssql/log:/var/opt/mssql/log
+      - /var/mssql/secrets:/var/opt/mssql/secrets
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
