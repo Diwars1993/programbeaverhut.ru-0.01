@@ -5,19 +5,12 @@ services:
     container_name: "mssql"
     ports:
       - "1433:1433"
-    volumes:
-      - ./data:/var/opt/mssql/data
-      - ./log:/var/opt/mssql/log
-      - ./secrets:/var/opt/mssql/secrets
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
     restart: always
     
   programbeaverhut:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
     environment:
