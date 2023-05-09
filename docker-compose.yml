@@ -9,7 +9,8 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
     restart: always
-
+    volumes:
+      - mssql-server-linux-data:/var/opt/mssql/data
   programbeaverhut:
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
@@ -20,3 +21,5 @@ services:
       - "8443:443"
     restart: always
     
+volumes:
+  mssql-server-linux-data:
