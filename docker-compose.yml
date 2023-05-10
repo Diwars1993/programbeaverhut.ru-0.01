@@ -10,7 +10,9 @@ services:
       - SA_PASSWORD=2wsx2WSX
     restart: always
     volumes:
-      - todo-mysql-data:/var/lib/mysql
+      - ./data:/var/opt/mssql/data
+      - ./log:/var/opt/mssql/log
+      - ./secrets:/var/opt/mssql/secrets
   programbeaverhut:
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
@@ -20,6 +22,3 @@ services:
       - "8080:80"
       - "8443:443"
     restart: always
-    
-volumes:
-  todo-mysql-data:
