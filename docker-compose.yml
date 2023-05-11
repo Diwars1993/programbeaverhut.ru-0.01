@@ -22,7 +22,3 @@ services:
       - "8080:80"
       - "8443:443"
     restart: always
-volumes:
-  data:
-  log:
-  secrets:
