@@ -10,9 +10,7 @@ services:
       - SA_PASSWORD=2wsx2WSX
     restart: always
     volumes:
-      - data:/var/opt/mssql/data
-      - log:/var/opt/mssql/log
-      - secrets:/var/opt/mssql/secrets
+      - cms-content:/var/lib/ghost/content
   programbeaverhut:
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
@@ -22,3 +20,6 @@ services:
       - "8080:80"
       - "8443:443"
     restart: always
+    
+volumes:
+  cms-content:
