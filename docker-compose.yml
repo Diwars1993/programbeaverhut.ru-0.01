@@ -13,6 +13,9 @@ services:
       - cms-content:/var/lib/ghost/content
       - cms-mmm:/var/lib/ghost/mmm
   programbeaverhut:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
     environment:
