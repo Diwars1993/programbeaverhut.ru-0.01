@@ -9,9 +9,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
     restart: always
-    volumes:
-      - cms-content:/var/lib/ghost/content
-      - cms-mmm:/var/lib/ghost/mmm
+    
   programbeaverhut:
     build:
       context: .
@@ -24,7 +22,3 @@ services:
       - "8080:80"
       - "8443:443"
     restart: always
-    
-volumes:
-  cms-content:
-  cms-mmm:
