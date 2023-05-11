@@ -11,6 +11,7 @@ services:
     restart: always
     volumes:
       - cms-content:/var/lib/ghost/content
+      - cms-mmm:/var/lib/ghost/mmm
   programbeaverhut:
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
@@ -23,3 +24,4 @@ services:
     
 volumes:
   cms-content:
+  cms-mmm:
