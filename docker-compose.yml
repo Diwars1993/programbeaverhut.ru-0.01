@@ -6,16 +6,15 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - cms-content:/var/lib/ghost/content
+      - /var/mssql/data:/var/opt/mssql/data
+      - /var/mssql/log:/var/opt/mssql/log
+      - /var/mssql/secrets:/var/opt/mssql/secrets
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
     restart: always
     
   programbeaverhut:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
     environment:
@@ -24,6 +23,6 @@ services:
       - "8080:80"
       - "8443:443"
     restart: always
+    depends_on:
+      - mssql
 
-volumes:
-  cms-content:
