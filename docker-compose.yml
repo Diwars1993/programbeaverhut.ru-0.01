@@ -26,3 +26,7 @@ services:
     depends_on:
       - mssql
 
+volumes:
+  data:
+  log:
+  secrets:
