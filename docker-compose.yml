@@ -6,7 +6,7 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - Pbhdb:/var/lib/mysql
+      - ./Pbhdb:/var/lib/mysql
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
@@ -23,5 +23,3 @@ services:
     restart: always
     depends_on:
       - mssql
-volumes:
-  Pbhdb:
