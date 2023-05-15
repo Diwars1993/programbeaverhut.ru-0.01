@@ -6,8 +6,7 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - dbdata:/var/lib/mysql
-      - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+      - Pbhdb:/var/lib/mysql
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
@@ -24,6 +23,3 @@ services:
     restart: always
     depends_on:
       - mssql
-
-volumes:
-  dbdata:
