@@ -11,9 +11,7 @@ services:
     restart: always
     
   programbeaverhut:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    dockerfile: Dockerfile
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
     environment:
