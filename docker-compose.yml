@@ -12,9 +12,6 @@ services:
     
   programbeaverhut:
     image: diwars/programbeaverhutru001:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
     container_name: "programbeaverhut"
     environment:
       - ASPNETCORE_ENVIRONMENT=production
