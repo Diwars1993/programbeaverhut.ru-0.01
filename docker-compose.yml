@@ -26,3 +26,4 @@ services:
       - mssql
 volumes:
   postgres_backup_local:
+  postgres_backup_local:
