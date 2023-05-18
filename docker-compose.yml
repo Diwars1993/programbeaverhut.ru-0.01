@@ -24,3 +24,5 @@ services:
     restart: always
     depends_on:
       - mssql
+volumes:
+  postgres_backup_local:
