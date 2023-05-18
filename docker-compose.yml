@@ -5,15 +5,14 @@ services:
     container_name: "mssql"
     ports:
       - "1433:1433"
-    volumes:
-      - postgres_data_local:/var/lib/postgresql/data
-      - postgres_backup_local:/backup
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
     restart: always
     
   programbeaverhut:
+    build:
+      dockerfile: Dockerfile
     image: diwars/programbeaverhutru001:latest
     container_name: "programbeaverhut"
     environment:
@@ -24,6 +23,3 @@ services:
     restart: always
     depends_on:
       - mssql
-volumes:
-  postgres_data_local:
-  postgres_backup_local:
