@@ -5,6 +5,9 @@ services:
     container_name: "mssql"
     ports:
       - "1433:1433"
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - postgres_backup_local:/backup
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
