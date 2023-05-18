@@ -5,6 +5,8 @@ services:
     container_name: "mssql"
     ports:
       - "1433:1433"
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
@@ -24,3 +26,6 @@ services:
     restart: always
     depends_on:
       - mssql
+
+volumes:
+  todo-mysql-data:
