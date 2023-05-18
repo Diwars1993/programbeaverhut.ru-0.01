@@ -25,5 +25,5 @@ services:
     depends_on:
       - mssql
 volumes:
-  postgres_backup_local:
+  postgres_data_local:
   postgres_backup_local:
