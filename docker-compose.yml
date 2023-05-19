@@ -6,7 +6,7 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - programbeaverhutru-001_mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
@@ -24,4 +24,3 @@ services:
     depends_on:
       - mssql
 volumes:
-  programbeaverhutru-001_mysql-data:
