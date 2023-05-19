@@ -24,4 +24,4 @@ services:
     depends_on:
       - mssql
 volumes:
-  mysql-data:
+  mysql-data: {}
