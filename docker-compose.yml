@@ -10,9 +10,9 @@ services:
       - /mnt/mssqluser:/var/opt/sqlserver
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=2wsx2WSX
-      - LOG_DIR=/var/opt/sqlserver
-      - DATA_DIR=/var/opt/sqlserver
+      - MSSQL_SA_PASSWORD=2wsx2WSX
+      - MSSQL_LOG_DIR=/var/opt/sqlserver
+      - MSSQL_DATA_DIR=/var/opt/sqlserver
     restart: always
     
   programbeaverhut:
