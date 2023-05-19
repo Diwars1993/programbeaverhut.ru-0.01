@@ -11,6 +11,8 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=2wsx2WSX
+      - LOG_DIR=/var/opt/sqlserver
+      - DATA_DIR=/var/opt/sqlserver
     restart: always
     
   programbeaverhut:
