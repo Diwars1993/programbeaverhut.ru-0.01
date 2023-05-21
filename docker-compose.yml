@@ -9,7 +9,7 @@ services:
       - mysql-data:/var/lib/mysql
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=2wsx2WSX
+      - MSSQL_SA_PASSWORD=2wsx2WSX
     restart: always
     
   programbeaverhut:
