@@ -1442,6 +1442,154 @@ namespace programbeaverhut.ru.Controllers
             }
         }
 
+        // Проба
+        public async Task<IActionResult> Terms(int? id, int? id2)
+        {
+            string sWebRootFolder = _hostingEnvironment.ContentRootPath;
+            string sFileName = @"demo.xlsx";
+            string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            var memory = new MemoryStream();
+            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+            {
+                if (id != null & id2 != null)
+                {
+                    Contract contract = await db.Contracts.FirstOrDefaultAsync(p => p.ContractId == id);
+                    Client client = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == id2);
+
+                    IWorkbook workbook;
+                    workbook = new XSSFWorkbook();
+                    ISheet excelSheet = workbook.CreateSheet("Demo");
+                    IRow row = excelSheet.CreateRow(0);
+
+                    // Создаем стиль ячейки
+                    ICellStyle cellStyle3 = workbook.CreateCellStyle();
+                    // Выравнивание текста по горизонтали и вертикали
+                    cellStyle3.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    // Вертикальное выравнивание
+                    cellStyle3.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    // Уменьшаем шрифт и заполняем
+                    cellStyle3.ShrinkToFit = true;
+                    // Создаем ячейку 
+                    ICell Cell3 = excelSheet.CreateRow(0).CreateCell(0);
+                    // Придаем стиль ячейки
+                    Cell3.CellStyle = cellStyle3;
+                    // Устанавливаем значение в ячейку
+                    Cell3.SetCellValue("Правила пользования");
+                    // Выделение жирным
+                    IFont font1 = workbook.CreateFont();
+                    font1.IsBold = true;
+                    font1.FontHeightInPoints = 12;
+                    cellStyle3.SetFont(font1);
+
+                    // Создаем стиль ячейки
+                    ICellStyle cellStyle2 = workbook.CreateCellStyle();
+                    // Выравнивание текста по горизонтали и вертикали
+                    cellStyle2.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Left;
+                    // Вертикальное выравнивание
+                    cellStyle2.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Distributed;
+                    // Создаем ячейку 
+                    ICell Cell2 = excelSheet.CreateRow(2).CreateCell(0);
+                    // Придаем стиль ячейки
+                    Cell2.CellStyle = cellStyle2;
+                    // Устанавливаем значение в ячейку
+                    Cell2.SetCellValue($"{contract.TermsUse}");
+
+                    // Создаем стиль ячейки
+                    ICellStyle cellStyle1 = workbook.CreateCellStyle();
+                    // Выравнивание текста по горизонтали и вертикали
+                    cellStyle1.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    // Вертикальное выравнивание
+                    cellStyle1.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    // Уменьшаем шрифт и заполняем
+                    cellStyle1.ShrinkToFit = true;
+                    // Создаем ячейку 
+                    ICell Cell1 = excelSheet.CreateRow(50).CreateCell(0);
+                    // Придаем стиль ячейки
+                    Cell1.CellStyle = cellStyle1;
+                    // Устанавливаем значение в ячейку
+                    Cell1.SetCellValue($"Акт приема-передачи по договору {client.ContractNumber} от {client.Date}");
+                    // Выделение жирным
+                    IFont font4 = workbook.CreateFont();
+                    font4.IsBold = true;
+                    font4.FontHeightInPoints = 12;
+                    cellStyle1.SetFont(font4);
+
+                    // Создаем стиль ячейки
+                    ICellStyle cellStyle5 = workbook.CreateCellStyle();
+                    // Выравнивание текста по горизонтали и вертикали
+                    cellStyle5.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Left;
+                    // Вертикальное выравнивание
+                    cellStyle5.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Distributed;
+                    // Создаем ячейку 
+                    ICell Cell5 = excelSheet.CreateRow(52).CreateCell(0);
+                    // Придаем стиль ячейки
+                    Cell5.CellStyle = cellStyle5;
+                    // Устанавливаем значение в ячейку
+                    Cell5.SetCellValue($"{contract.AcceptanceCertificate}");
+
+
+                    // Дата и место оформеление договора
+                    row = excelSheet.CreateRow(45);
+                    row.CreateCell(5).SetCellValue($"{client.NameLegalEntity}");
+                    row.CreateCell(0).SetCellValue($"{client.SNM}");
+                    row = excelSheet.CreateRow(46);
+                    row.CreateCell(0).SetCellValue("ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ:");
+                    row = excelSheet.CreateRow(48);
+                    row.CreateCell(5).SetCellValue("_________________/________________/");
+                    row.CreateCell(0).SetCellValue("_________________/_______________________/");
+
+                    // Обьеденение ячеек ЗАГОЛОВОК Права пользования
+                    excelSheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 8));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(2, 43, 0, 8));
+                    // Подпись и расшифровка
+                    excelSheet.AddMergedRegion(new CellRangeAddress(45, 45, 0, 4));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(45, 45, 5, 8));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(46, 46, 0, 4));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(46, 46, 5, 8));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(48, 48, 0, 4));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(48, 48, 5, 8));
+
+
+                    // Дата и место оформеление договора
+                    row = excelSheet.CreateRow(95);
+                    row.CreateCell(5).SetCellValue($"{client.NameLegalEntity}");
+                    row.CreateCell(0).SetCellValue($"{client.SNM}");
+                    row = excelSheet.CreateRow(96);
+                    row.CreateCell(0).SetCellValue("Заказ принял(а):");
+                    row.CreateCell(5).SetCellValue("От исполнителя заказ сдал:");
+                    row = excelSheet.CreateRow(98);
+                    row.CreateCell(5).SetCellValue("_________________/________________/");
+                    row.CreateCell(0).SetCellValue("_________________/_______________________/");
+                    row = excelSheet.CreateRow(99);
+                    row.CreateCell(5).SetCellValue("_____  __________  ______г");
+                    row.CreateCell(0).SetCellValue("_____  __________  ______г");
+
+                    // Обьеденение ячеек ЗАГОЛОВОК Акт приемка передача
+                    excelSheet.AddMergedRegion(new CellRangeAddress(50, 50, 0, 8));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(52, 93, 0, 8));
+                    // Подпись и расшифровка
+                    excelSheet.AddMergedRegion(new CellRangeAddress(95, 95, 0, 4));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(95, 95, 5, 8));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(96, 96, 0, 4));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(96, 96, 5, 8));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(98, 98, 0, 4));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(98, 98, 5, 8));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(99, 99, 0, 4));
+                    excelSheet.AddMergedRegion(new CellRangeAddress(99, 99, 5, 8));
+
+                    workbook.Write(fs);
+                }
+
+                using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+                return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            }
+        }
+
         // Удаление договора
         [HttpGet]
         [ActionName("Delete8")]
