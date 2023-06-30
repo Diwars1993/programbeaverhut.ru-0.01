@@ -1729,54 +1729,7 @@ namespace programbeaverhut.ru.Controllers
                     }
                 }
 
-                // Общая всего
-                // Какая строка
-                row = excelSheet.CreateRow(m);
-                // Выделение обедененых ячеек
-                ICell cel44 = row.CreateCell(0);
-                ICell cel45 = row.CreateCell(1);
-                ICell cel46 = row.CreateCell(2);
-                ICell cel47 = row.CreateCell(3);
-                ICell cel48 = row.CreateCell(4);
-                ICell cel49 = row.CreateCell(5);
-                ICell cel50 = row.CreateCell(6);
-                row.CreateCell(5).SetCellValue($"{d + b}");
-                row.CreateCell(0).SetCellValue("Сумма вашего заказа: ");
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 0, 4));
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 5, 6));
-                cel44.CellStyle = boldStyle15;
-                cel45.CellStyle = boldStyle15;
-                cel46.CellStyle = boldStyle15;
-                cel47.CellStyle = boldStyle15;
-                cel48.CellStyle = boldStyle15;
-                cel49.CellStyle = boldStyle15;
-                cel50.CellStyle = boldStyle15;
 
-
-                foreach (Client client1 in db.Clients)
-                {
-                    if (client1.ClientId == id)
-                    {
-                        // Какая строка
-                        row = excelSheet.CreateRow(m + 2);
-                        row.CreateCell(0).SetCellValue($"Дата подписания: {client1.Date}");
-                    }
-                }
-
-                // Какая строка
-                row = excelSheet.CreateRow(m + 3);
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(m + 3, m + 3, 0, 6));
-                row.CreateCell(0).SetCellValue("С ценой и описанием листа заказа №1 согласен (на) _________________");
-
-
-
-                //Здесь мы автоматически изменяем размер первых 100 столбцов рабочего листа в соответствии с их содержимым:
-                for (int i = 0; i <= 100; i++) excelSheet.AutoSizeColumn(i);
-
-                workbook.Write(fs);
 
                 using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
                 {
