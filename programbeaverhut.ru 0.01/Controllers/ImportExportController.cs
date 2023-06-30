@@ -1443,7 +1443,7 @@ namespace programbeaverhut.ru.Controllers
         }
 
         // Проба
-        public async Task<IActionResult> Terms(int? id, int? id2)
+        public async Task<IActionResult> Terms(int? id)
         {
             string sWebRootFolder = _hostingEnvironment.ContentRootPath;
             string sFileName = @"demo.xlsx";
