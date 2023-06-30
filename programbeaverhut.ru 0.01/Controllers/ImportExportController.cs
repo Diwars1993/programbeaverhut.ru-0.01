@@ -1656,6 +1656,85 @@ namespace programbeaverhut.ru.Controllers
                         }
                     }
 
+
+
+                    // Общая стоимость товаров
+                    // Какая строка
+                    row = excelSheet.CreateRow(j);
+                    // Выделение обедененых ячеек
+                    ICell cel30 = row.CreateCell(0);
+                    ICell cel31 = row.CreateCell(1);
+                    ICell cel32 = row.CreateCell(2);
+                    ICell cel33 = row.CreateCell(3);
+                    ICell cel34 = row.CreateCell(4);
+                    ICell cel35 = row.CreateCell(5);
+                    ICell cel36 = row.CreateCell(6);
+
+                    row.CreateCell(5).SetCellValue($"{d}");
+                    row.CreateCell(0).SetCellValue("Общая стоимость продукции: ");
+                    // Обьеденение ячеек 
+                    excelSheet.AddMergedRegion(new CellRangeAddress(j, j, 0, 4));
+                    // Обьеденение ячеек 
+                    excelSheet.AddMergedRegion(new CellRangeAddress(j, j, 5, 6));
+
+                    cel30.CellStyle = boldStyle15;
+                    cel31.CellStyle = boldStyle15;
+                    cel32.CellStyle = boldStyle15;
+                    cel33.CellStyle = boldStyle15;
+                    cel34.CellStyle = boldStyle15;
+                    cel35.CellStyle = boldStyle15;
+                    cel36.CellStyle = boldStyle15;
+
+                    // Номер начальной строки
+                    int m = j + 1;
+
+                    // Общая стоимость продукции
+                    decimal b = 0;
+
+                    // Выкладка услуг
+                    foreach (Service service in db.Services)
+                    {
+                        if (id != null)
+                        {
+                            //Проверка на кого клиента услуга по ID
+                            if (id == service.ClientId)
+                            {
+                                // Общая стоимость товаров
+                                // Какая строка
+                                row = excelSheet.CreateRow(m);
+                                // Выделение обедененых ячеек
+                                ICell cel37 = row.CreateCell(0);
+                                ICell cel38 = row.CreateCell(1);
+                                ICell cel39 = row.CreateCell(2);
+                                ICell cel40 = row.CreateCell(3);
+                                ICell cel41 = row.CreateCell(4);
+                                ICell cel42 = row.CreateCell(5);
+                                ICell cel43 = row.CreateCell(6);
+
+                                row.CreateCell(5).SetCellValue((double)service.ServicePrice);
+                                row.CreateCell(0).SetCellValue(service.ServiceDescription);
+                                // Обьеденение ячеек 
+                                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 0, 4));
+                                // Обьеденение ячеек 
+                                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 5, 6));
+
+                                cel37.CellStyle = boldStyle15;
+                                cel38.CellStyle = boldStyle15;
+                                cel39.CellStyle = boldStyle15;
+                                cel40.CellStyle = boldStyle15;
+                                cel41.CellStyle = boldStyle15;
+                                cel42.CellStyle = boldStyle15;
+                                cel43.CellStyle = boldStyle15;
+
+                                // Общая стоимость продукции
+                                d += +service.ServicePrice;
+
+                                m++;
+
+                            }
+                        }
+                    }
+
                     workbook.Write(fs);
                 }
                 using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
