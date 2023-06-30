@@ -1460,26 +1460,79 @@ namespace programbeaverhut.ru.Controllers
                     ISheet excelSheet = workbook.CreateSheet("Demo");
                     IRow row = excelSheet.CreateRow(0);
 
-                    // Создаем стиль ячейки
-                    ICellStyle cellStyle3 = workbook.CreateCellStyle();
-                    // Выравнивание текста по горизонтали и вертикали
-                    cellStyle3.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                    // Вертикальное выравнивание
-                    cellStyle3.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-                    // Уменьшаем шрифт и заполняем
-                    cellStyle3.ShrinkToFit = true;
-                    // Создаем ячейку 
-                    ICell Cell3 = excelSheet.CreateRow(0).CreateCell(0);
-                    // Придаем стиль ячейки
-                    Cell3.CellStyle = cellStyle3;
-                    // Устанавливаем значение в ячейку
-                    Cell3.SetCellValue("Правила пользования");
                     // Выделение жирным
-                    IFont font1 = workbook.CreateFont();
-                    font1.IsBold = true;
-                    font1.FontHeightInPoints = 12;
-                    cellStyle3.SetFont(font1);
+                    IFont font = workbook.CreateFont();
+                    font.IsBold = true;
+                    font.FontHeightInPoints = 11;
+                    ICellStyle boldStyle = workbook.CreateCellStyle();
+                    boldStyle.SetFont(font);
 
+                    // Только обводка
+                    IFont font14 = workbook.CreateFont();
+                    ICellStyle boldStyle14 = workbook.CreateCellStyle();
+                    boldStyle14.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.SetFont(font14);
+
+                    // Обводка, выделение и по центру размещение
+                    IFont font15 = workbook.CreateFont();
+                    font15.IsBold = true;
+                    font15.FontHeightInPoints = 11;
+                    ICellStyle boldStyle15 = workbook.CreateCellStyle();
+                    boldStyle15.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle15.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle15.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle15.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+                    // Выравнивание текста по горизонтали и вертикали
+                    boldStyle15.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    // Вертикальное выравнивание
+                    boldStyle15.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    boldStyle15.SetFont(font15);
+
+                    // Какая строка
+                    row = excelSheet.CreateRow(7);
+                    // Какую ячейку выделяем жирным
+                    ICell cel16 = row.CreateCell(0);
+                    ICell cel17 = row.CreateCell(1);
+                    ICell cel18 = row.CreateCell(2);
+                    ICell cel19 = row.CreateCell(3);
+                    ICell cel20 = row.CreateCell(4);
+                    ICell cel21 = row.CreateCell(5);
+                    ICell cel22 = row.CreateCell(6);
+                    row.CreateCell(0).SetCellValue("Описание наименования");
+                    row.CreateCell(1).SetCellValue("Цвет");
+                    row.CreateCell(2).SetCellValue("Стекло");
+                    row.CreateCell(3).SetCellValue("К-во");
+                    row.CreateCell(4).SetCellValue("Цена");
+                    row.CreateCell(5).SetCellValue("Сумма");
+                    row.CreateCell(6).SetCellValue("%");
+                    // Задавание стиля
+                    cel16.CellStyle = boldStyle15;
+                    cel17.CellStyle = boldStyle15;
+                    cel18.CellStyle = boldStyle15;
+                    cel19.CellStyle = boldStyle15;
+                    cel20.CellStyle = boldStyle15;
+                    cel21.CellStyle = boldStyle15;
+                    cel22.CellStyle = boldStyle15;
+
+                    // Создаем стиль ячейки
+                    ICellStyle cellStyle2 = workbook.CreateCellStyle();
+                    // Выравнивание текста по горизонтали и вертикали
+                    cellStyle2.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    // Вертикальное выравнивание
+                    cellStyle2.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    // Оборачивать
+                    //cellStyle.WrapText = true;
+                    // Уменьшаем шрифт и заполняем
+                    cellStyle2.ShrinkToFit = true;
+                    // Создаем ячейку 
+                    ICell Cell2 = excelSheet.CreateRow(6).CreateCell(0);
+                    // Придаем стиль ячейки
+                    Cell2.CellStyle = cellStyle2;
+                    // Устанавливаем значение в ячейку
+                    Cell2.SetCellValue("Лист Заказа №1");
 
                     workbook.Write(fs);
                 }
