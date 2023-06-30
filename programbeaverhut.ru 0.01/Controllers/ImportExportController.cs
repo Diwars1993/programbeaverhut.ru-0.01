@@ -1762,22 +1762,23 @@ namespace programbeaverhut.ru.Controllers
                         row = excelSheet.CreateRow(m + 2);
                         row.CreateCell(0).SetCellValue($"Дата подписания: {client1.Date}");
                     }
+
+
+                    // Какая строка
+                    row = excelSheet.CreateRow(m + 3);
+                    // Обьеденение ячеек 
+                    excelSheet.AddMergedRegion(new CellRangeAddress(m + 3, m + 3, 0, 6));
+                    row.CreateCell(0).SetCellValue("С ценой и описанием листа заказа №1 согласен (на) _________________");
                 }
 
-                // Какая строка
-                row = excelSheet.CreateRow(m + 3);
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(m + 3, m + 3, 0, 6));
-                row.CreateCell(0).SetCellValue("С ценой и описанием листа заказа №1 согласен (на) _________________");
-            }
 
-            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
-            {
-                await stream.CopyToAsync(memory);
+                using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+                return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
             }
-            memory.Position = 0;
-            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
-
         }
 
         // Удаление договора
