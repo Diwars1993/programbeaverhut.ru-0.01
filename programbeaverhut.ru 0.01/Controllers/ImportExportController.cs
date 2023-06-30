@@ -1452,309 +1452,37 @@ namespace programbeaverhut.ru.Controllers
             var memory = new MemoryStream();
             using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
             {
-                IWorkbook workbook;
-                workbook = new XSSFWorkbook();
-                ISheet excelSheet = workbook.CreateSheet("Demo");
-                IRow row = excelSheet.CreateRow(0);
-
-                // Выделение жирным
-                IFont font = workbook.CreateFont();
-                font.IsBold = true;
-                font.FontHeightInPoints = 11;
-                ICellStyle boldStyle = workbook.CreateCellStyle();
-                boldStyle.SetFont(font);
-
-                // Только обводка
-                IFont font14 = workbook.CreateFont();
-                ICellStyle boldStyle14 = workbook.CreateCellStyle();
-                boldStyle14.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
-                boldStyle14.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
-                boldStyle14.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
-                boldStyle14.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
-                boldStyle14.SetFont(font14);
-
-                // Обводка, выделение и по центру размещение
-                IFont font15 = workbook.CreateFont();
-                font15.IsBold = true;
-                font15.FontHeightInPoints = 11;
-                ICellStyle boldStyle15 = workbook.CreateCellStyle();
-                boldStyle15.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
-                boldStyle15.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
-                boldStyle15.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
-                boldStyle15.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
-                // Выравнивание текста по горизонтали и вертикали
-                boldStyle15.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                // Вертикальное выравнивание
-                boldStyle15.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-                boldStyle15.SetFont(font15);
-
-                // Какая строка
-                row = excelSheet.CreateRow(7);
-                // Какую ячейку выделяем жирным
-                ICell cel16 = row.CreateCell(0);
-                ICell cel17 = row.CreateCell(1);
-                ICell cel18 = row.CreateCell(2);
-                ICell cel19 = row.CreateCell(3);
-                ICell cel20 = row.CreateCell(4);
-                ICell cel21 = row.CreateCell(5);
-                ICell cel22 = row.CreateCell(6);
-                row.CreateCell(0).SetCellValue("Описание наименования");
-                row.CreateCell(1).SetCellValue("Цвет");
-                row.CreateCell(2).SetCellValue("Стекло");
-                row.CreateCell(3).SetCellValue("К-во");
-                row.CreateCell(4).SetCellValue("Цена");
-                row.CreateCell(5).SetCellValue("Сумма");
-                row.CreateCell(6).SetCellValue("%");
-                // Задавание стиля
-                cel16.CellStyle = boldStyle15;
-                cel17.CellStyle = boldStyle15;
-                cel18.CellStyle = boldStyle15;
-                cel19.CellStyle = boldStyle15;
-                cel20.CellStyle = boldStyle15;
-                cel21.CellStyle = boldStyle15;
-                cel22.CellStyle = boldStyle15;
-
-                // Создаем стиль ячейки
-                ICellStyle cellStyle2 = workbook.CreateCellStyle();
-                // Выравнивание текста по горизонтали и вертикали
-                cellStyle2.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                // Вертикальное выравнивание
-                cellStyle2.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-                // Оборачивать
-                //cellStyle.WrapText = true;
-                // Уменьшаем шрифт и заполняем
-                cellStyle2.ShrinkToFit = true;
-                // Создаем ячейку 
-                ICell Cell2 = excelSheet.CreateRow(6).CreateCell(0);
-                // Придаем стиль ячейки
-                Cell2.CellStyle = cellStyle2;
-                // Устанавливаем значение в ячейку
-                Cell2.SetCellValue("Лист Заказа №1");
-
-
-                // Обьеденение ячеек
-                excelSheet.AddMergedRegion(new CellRangeAddress(2, 2, 1, 7));
-                // Обьеденение ячеек
-                excelSheet.AddMergedRegion(new CellRangeAddress(3, 3, 1, 7));
-                // Обьеденение ячеек
-                excelSheet.AddMergedRegion(new CellRangeAddress(4, 4, 1, 7));
-                // Обьеденение ячеек
-                excelSheet.AddMergedRegion(new CellRangeAddress(5, 5, 1, 7));
-                // Обьеденение ячеек Лист Заказа №312045
-                excelSheet.AddMergedRegion(new CellRangeAddress(6, 6, 0, 7));
-
-                foreach (Client client in db.Clients)
+                if (id != null)
                 {
-                    if (id != null)
-                    {
-                        //Проверка на кого клиента документы по ID
-                        if (id == client.ClientId)
-                        {
-                            if (User.FindFirstValue(ClaimTypes.NameIdentifier) == client.UserId1)
-                            {
-                                // Какая строка
-                                row = excelSheet.CreateRow(2);
-                                // Какую ячейку выделяем жирным
-                                ICell cell = row.CreateCell(0);
-                                row.CreateCell(0).SetCellValue("Клиент: ");
-                                row.CreateCell(1).SetCellValue(client.SNM);
-                                // Выделение жирным
-                                cell.CellStyle = boldStyle;
 
-                                // Какая строка
-                                row = excelSheet.CreateRow(3);
-                                // Какую ячейку выделяем жирным
-                                ICell cel2 = row.CreateCell(0);
-                                row.CreateCell(0).SetCellValue("Телефон клиента: ");
-                                row.CreateCell(1).SetCellValue(client.Telephone);
-                                // Выделение жирным
-                                cel2.CellStyle = boldStyle;
+                    IWorkbook workbook;
+                    workbook = new XSSFWorkbook();
+                    ISheet excelSheet = workbook.CreateSheet("Demo");
+                    IRow row = excelSheet.CreateRow(0);
 
-                                // Какая строка
-                                row = excelSheet.CreateRow(4);
-                                // Какую ячейку выделяем жирным
-                                ICell cel3 = row.CreateCell(0);
-                                row.CreateCell(0).SetCellValue("Адрес клиента: ");
-                                row.CreateCell(1).SetCellValue(client.Address);
-                                // Выделение жирным
-                                cel3.CellStyle = boldStyle;
+                    // Создаем стиль ячейки
+                    ICellStyle cellStyle3 = workbook.CreateCellStyle();
+                    // Выравнивание текста по горизонтали и вертикали
+                    cellStyle3.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    // Вертикальное выравнивание
+                    cellStyle3.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    // Уменьшаем шрифт и заполняем
+                    cellStyle3.ShrinkToFit = true;
+                    // Создаем ячейку 
+                    ICell Cell3 = excelSheet.CreateRow(0).CreateCell(0);
+                    // Придаем стиль ячейки
+                    Cell3.CellStyle = cellStyle3;
+                    // Устанавливаем значение в ячейку
+                    Cell3.SetCellValue("Правила пользования");
+                    // Выделение жирным
+                    IFont font1 = workbook.CreateFont();
+                    font1.IsBold = true;
+                    font1.FontHeightInPoints = 12;
+                    cellStyle3.SetFont(font1);
 
-                                // Какая строка
-                                row = excelSheet.CreateRow(5);
-                                // Какую ячейку выделяем жирным
-                                ICell cel4 = row.CreateCell(0);
-                                row.CreateCell(0).SetCellValue("Номер договора: ");
-                                row.CreateCell(1).SetCellValue(client.ContractNumber);
-                                // Выделение жирным
-                                cel4.CellStyle = boldStyle;
-                            }
-                        }
-                    }
+
+                    workbook.Write(fs);
                 }
-
-
-                // Общая стоимость продукции
-                decimal d = 0;
-                // Номер начальной строки
-                int j = 8;
-
-                // Выкладка товары
-                foreach (Product product in db.Products)
-                {
-                    if (id != null)
-                    {
-                        //Проверка на кого клиента заказ по ID
-                        if (id == product.ClientId)
-                        {
-
-                            // Какая строка
-                            row = excelSheet.CreateRow(j);
-                            // Высота строки
-                            row.HeightInPoints = 60;
-
-                            // Выделение границ
-                            ICell cel23 = row.CreateCell(0);
-                            row.CreateCell(0).SetCellValue(product.Description);
-                            cel23.CellStyle = boldStyle14;
-
-                            ICell cel24 = row.CreateCell(1);
-                            row.CreateCell(1).SetCellValue(product.Colour);
-                            cel24.CellStyle = boldStyle14;
-
-                            ICell cel25 = row.CreateCell(2);
-                            row.CreateCell(2).SetCellValue(product.Glass);
-                            cel25.CellStyle = boldStyle14;
-
-                            ICell cel26 = row.CreateCell(3);
-                            row.CreateCell(3).SetCellValue((double)product.Quantity);
-                            cel26.CellStyle = boldStyle14;
-
-                            ICell cel27 = row.CreateCell(4);
-                            row.CreateCell(4).SetCellValue((double)product.Price);
-                            cel27.CellStyle = boldStyle14;
-
-                            ICell cel28 = row.CreateCell(5);
-                            row.CreateCell(5).SetCellValue((double)product.Amount);
-                            cel28.CellStyle = boldStyle14;
-
-                            ICell cel29 = row.CreateCell(6);
-                            row.CreateCell(6).SetCellValue((double)product.Discount);
-                            cel29.CellStyle = boldStyle14;
-
-
-                            // Общая стоимость продукции
-                            d += +product.Amount;
-
-                            j++;
-
-                        }
-                    }
-                }
-
-
-                // Общая стоимость товаров
-                // Какая строка
-                row = excelSheet.CreateRow(j);
-                // Выделение обедененых ячеек
-                ICell cel30 = row.CreateCell(0);
-                ICell cel31 = row.CreateCell(1);
-                ICell cel32 = row.CreateCell(2);
-                ICell cel33 = row.CreateCell(3);
-                ICell cel34 = row.CreateCell(4);
-                ICell cel35 = row.CreateCell(5);
-                ICell cel36 = row.CreateCell(6);
-
-                row.CreateCell(5).SetCellValue($"{d}");
-                row.CreateCell(0).SetCellValue("Общая стоимость продукции: ");
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(j, j, 0, 4));
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(j, j, 5, 6));
-
-                cel30.CellStyle = boldStyle15;
-                cel31.CellStyle = boldStyle15;
-                cel32.CellStyle = boldStyle15;
-                cel33.CellStyle = boldStyle15;
-                cel34.CellStyle = boldStyle15;
-                cel35.CellStyle = boldStyle15;
-                cel36.CellStyle = boldStyle15;
-
-                // Номер начальной строки
-                int m = j + 1;
-
-                // Общая стоимость продукции
-                decimal b = 0;
-
-                // Выкладка услуг
-                foreach (Service service in db.Services)
-                {
-                    if (id != null)
-                    {
-                        //Проверка на кого клиента услуга по ID
-                        if (id == service.ClientId)
-                        {
-                            // Общая стоимость товаров
-                            // Какая строка
-                            row = excelSheet.CreateRow(m);
-                            // Выделение обедененых ячеек
-                            ICell cel37 = row.CreateCell(0);
-                            ICell cel38 = row.CreateCell(1);
-                            ICell cel39 = row.CreateCell(2);
-                            ICell cel40 = row.CreateCell(3);
-                            ICell cel41 = row.CreateCell(4);
-                            ICell cel42 = row.CreateCell(5);
-                            ICell cel43 = row.CreateCell(6);
-
-                            row.CreateCell(5).SetCellValue((double)service.ServicePrice);
-                            row.CreateCell(0).SetCellValue(service.ServiceDescription);
-                            // Обьеденение ячеек 
-                            excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 0, 4));
-                            // Обьеденение ячеек 
-                            excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 5, 6));
-
-                            cel37.CellStyle = boldStyle15;
-                            cel38.CellStyle = boldStyle15;
-                            cel39.CellStyle = boldStyle15;
-                            cel40.CellStyle = boldStyle15;
-                            cel41.CellStyle = boldStyle15;
-                            cel42.CellStyle = boldStyle15;
-                            cel43.CellStyle = boldStyle15;
-
-                            // Общая стоимость продукции
-                            d += +service.ServicePrice;
-
-                            m++;
-
-                        }
-                    }
-                }
-
-                // Общая всего
-                // Какая строка
-                row = excelSheet.CreateRow(m);
-                // Выделение обедененых ячеек
-                ICell cel44 = row.CreateCell(0);
-                ICell cel45 = row.CreateCell(1);
-                ICell cel46 = row.CreateCell(2);
-                ICell cel47 = row.CreateCell(3);
-                ICell cel48 = row.CreateCell(4);
-                ICell cel49 = row.CreateCell(5);
-                ICell cel50 = row.CreateCell(6);
-                row.CreateCell(5).SetCellValue($"{d + b}");
-                row.CreateCell(0).SetCellValue("Сумма вашего заказа: ");
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 0, 4));
-                // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 5, 6));
-                cel44.CellStyle = boldStyle15;
-                cel45.CellStyle = boldStyle15;
-                cel46.CellStyle = boldStyle15;
-                cel47.CellStyle = boldStyle15;
-                cel48.CellStyle = boldStyle15;
-                cel49.CellStyle = boldStyle15;
-                cel50.CellStyle = boldStyle15;
-
-
                 using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
                 {
                     await stream.CopyToAsync(memory);
