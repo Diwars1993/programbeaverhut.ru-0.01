@@ -1769,11 +1769,6 @@ namespace programbeaverhut.ru.Controllers
                 // Обьеденение ячеек 
                 excelSheet.AddMergedRegion(new CellRangeAddress(m + 3, m + 3, 0, 6));
                 row.CreateCell(0).SetCellValue("С ценой и описанием листа заказа №1 согласен (на) _________________");
-
-
-
-                //Здесь мы автоматически изменяем размер первых 100 столбцов рабочего листа в соответствии с их содержимым:
-                for (int i = 0; i <= 100; i++) excelSheet.AutoSizeColumn(i);
             }
 
             using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
