@@ -1543,6 +1543,55 @@ namespace programbeaverhut.ru.Controllers
                 // Обьеденение ячеек Лист Заказа №312045
                 excelSheet.AddMergedRegion(new CellRangeAddress(6, 6, 0, 7));
 
+                foreach (Client client in db.Clients)
+                {
+                    if (id != null)
+                    {
+                        //Проверка на кого клиента документы по ID
+                        if (id == client.ClientId)
+                        {
+                            if (User.FindFirstValue(ClaimTypes.NameIdentifier) == client.UserId1)
+                            {
+                                // Какая строка
+                                row = excelSheet.CreateRow(2);
+                                // Какую ячейку выделяем жирным
+                                ICell cell = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Клиент: ");
+                                row.CreateCell(1).SetCellValue(client.SNM);
+                                // Выделение жирным
+                                cell.CellStyle = boldStyle;
+
+                                // Какая строка
+                                row = excelSheet.CreateRow(3);
+                                // Какую ячейку выделяем жирным
+                                ICell cel2 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Телефон клиента: ");
+                                row.CreateCell(1).SetCellValue(client.Telephone);
+                                // Выделение жирным
+                                cel2.CellStyle = boldStyle;
+
+                                // Какая строка
+                                row = excelSheet.CreateRow(4);
+                                // Какую ячейку выделяем жирным
+                                ICell cel3 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Адрес клиента: ");
+                                row.CreateCell(1).SetCellValue(client.Address);
+                                // Выделение жирным
+                                cel3.CellStyle = boldStyle;
+
+                                // Какая строка
+                                row = excelSheet.CreateRow(5);
+                                // Какую ячейку выделяем жирным
+                                ICell cel4 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Номер договора: ");
+                                row.CreateCell(1).SetCellValue(client.ContractNumber);
+                                // Выделение жирным
+                                cel4.CellStyle = boldStyle;
+                            }
+                        }
+                    }
+                }
+
                 using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
                 {
                     await stream.CopyToAsync(memory);
