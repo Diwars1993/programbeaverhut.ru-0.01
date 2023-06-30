@@ -1598,6 +1598,64 @@ namespace programbeaverhut.ru.Controllers
                         }
                     }
 
+                    // Общая стоимость продукции
+                    decimal d = 0;
+                    // Номер начальной строки
+                    int j = 8;
+
+                    // Выкладка товары
+                    foreach (Product product in db.Products)
+                    {
+                        if (id != null)
+                        {
+                            //Проверка на кого клиента заказ по ID
+                            if (id == product.ClientId)
+                            {
+
+                                // Какая строка
+                                row = excelSheet.CreateRow(j);
+                                // Высота строки
+                                row.HeightInPoints = 60;
+
+                                // Выделение границ
+                                ICell cel23 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue(product.Description);
+                                cel23.CellStyle = boldStyle14;
+
+                                ICell cel24 = row.CreateCell(1);
+                                row.CreateCell(1).SetCellValue(product.Colour);
+                                cel24.CellStyle = boldStyle14;
+
+                                ICell cel25 = row.CreateCell(2);
+                                row.CreateCell(2).SetCellValue(product.Glass);
+                                cel25.CellStyle = boldStyle14;
+
+                                ICell cel26 = row.CreateCell(3);
+                                row.CreateCell(3).SetCellValue((double)product.Quantity);
+                                cel26.CellStyle = boldStyle14;
+
+                                ICell cel27 = row.CreateCell(4);
+                                row.CreateCell(4).SetCellValue((double)product.Price);
+                                cel27.CellStyle = boldStyle14;
+
+                                ICell cel28 = row.CreateCell(5);
+                                row.CreateCell(5).SetCellValue((double)product.Amount);
+                                cel28.CellStyle = boldStyle14;
+
+                                ICell cel29 = row.CreateCell(6);
+                                row.CreateCell(6).SetCellValue((double)product.Discount);
+                                cel29.CellStyle = boldStyle14;
+
+
+                                // Общая стоимость продукции
+                                d += +product.Amount;
+
+                                j++;
+
+                            }
+                        }
+                    }
+
                     workbook.Write(fs);
                 }
                 using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
