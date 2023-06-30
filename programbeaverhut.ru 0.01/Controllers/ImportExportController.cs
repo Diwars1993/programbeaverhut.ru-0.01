@@ -36,12 +36,12 @@ namespace programbeaverhut.ru.Controllers
         {
             // Условный оператор IF условие если ID = null то возращаеться на главную
             if (id == null)
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
 
             ViewBag.ClientId1 = id1; // Группа клиентов
 
             foreach (Client client in db.Clients)
-           {
+            {
                 if (id == client.ClientId)
                 {
                     // ViewBag представляет такой объект, который позволяет определить любую переменную
@@ -49,7 +49,7 @@ namespace programbeaverhut.ru.Controllers
                     //ViewBag.ClientSNM = client.SNM;
                     ViewBag.ClientID = id;
                 }
-           }
+            }
             // Это все нужно для того чтобы было Несколько моделей в одном представлении в MVC (Сдесь это может пригодиться)
             CombinedLoginRegisterViewModel mymodel = new CombinedLoginRegisterViewModel();
             mymodel.Contract1 = db.Contracts;
@@ -91,7 +91,7 @@ namespace programbeaverhut.ru.Controllers
                     // Это мы пердоем имя ОТЧОТНОГО ПЕРИОДА
                     ReportingPeriod reportingPeriod = await db.ReportingPeriods.FirstOrDefaultAsync(p => p.Id == user.ReportingPeriodId);
                     ViewBag.NameReportingPeriod = reportingPeriod.NameReportingPeriod;
-                    
+
 
                 }
                 LegalEntity legalEntity = await db.LegalEntitys.FirstOrDefaultAsync(p => p.Id == user.LegalEntityId);
@@ -103,7 +103,7 @@ namespace programbeaverhut.ru.Controllers
                     ViewBag.Address = legalEntity.Address;
                 }
             }
-                    return View();
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> AddContract(Contract contract, int? id)
@@ -115,7 +115,7 @@ namespace programbeaverhut.ru.Controllers
 
             db.Contracts.Add(contract);
             await db.SaveChangesAsync();
-           
+
             return LocalRedirect($"~/ImportExport/ImptExp/{id}?id1={user.ReportingPeriodId}");
         }
 
@@ -226,56 +226,56 @@ namespace programbeaverhut.ru.Controllers
                 excelSheet.AddMergedRegion(new CellRangeAddress(5, 5, 1, 7));
                 // Обьеденение ячеек Лист Заказа №312045
                 excelSheet.AddMergedRegion(new CellRangeAddress(6, 6, 0, 7));
-                
+
 
 
                 foreach (Client client in db.Clients)
                 {
-                 if (id != null)
-                 {
+                    if (id != null)
+                    {
                         //Проверка на кого клиента документы по ID
-                   if (id == client.ClientId)
-                   {
-                        if (User.FindFirstValue(ClaimTypes.NameIdentifier) == client.UserId1)
-                        {  
-                            // Какая строка
-                            row = excelSheet.CreateRow(2);
-                            // Какую ячейку выделяем жирным
-                            ICell cell = row.CreateCell(0);   
-                            row.CreateCell(0).SetCellValue("Клиент: ");
-                            row.CreateCell(1).SetCellValue(client.SNM);
-                            // Выделение жирным
-                            cell.CellStyle = boldStyle;
-                            
-                            // Какая строка
-                            row = excelSheet.CreateRow(3);
-                            // Какую ячейку выделяем жирным
-                            ICell cel2 = row.CreateCell(0);
-                            row.CreateCell(0).SetCellValue("Телефон клиента: ");
-                            row.CreateCell(1).SetCellValue(client.Telephone);
-                            // Выделение жирным
-                            cel2.CellStyle = boldStyle;
+                        if (id == client.ClientId)
+                        {
+                            if (User.FindFirstValue(ClaimTypes.NameIdentifier) == client.UserId1)
+                            {
+                                // Какая строка
+                                row = excelSheet.CreateRow(2);
+                                // Какую ячейку выделяем жирным
+                                ICell cell = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Клиент: ");
+                                row.CreateCell(1).SetCellValue(client.SNM);
+                                // Выделение жирным
+                                cell.CellStyle = boldStyle;
 
-                            // Какая строка
-                            row = excelSheet.CreateRow(4);
-                            // Какую ячейку выделяем жирным
-                            ICell cel3 = row.CreateCell(0);
-                            row.CreateCell(0).SetCellValue("Адрес клиента: ");
-                            row.CreateCell(1).SetCellValue(client.Address);
-                            // Выделение жирным
-                            cel3.CellStyle = boldStyle;
+                                // Какая строка
+                                row = excelSheet.CreateRow(3);
+                                // Какую ячейку выделяем жирным
+                                ICell cel2 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Телефон клиента: ");
+                                row.CreateCell(1).SetCellValue(client.Telephone);
+                                // Выделение жирным
+                                cel2.CellStyle = boldStyle;
 
-                            // Какая строка
-                            row = excelSheet.CreateRow(5);
-                            // Какую ячейку выделяем жирным
-                            ICell cel4 = row.CreateCell(0);
-                            row.CreateCell(0).SetCellValue("Номер договора: ");
-                            row.CreateCell(1).SetCellValue(client.ContractNumber);
-                            // Выделение жирным
-                            cel4.CellStyle = boldStyle;
+                                // Какая строка
+                                row = excelSheet.CreateRow(4);
+                                // Какую ячейку выделяем жирным
+                                ICell cel3 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Адрес клиента: ");
+                                row.CreateCell(1).SetCellValue(client.Address);
+                                // Выделение жирным
+                                cel3.CellStyle = boldStyle;
+
+                                // Какая строка
+                                row = excelSheet.CreateRow(5);
+                                // Какую ячейку выделяем жирным
+                                ICell cel4 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue("Номер договора: ");
+                                row.CreateCell(1).SetCellValue(client.ContractNumber);
+                                // Выделение жирным
+                                cel4.CellStyle = boldStyle;
+                            }
                         }
-                   }
-                 }
+                    }
                 }
 
                 // Общая стоимость продукции
@@ -291,7 +291,7 @@ namespace programbeaverhut.ru.Controllers
                         //Проверка на кого клиента заказ по ID
                         if (id == product.ClientId)
                         {
-                            
+
                             // Какая строка
                             row = excelSheet.CreateRow(j);
                             // Высота строки
@@ -331,12 +331,12 @@ namespace programbeaverhut.ru.Controllers
                             d += +product.Amount;
 
                             j++;
-                            
+
                         }
-                    }    
+                    }
                 }
 
-                
+
                 // Общая стоимость товаров
                 // Какая строка
                 row = excelSheet.CreateRow(j);
@@ -365,7 +365,7 @@ namespace programbeaverhut.ru.Controllers
                 cel36.CellStyle = boldStyle15;
 
                 // Номер начальной строки
-                int m = j+1;
+                int m = j + 1;
 
                 // Общая стоимость продукции
                 decimal b = 0;
@@ -425,7 +425,7 @@ namespace programbeaverhut.ru.Controllers
                 ICell cel48 = row.CreateCell(4);
                 ICell cel49 = row.CreateCell(5);
                 ICell cel50 = row.CreateCell(6);
-                row.CreateCell(5).SetCellValue($"{d+b}");
+                row.CreateCell(5).SetCellValue($"{d + b}");
                 row.CreateCell(0).SetCellValue("Сумма вашего заказа: ");
                 // Обьеденение ячеек 
                 excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 0, 4));
@@ -439,10 +439,10 @@ namespace programbeaverhut.ru.Controllers
                 cel49.CellStyle = boldStyle15;
                 cel50.CellStyle = boldStyle15;
 
-                
-                foreach(Client client1 in db.Clients)
+
+                foreach (Client client1 in db.Clients)
                 {
-                    if(client1.ClientId == id)
+                    if (client1.ClientId == id)
                     {
                         // Какая строка
                         row = excelSheet.CreateRow(m + 2);
@@ -453,14 +453,14 @@ namespace programbeaverhut.ru.Controllers
                 // Какая строка
                 row = excelSheet.CreateRow(m + 3);
                 // Обьеденение ячеек 
-                excelSheet.AddMergedRegion(new CellRangeAddress(m+3, m+3, 0, 6));
+                excelSheet.AddMergedRegion(new CellRangeAddress(m + 3, m + 3, 0, 6));
                 row.CreateCell(0).SetCellValue("С ценой и описанием листа заказа №1 согласен (на) _________________");
-                
+
 
 
                 //Здесь мы автоматически изменяем размер первых 100 столбцов рабочего листа в соответствии с их содержимым:
                 for (int i = 0; i <= 100; i++) excelSheet.AutoSizeColumn(i);
-                
+
                 workbook.Write(fs);
             }
 
@@ -1205,7 +1205,7 @@ namespace programbeaverhut.ru.Controllers
 
                     // Обьеденение именуемый в дальнейшем Исполнитель
                     excelSheet.AddMergedRegion(new CellRangeAddress(4, 6, 0, 8));
-                    
+
                     // Обьеденение ячеек #1.1
                     excelSheet.AddMergedRegion(new CellRangeAddress(8, 10, 0, 8));
                     // Обьеденение ячеек #1.2
@@ -1345,7 +1345,7 @@ namespace programbeaverhut.ru.Controllers
                     // Придаем стиль ячейки
                     Cell2.CellStyle = cellStyle2;
                     // Устанавливаем значение в ячейку
-                    Cell2.SetCellValue($"{contract.TermsUse}");                   
+                    Cell2.SetCellValue($"{contract.TermsUse}");
 
                     // Создаем стиль ячейки
                     ICellStyle cellStyle1 = workbook.CreateCellStyle();
@@ -1379,7 +1379,7 @@ namespace programbeaverhut.ru.Controllers
                     Cell5.CellStyle = cellStyle5;
                     // Устанавливаем значение в ячейку
                     Cell5.SetCellValue($"{contract.AcceptanceCertificate}");
-                    
+
 
                     // Дата и место оформеление договора
                     row = excelSheet.CreateRow(45);
@@ -1729,15 +1729,40 @@ namespace programbeaverhut.ru.Controllers
                     }
                 }
 
+                // Общая всего
+                // Какая строка
+                row = excelSheet.CreateRow(m);
+                // Выделение обедененых ячеек
+                ICell cel44 = row.CreateCell(0);
+                ICell cel45 = row.CreateCell(1);
+                ICell cel46 = row.CreateCell(2);
+                ICell cel47 = row.CreateCell(3);
+                ICell cel48 = row.CreateCell(4);
+                ICell cel49 = row.CreateCell(5);
+                ICell cel50 = row.CreateCell(6);
+                row.CreateCell(5).SetCellValue($"{d + b}");
+                row.CreateCell(0).SetCellValue("Сумма вашего заказа: ");
+                // Обьеденение ячеек 
+                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 0, 4));
+                // Обьеденение ячеек 
+                excelSheet.AddMergedRegion(new CellRangeAddress(m, m, 5, 6));
+                cel44.CellStyle = boldStyle15;
+                cel45.CellStyle = boldStyle15;
+                cel46.CellStyle = boldStyle15;
+                cel47.CellStyle = boldStyle15;
+                cel48.CellStyle = boldStyle15;
+                cel49.CellStyle = boldStyle15;
+                cel50.CellStyle = boldStyle15;
+
             }
 
             using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
-                {
-                    await stream.CopyToAsync(memory);
-                }
-                memory.Position = 0;
-                return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
-           
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+
         }
 
         // Удаление договора
@@ -1795,7 +1820,7 @@ namespace programbeaverhut.ru.Controllers
                     ViewBag.Address1 = user.Address;
                     ViewBag.Telephone1 = user.Telephone;
                     ViewBag.UserId1 = user.UserId1;
-                    
+
 
                     // Это мы пердоем имя ОТЧОТНОГО ПЕРИОДА
                     ReportingPeriod reportingPeriod = await db.ReportingPeriods.FirstOrDefaultAsync(p => p.Id == user.ReportingPeriodId);
