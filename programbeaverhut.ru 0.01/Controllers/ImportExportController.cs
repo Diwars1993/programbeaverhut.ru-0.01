@@ -1729,15 +1729,15 @@ namespace programbeaverhut.ru.Controllers
                     }
                 }
 
+            }
 
-
-                using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
                 {
                     await stream.CopyToAsync(memory);
                 }
                 memory.Position = 0;
                 return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
-            }
+           
         }
 
         // Удаление договора
