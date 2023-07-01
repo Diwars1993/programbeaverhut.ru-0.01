@@ -126,7 +126,7 @@ namespace programbeaverhut.ru.Controllers
         }
 
 
-        // Бланк заказа
+        // Бланк заказа (Версия с ошибкой, ошибка в самом низу)
         public async Task<IActionResult> OnPostExport(int? id)
         {
             string sWebRootFolder = _hostingEnvironment.ContentRootPath;
@@ -459,6 +459,7 @@ namespace programbeaverhut.ru.Controllers
 
 
                 //Здесь мы автоматически изменяем размер первых 100 столбцов рабочего листа в соответствии с их содержимым:
+                //Здесь и закралась ошибка (Найти?)
                 for (int i = 0; i <= 100; i++) excelSheet.AutoSizeColumn(i);
 
                 workbook.Write(fs);
