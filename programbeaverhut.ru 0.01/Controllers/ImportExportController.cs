@@ -473,7 +473,7 @@ namespace programbeaverhut.ru.Controllers
         }
 
 
-        // Договор
+        // Бланк заказа
         public async Task<IActionResult> ExportingContract(int? id, int? id2)
         {
             string sWebRootFolder = _hostingEnvironment.ContentRootPath;
@@ -1771,6 +1771,12 @@ namespace programbeaverhut.ru.Controllers
                             row.CreateCell(0).SetCellValue($"Дата подписания: {client1.Date}");
                         }
                     }
+
+                    // Какая строка
+                    row = excelSheet.CreateRow(m + 3);
+                    // Обьеденение ячеек 
+                    excelSheet.AddMergedRegion(new CellRangeAddress(m + 3, m + 3, 0, 6));
+                    row.CreateCell(0).SetCellValue("С ценой и описанием листа заказа №1 согласен (на) _________________");
 
 
                     workbook.Write(fs);
