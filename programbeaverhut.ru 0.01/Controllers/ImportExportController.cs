@@ -474,7 +474,7 @@ namespace programbeaverhut.ru.Controllers
         }
 
 
-        // Бланк заказа
+        // Договор
         public async Task<IActionResult> ExportingContract(int? id, int? id2)
         {
             string sWebRootFolder = _hostingEnvironment.ContentRootPath;
@@ -1443,7 +1443,7 @@ namespace programbeaverhut.ru.Controllers
             }
         }
 
-        // Проба
+        // Бланк заказа
         public async Task<IActionResult> Terms(int? id)
         {
             string sWebRootFolder = _hostingEnvironment.ContentRootPath;
