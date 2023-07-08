@@ -1917,7 +1917,7 @@ namespace programbeaverhut.ru.Controllers
                                             row = excelSheet.CreateRow(2);
                                             // Какую ячейку выделяем жирным
                                             ICell cell = row.CreateCell(0);
-                                            row.CreateCell(0).SetCellValue("Группа клиентовв: ");
+                                            row.CreateCell(0).SetCellValue("Группа клиентов: ");
                                             row.CreateCell(1).SetCellValue(reporting.NameReportingPeriod);
                                             // Выделение жирным
                                             cell.CellStyle = boldStyle;
