@@ -1851,13 +1851,15 @@ namespace programbeaverhut.ru.Controllers
                     ICell cel20 = row.CreateCell(4);
                     ICell cel21 = row.CreateCell(5);
                     ICell cel22 = row.CreateCell(6);
-                    row.CreateCell(0).SetCellValue("Описание наименования");
-                    row.CreateCell(1).SetCellValue("Цвет");
-                    row.CreateCell(2).SetCellValue("Стекло");
-                    row.CreateCell(3).SetCellValue("К-во");
-                    row.CreateCell(4).SetCellValue("Цена");
-                    row.CreateCell(5).SetCellValue("Сумма");
-                    row.CreateCell(6).SetCellValue("%");
+                    ICell cel23 = row.CreateCell(6);
+                    row.CreateCell(0).SetCellValue("Группа клиентов Id");
+                    row.CreateCell(1).SetCellValue("Группа клиентов");
+                    row.CreateCell(2).SetCellValue("Пароль");
+                    row.CreateCell(3).SetCellValue("Проверка пароля");
+                    row.CreateCell(4).SetCellValue("Выделение цветом");
+                    row.CreateCell(5).SetCellValue("Color Id");
+                    row.CreateCell(6).SetCellValue("User Id");
+                    row.CreateCell(7).SetCellValue("User Name");
                     // Задавание стиля
                     cel16.CellStyle = boldStyle15;
                     cel17.CellStyle = boldStyle15;
@@ -1866,6 +1868,7 @@ namespace programbeaverhut.ru.Controllers
                     cel20.CellStyle = boldStyle15;
                     cel21.CellStyle = boldStyle15;
                     cel22.CellStyle = boldStyle15;
+                    cel23.CellStyle = boldStyle15;
 
 
                     // Обьеденение ячеек
@@ -1905,7 +1908,7 @@ namespace programbeaverhut.ru.Controllers
                     // Общая стоимость продукции
                     decimal d = 0;
                     // Номер начальной строки
-                    int j = 3;
+                    int j = 5;
 
                     // Выкладка товары
                     foreach (Product product in db.Products)
@@ -1915,46 +1918,66 @@ namespace programbeaverhut.ru.Controllers
                             //Проверка на кого клиента заказ по ID
                             if (id == product.ClientId)
                             {
+                                foreach (Client client in db.Clients)
+                                {
+                                    if (id != null)
+                                    {
+                                        //Проверка на кого клиента документы по ID
+                                        if (id == client.ClientId)
+                                        {
 
-                                // Какая строка
-                                row = excelSheet.CreateRow(j);
-                                // Высота строки
-                                row.HeightInPoints = 60;
+                                            foreach (ReportingPeriod reporting in db.ReportingPeriods)
+                                            {
+                                                if (reporting.Id == client.ReportingPeriodId)
+                                                {
 
-                                // Выделение границ
-                                ICell cel23 = row.CreateCell(0);
-                                row.CreateCell(0).SetCellValue(product.Description);
-                                cel23.CellStyle = boldStyle14;
+                                                    // Какая строка
+                                                    row = excelSheet.CreateRow(j);
+                                                    // Высота строки
+                                                    row.HeightInPoints = 60;
 
-                                ICell cel24 = row.CreateCell(1);
-                                row.CreateCell(1).SetCellValue(product.Colour);
-                                cel24.CellStyle = boldStyle14;
+                                                    // Выделение границ
+                                                    ICell cel24 = row.CreateCell(0);
+                                                    row.CreateCell(0).SetCellValue(reporting.Id);
+                                                    cel24.CellStyle = boldStyle14;
 
-                                ICell cel25 = row.CreateCell(2);
-                                row.CreateCell(2).SetCellValue(product.Glass);
-                                cel25.CellStyle = boldStyle14;
+                                                    ICell cel25 = row.CreateCell(1);
+                                                    row.CreateCell(1).SetCellValue(reporting.NameReportingPeriod);
+                                                    cel25.CellStyle = boldStyle14;
 
-                                ICell cel26 = row.CreateCell(3);
-                                row.CreateCell(3).SetCellValue((double)product.Quantity);
-                                cel26.CellStyle = boldStyle14;
+                                                    ICell cel26 = row.CreateCell(2);
+                                                    row.CreateCell(2).SetCellValue(reporting.Password);
+                                                    cel26.CellStyle = boldStyle14;
 
-                                ICell cel27 = row.CreateCell(4);
-                                row.CreateCell(4).SetCellValue((double)product.Price);
-                                cel27.CellStyle = boldStyle14;
+                                                    ICell cel27 = row.CreateCell(3);
+                                                    row.CreateCell(3).SetCellValue(reporting.PasswordVeri);
+                                                    cel27.CellStyle = boldStyle14;
 
-                                ICell cel28 = row.CreateCell(5);
-                                row.CreateCell(5).SetCellValue((double)product.Amount);
-                                cel28.CellStyle = boldStyle14;
+                                                    ICell cel28 = row.CreateCell(4);
+                                                    row.CreateCell(4).SetCellValue(reporting.NameColor);
+                                                    cel28.CellStyle = boldStyle14;
 
-                                ICell cel29 = row.CreateCell(6);
-                                row.CreateCell(6).SetCellValue((double)product.Discount);
-                                cel29.CellStyle = boldStyle14;
+                                                    ICell cel29 = row.CreateCell(5);
+                                                    row.CreateCell(5).SetCellValue(reporting.ColorId);
+                                                    cel29.CellStyle = boldStyle14;
 
+                                                    ICell cel30 = row.CreateCell(6);
+                                                    row.CreateCell(6).SetCellValue(reporting.UserId1);
+                                                    cel30.CellStyle = boldStyle14;
 
-                                // Общая стоимость продукции
-                                d += +product.Amount;
+                                                    ICell cel31 = row.CreateCell(6);
+                                                    row.CreateCell(6).SetCellValue(reporting.UserName);
+                                                    cel31.CellStyle = boldStyle14;
 
-                                j++;
+                                                    // Общая стоимость продукции
+                                                    d += +product.Amount;
+
+                                                    j++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
 
                             }
                         }
