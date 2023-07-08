@@ -1851,7 +1851,7 @@ namespace programbeaverhut.ru.Controllers
                     ICell cel20 = row.CreateCell(4);
                     ICell cel21 = row.CreateCell(5);
                     ICell cel22 = row.CreateCell(6);
-                    ICell cel23 = row.CreateCell(6);
+                    ICell cel23 = row.CreateCell(7);
                     row.CreateCell(0).SetCellValue("Группа клиентов Id");
                     row.CreateCell(1).SetCellValue("Группа клиентов");
                     row.CreateCell(2).SetCellValue("Пароль");
@@ -1905,8 +1905,6 @@ namespace programbeaverhut.ru.Controllers
                         }
                     }
 
-                    // Общая стоимость продукции
-                    decimal d = 0;
                     // Номер начальной строки
                     int j = 5;
 
@@ -1968,9 +1966,6 @@ namespace programbeaverhut.ru.Controllers
                                                     ICell cel31 = row.CreateCell(7);
                                                     row.CreateCell(7).SetCellValue(reporting.UserName);
                                                     cel31.CellStyle = boldStyle14;
-
-                                                    // Общая стоимость продукции
-                                                    d += +product.Amount;
 
                                                     j++;
                                                 }
