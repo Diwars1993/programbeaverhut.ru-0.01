@@ -1965,8 +1965,8 @@ namespace programbeaverhut.ru.Controllers
                                                     row.CreateCell(6).SetCellValue(reporting.UserId1);
                                                     cel30.CellStyle = boldStyle14;
 
-                                                    ICell cel31 = row.CreateCell(6);
-                                                    row.CreateCell(6).SetCellValue(reporting.UserName);
+                                                    ICell cel31 = row.CreateCell(7);
+                                                    row.CreateCell(7).SetCellValue(reporting.UserName);
                                                     cel31.CellStyle = boldStyle14;
 
                                                     // Общая стоимость продукции
