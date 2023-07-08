@@ -1867,36 +1867,9 @@ namespace programbeaverhut.ru.Controllers
                     cel21.CellStyle = boldStyle15;
                     cel22.CellStyle = boldStyle15;
 
-                    // Создаем стиль ячейки
-                    ICellStyle cellStyle2 = workbook.CreateCellStyle();
-                    // Выравнивание текста по горизонтали и вертикали
-                    cellStyle2.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                    // Вертикальное выравнивание
-                    cellStyle2.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-                    // Оборачивать
-                    //cellStyle.WrapText = true;
-                    // Уменьшаем шрифт и заполняем
-                    cellStyle2.ShrinkToFit = true;
-                    // Создаем ячейку 
-                    ICell Cell2 = excelSheet.CreateRow(6).CreateCell(0);
-                    // Придаем стиль ячейки
-                    Cell2.CellStyle = cellStyle2;
-                    // Устанавливаем значение в ячейку
-                    Cell2.SetCellValue("Лист Заказа №1");
-
-
 
                     // Обьеденение ячеек
                     excelSheet.AddMergedRegion(new CellRangeAddress(2, 2, 1, 7));
-                    // Обьеденение ячеек
-                    excelSheet.AddMergedRegion(new CellRangeAddress(3, 3, 1, 7));
-                    // Обьеденение ячеек
-                    excelSheet.AddMergedRegion(new CellRangeAddress(4, 4, 1, 7));
-                    // Обьеденение ячеек
-                    excelSheet.AddMergedRegion(new CellRangeAddress(5, 5, 1, 7));
-                    // Обьеденение ячеек Лист Заказа №312045
-                    excelSheet.AddMergedRegion(new CellRangeAddress(6, 6, 0, 7));
-
 
 
                     foreach (Client client in db.Clients)
@@ -1932,7 +1905,7 @@ namespace programbeaverhut.ru.Controllers
                     // Общая стоимость продукции
                     decimal d = 0;
                     // Номер начальной строки
-                    int j = 8;
+                    int j = 3;
 
                     // Выкладка товары
                     foreach (Product product in db.Products)
