@@ -77,8 +77,7 @@
             <tr>
                 <th>Название договора</th>
                 <th>В какой группе клиентов был содан</th>
-                <th>
-                </th>
+                <th> </th>
             </tr>
             @foreach (Contract contract in Model.Contract1)
             {
@@ -96,7 +95,7 @@
                             <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" asp-action="ExportingContract">Скачать договор &#11123</a>
                             <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" asp-action="TermsUse">Скачать акты &#11123</a>
                             <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.ClientId" asp-action="Terms">Скачать бланк заказа &#11123</a>
-                            <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.ClientId" asp-action="TermsBig">Скачать всех клиентов &#11123</a>
+                            <a class="btn btn-sm btn-primary" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.ClientId1" asp-action="TermsBig">Скачать всех клиентов &#11123</a>
 
                             <a asp-action="CopyContract" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" class="btn btn-sm btn-primary" style="margin-bottom: 4px;">Копировать</a>
                             <a asp-action="Edit4" asp-controller="ImportExport" asp-route-id="@contract.ContractId" asp-route-id2="@ViewBag.ClientId" class="btn btn-sm btn-primary" style="margin-bottom: 4px;">Изменить</a>

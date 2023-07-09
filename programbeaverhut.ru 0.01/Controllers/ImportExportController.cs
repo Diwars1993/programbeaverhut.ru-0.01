@@ -1918,60 +1918,60 @@ namespace programbeaverhut.ru.Controllers
                             {
                                 foreach (Client client in db.Clients)
                                 {
-                                    if (id != null)
+                                    //Проверка на кого клиента документы по ID
+                                    if (id == client.ClientId)
                                     {
-                                        //Проверка на кого клиента документы по ID
-                                        if (id == client.ClientId)
+
+                                        foreach (ReportingPeriod reporting in db.ReportingPeriods)
                                         {
-
-                                            foreach (ReportingPeriod reporting in db.ReportingPeriods)
+                                            if (reporting.Id == client.ReportingPeriodId)
                                             {
-                                                if (reporting.Id == client.ReportingPeriodId)
-                                                {
 
-                                                    // Какая строка
-                                                    row = excelSheet.CreateRow(j);
-                                                    // Высота строки
-                                                    row.HeightInPoints = 60;
+                                                // Какая строка
+                                                row = excelSheet.CreateRow(j);
+                                                // Высота строки
+                                                row.HeightInPoints = 60;
 
-                                                    // Выделение границ
-                                                    ICell cel24 = row.CreateCell(0);
-                                                    row.CreateCell(0).SetCellValue(reporting.Id);
-                                                    cel24.CellStyle = boldStyle14;
+                                                // Выделение границ
+                                                ICell cel24 = row.CreateCell(0);
+                                                row.CreateCell(0).SetCellValue(reporting.Id);
+                                                cel24.CellStyle = boldStyle14;
 
-                                                    ICell cel25 = row.CreateCell(1);
-                                                    row.CreateCell(1).SetCellValue(reporting.NameReportingPeriod);
-                                                    cel25.CellStyle = boldStyle14;
+                                                ICell cel25 = row.CreateCell(1);
+                                                row.CreateCell(1).SetCellValue(reporting.NameReportingPeriod);
+                                                cel25.CellStyle = boldStyle14;
 
-                                                    ICell cel26 = row.CreateCell(2);
-                                                    row.CreateCell(2).SetCellValue(reporting.Password);
-                                                    cel26.CellStyle = boldStyle14;
+                                                ICell cel26 = row.CreateCell(2);
+                                                row.CreateCell(2).SetCellValue(reporting.Password);
+                                                cel26.CellStyle = boldStyle14;
 
-                                                    ICell cel27 = row.CreateCell(3);
-                                                    row.CreateCell(3).SetCellValue(reporting.PasswordVeri);
-                                                    cel27.CellStyle = boldStyle14;
+                                                ICell cel27 = row.CreateCell(3);
+                                                row.CreateCell(3).SetCellValue(reporting.PasswordVeri);
+                                                cel27.CellStyle = boldStyle14;
 
-                                                    ICell cel28 = row.CreateCell(4);
-                                                    row.CreateCell(4).SetCellValue(reporting.NameColor);
-                                                    cel28.CellStyle = boldStyle14;
+                                                ICell cel28 = row.CreateCell(4);
+                                                row.CreateCell(4).SetCellValue(reporting.NameColor);
+                                                cel28.CellStyle = boldStyle14;
 
-                                                    ICell cel29 = row.CreateCell(5);
-                                                    row.CreateCell(5).SetCellValue(reporting.ColorId);
-                                                    cel29.CellStyle = boldStyle14;
+                                                ICell cel29 = row.CreateCell(5);
+                                                row.CreateCell(5).SetCellValue(reporting.ColorId);
+                                                cel29.CellStyle = boldStyle14;
 
-                                                    ICell cel30 = row.CreateCell(6);
-                                                    row.CreateCell(6).SetCellValue(reporting.UserId1);
-                                                    cel30.CellStyle = boldStyle14;
+                                                ICell cel30 = row.CreateCell(6);
+                                                row.CreateCell(6).SetCellValue(reporting.UserId1);
+                                                cel30.CellStyle = boldStyle14;
 
-                                                    ICell cel31 = row.CreateCell(7);
-                                                    row.CreateCell(7).SetCellValue(reporting.UserName);
-                                                    cel31.CellStyle = boldStyle14;
+                                                ICell cel31 = row.CreateCell(7);
+                                                row.CreateCell(7).SetCellValue(reporting.UserName);
+                                                cel31.CellStyle = boldStyle14;
 
-                                                    j++;
-                                                }
+
+
+                                                j++;
                                             }
                                         }
                                     }
+
                                 }
 
                             }
