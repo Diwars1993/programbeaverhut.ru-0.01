@@ -1852,14 +1852,18 @@ namespace programbeaverhut.ru.Controllers
                     ICell cel21 = row.CreateCell(5);
                     ICell cel22 = row.CreateCell(6);
                     ICell cel23 = row.CreateCell(7);
-                    row.CreateCell(0).SetCellValue("Группа клиентов Id");
+                    ICell cel32 = row.CreateCell(8);
+                    ICell cel33 = row.CreateCell(9);
+                    row.CreateCell(0).SetCellValue("Id группы клиентов");
                     row.CreateCell(1).SetCellValue("Группа клиентов");
                     row.CreateCell(2).SetCellValue("Пароль");
                     row.CreateCell(3).SetCellValue("Проверка пароля");
-                    row.CreateCell(4).SetCellValue("Выделение цветом");
-                    row.CreateCell(5).SetCellValue("Color Id");
-                    row.CreateCell(6).SetCellValue("User Id");
-                    row.CreateCell(7).SetCellValue("User Name");
+                    row.CreateCell(4).SetCellValue("Выделение цветом группы клиентов");
+                    row.CreateCell(5).SetCellValue("Color Id группы клиентов");
+                    row.CreateCell(6).SetCellValue("User Id группы клиентов");
+                    row.CreateCell(7).SetCellValue("User Name группы клиентов");
+                    row.CreateCell(8).SetCellValue("Id клиента");
+                    row.CreateCell(8).SetCellValue("№ договора");
                     // Задавание стиля
                     cel16.CellStyle = boldStyle15;
                     cel17.CellStyle = boldStyle15;
@@ -1869,6 +1873,8 @@ namespace programbeaverhut.ru.Controllers
                     cel21.CellStyle = boldStyle15;
                     cel22.CellStyle = boldStyle15;
                     cel23.CellStyle = boldStyle15;
+                    cel32.CellStyle = boldStyle15;
+                    cel33.CellStyle = boldStyle15;
 
 
                     // Обьеденение ячеек
@@ -1959,6 +1965,14 @@ namespace programbeaverhut.ru.Controllers
                                             ICell cel31 = row.CreateCell(7);
                                             row.CreateCell(7).SetCellValue(reporting.UserName);
                                             cel31.CellStyle = boldStyle14;
+
+                                            ICell cel34 = row.CreateCell(8);
+                                            row.CreateCell(8).SetCellValue(client.ClientId);
+                                            cel34.CellStyle = boldStyle14;
+
+                                            ICell cel35 = row.CreateCell(9);
+                                            row.CreateCell(9).SetCellValue(client.ContractNumber);
+                                            cel35.CellStyle = boldStyle14;
 
                                             j++;
                                         }
