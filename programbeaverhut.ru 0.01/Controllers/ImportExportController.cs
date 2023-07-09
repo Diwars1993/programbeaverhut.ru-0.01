@@ -1880,7 +1880,7 @@ namespace programbeaverhut.ru.Controllers
                         if (id != null)
                         {
                             //Проверка на кого клиента документы по ID
-                            if (id == client.ClientId)
+                            if (id == client.ReportingPeriodId)
                             {
                                 //Проверка на пользователя
                                 if (User.FindFirstValue(ClaimTypes.NameIdentifier) == client.UserId1)
