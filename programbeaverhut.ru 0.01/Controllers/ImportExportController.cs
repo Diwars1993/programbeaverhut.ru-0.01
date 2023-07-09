@@ -1863,6 +1863,15 @@ namespace programbeaverhut.ru.Controllers
                     ICell cel48 = row.CreateCell(16);
                     ICell cel50 = row.CreateCell(17);
                     ICell cel52 = row.CreateCell(18);
+                    ICell cel54 = row.CreateCell(19);
+                    ICell cel56 = row.CreateCell(20);
+                    ICell cel58 = row.CreateCell(21);
+                    ICell cel60 = row.CreateCell(22);
+                    ICell cel62 = row.CreateCell(23);
+                    ICell cel64 = row.CreateCell(24);
+                    ICell cel66 = row.CreateCell(25);
+                    ICell cel68 = row.CreateCell(26);
+                    ICell cel70 = row.CreateCell(27);
                     row.CreateCell(0).SetCellValue("Id группы клиентов");
                     row.CreateCell(1).SetCellValue("Группа клиентов");
                     row.CreateCell(2).SetCellValue("Пароль");
@@ -1881,7 +1890,16 @@ namespace programbeaverhut.ru.Controllers
                     row.CreateCell(15).SetCellValue("ИНН");
                     row.CreateCell(16).SetCellValue("ОГРИП");
                     row.CreateCell(17).SetCellValue("Оплата товара");
-                    row.CreateCell(18).SetCellValue("Остаток стоимости за товар");
+                    row.CreateCell(18).SetCellValue("Остаток");
+                    row.CreateCell(19).SetCellValue("Сумма");
+                    row.CreateCell(20).SetCellValue("Оплата услуг");
+                    row.CreateCell(21).SetCellValue("Остаток за услуги");
+                    row.CreateCell(22).SetCellValue("Сумма за услуги");
+                    row.CreateCell(23).SetCellValue("Этап сборки");
+                    row.CreateCell(24).SetCellValue("Color Id клиента");
+                    row.CreateCell(25).SetCellValue("Name Color клиента");
+                    row.CreateCell(26).SetCellValue("Компания Id");
+                    row.CreateCell(27).SetCellValue("Название компании");
                     // Задавание стиля
                     cel16.CellStyle = boldStyle15;
                     cel17.CellStyle = boldStyle15;
@@ -1902,6 +1920,15 @@ namespace programbeaverhut.ru.Controllers
                     cel48.CellStyle = boldStyle15;
                     cel50.CellStyle = boldStyle15;
                     cel52.CellStyle = boldStyle15;
+                    cel54.CellStyle = boldStyle15;
+                    cel56.CellStyle = boldStyle15;
+                    cel58.CellStyle = boldStyle15;
+                    cel60.CellStyle = boldStyle15;
+                    cel62.CellStyle = boldStyle15;
+                    cel64.CellStyle = boldStyle15;
+                    cel66.CellStyle = boldStyle15;
+                    cel68.CellStyle = boldStyle15;
+                    cel70.CellStyle = boldStyle15;
 
 
                     // Обьеденение ячеек
@@ -2036,6 +2063,42 @@ namespace programbeaverhut.ru.Controllers
                                             ICell cel53 = row.CreateCell(18);
                                             row.CreateCell(18).SetCellValue((double)client.RemainingСostGoods);
                                             cel53.CellStyle = boldStyle14;
+
+                                            ICell cel55 = row.CreateCell(19);
+                                            row.CreateCell(19).SetCellValue((double)client.AmountGoods);
+                                            cel55.CellStyle = boldStyle14;
+
+                                            ICell cel57 = row.CreateCell(20);
+                                            row.CreateCell(20).SetCellValue((double)client.PayService);
+                                            cel57.CellStyle = boldStyle14;
+
+                                            ICell cel59 = row.CreateCell(21);
+                                            row.CreateCell(21).SetCellValue((double)client.RemainingСostService);
+                                            cel59.CellStyle = boldStyle14;
+
+                                            ICell cel61 = row.CreateCell(22);
+                                            row.CreateCell(22).SetCellValue((double)client.AmountService);
+                                            cel61.CellStyle = boldStyle14;
+
+                                            ICell cel63 = row.CreateCell(23);
+                                            row.CreateCell(23).SetCellValue(client.OrderAssemblyStage);
+                                            cel63.CellStyle = boldStyle14;
+
+                                            ICell cel65 = row.CreateCell(24);
+                                            row.CreateCell(24).SetCellValue(client.ColorId);
+                                            cel65.CellStyle = boldStyle14;
+
+                                            ICell cel67 = row.CreateCell(25);
+                                            row.CreateCell(25).SetCellValue(client.NameColor);
+                                            cel67.CellStyle = boldStyle14;
+
+                                            ICell cel69 = row.CreateCell(26);
+                                            row.CreateCell(26).SetCellValue(client.LegalEntityId);
+                                            cel69.CellStyle = boldStyle14;
+
+                                            ICell cel71 = row.CreateCell(27);
+                                            row.CreateCell(27).SetCellValue(client.NameLegalEntity);
+                                            cel71.CellStyle = boldStyle14;
 
                                             j++;
                                         }
