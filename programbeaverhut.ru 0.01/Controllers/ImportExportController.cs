@@ -1872,6 +1872,15 @@ namespace programbeaverhut.ru.Controllers
                     ICell cel66 = row.CreateCell(25);
                     ICell cel68 = row.CreateCell(26);
                     ICell cel70 = row.CreateCell(27);
+                    ICell cel72 = row.CreateCell(28);
+                    ICell cel74 = row.CreateCell(29);
+                    ICell cel76 = row.CreateCell(30);
+                    ICell cel78 = row.CreateCell(31);
+                    ICell cel80 = row.CreateCell(32);
+                    ICell cel82 = row.CreateCell(33);
+                    ICell cel84 = row.CreateCell(34);
+                    ICell cel86 = row.CreateCell(35);
+                    ICell cel88 = row.CreateCell(36);
                     row.CreateCell(0).SetCellValue("Id группы клиентов");
                     row.CreateCell(1).SetCellValue("Группа клиентов");
                     row.CreateCell(2).SetCellValue("Пароль");
@@ -1898,8 +1907,17 @@ namespace programbeaverhut.ru.Controllers
                     row.CreateCell(23).SetCellValue("Этап сборки");
                     row.CreateCell(24).SetCellValue("Color Id клиента");
                     row.CreateCell(25).SetCellValue("Name Color клиента");
-                    row.CreateCell(26).SetCellValue("Компания Id");
+                    row.CreateCell(26).SetCellValue("Id компании");
                     row.CreateCell(27).SetCellValue("Название компании");
+                    row.CreateCell(28).SetCellValue("Id категории");
+                    row.CreateCell(29).SetCellValue("Название категории");
+                    row.CreateCell(30).SetCellValue("Id офиса");
+                    row.CreateCell(31).SetCellValue("Название офиса");
+                    row.CreateCell(32).SetCellValue("User Id клиента");
+                    row.CreateCell(33).SetCellValue("User Name клиента");
+                    row.CreateCell(34).SetCellValue("Id менеджера который оформил");
+                    row.CreateCell(35).SetCellValue("ФИО менеджера который оформил");
+                    row.CreateCell(36).SetCellValue("Id группы клиентов");
                     // Задавание стиля
                     cel16.CellStyle = boldStyle15;
                     cel17.CellStyle = boldStyle15;
@@ -1929,6 +1947,15 @@ namespace programbeaverhut.ru.Controllers
                     cel66.CellStyle = boldStyle15;
                     cel68.CellStyle = boldStyle15;
                     cel70.CellStyle = boldStyle15;
+                    cel72.CellStyle = boldStyle15;
+                    cel74.CellStyle = boldStyle15;
+                    cel76.CellStyle = boldStyle15;
+                    cel78.CellStyle = boldStyle15;
+                    cel80.CellStyle = boldStyle15;
+                    cel82.CellStyle = boldStyle15;
+                    cel84.CellStyle = boldStyle15;
+                    cel86.CellStyle = boldStyle15;
+                    cel88.CellStyle = boldStyle15;
 
 
                     // Обьеденение ячеек
@@ -2099,6 +2126,42 @@ namespace programbeaverhut.ru.Controllers
                                             ICell cel71 = row.CreateCell(27);
                                             row.CreateCell(27).SetCellValue(client.NameLegalEntity);
                                             cel71.CellStyle = boldStyle14;
+
+                                            ICell cel73 = row.CreateCell(28);
+                                            row.CreateCell(28).SetCellValue(client.CategoryId);
+                                            cel73.CellStyle = boldStyle14;
+
+                                            ICell cel75 = row.CreateCell(29);
+                                            row.CreateCell(29).SetCellValue(client.NameCategory);
+                                            cel75.CellStyle = boldStyle14;
+
+                                            ICell cel77 = row.CreateCell(30);
+                                            row.CreateCell(30).SetCellValue(client.OfficesId);
+                                            cel77.CellStyle = boldStyle14;
+
+                                            ICell cel79 = row.CreateCell(31);
+                                            row.CreateCell(31).SetCellValue(client.Name);
+                                            cel79.CellStyle = boldStyle14;
+
+                                            ICell cel81 = row.CreateCell(32);
+                                            row.CreateCell(32).SetCellValue(client.UserId1);
+                                            cel81.CellStyle = boldStyle14;
+
+                                            ICell cel83 = row.CreateCell(33);
+                                            row.CreateCell(33).SetCellValue(client.UserName);
+                                            cel83.CellStyle = boldStyle14;
+
+                                            ICell cel85 = row.CreateCell(34);
+                                            row.CreateCell(34).SetCellValue(client.StaffId);
+                                            cel85.CellStyle = boldStyle14;
+
+                                            ICell cel87 = row.CreateCell(35);
+                                            row.CreateCell(35).SetCellValue(client.Manager);
+                                            cel87.CellStyle = boldStyle14;
+
+                                            ICell cel89 = row.CreateCell(36);
+                                            row.CreateCell(36).SetCellValue(client.ReportingPeriodId);
+                                            cel89.CellStyle = boldStyle14;
 
                                             j++;
                                         }
