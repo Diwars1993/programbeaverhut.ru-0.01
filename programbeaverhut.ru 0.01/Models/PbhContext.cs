@@ -36,5 +36,6 @@ namespace programbeaverhut.ru.Models
         {
             Database.EnsureCreated();
         }
+
     }
 }

@@ -223,9 +223,10 @@
 <div class="card">
 
     <!-- card-header -->
-    <div class="card-header">
+    <div class="card-header table-responsive card-body">
 
         <h4>Все клиенты</h4>
+        <a style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.reportingPeriodId" asp-action="TermsBig">Скачать всех клиентов &#11123</a>
 
     </div>
 
@@ -234,19 +235,30 @@
         <form class="form-row align-items-center">
 
             <div>
-                <a asp-action="Create" asp-route-id="@ViewBag.reportingPeriodId" type="submit" class="form-group btn btn-primary" style="margin: 0px 10px 16px 6px;">+ Добавить клиента</a>
+                <a asp-action="Create" asp-route-id="@ViewBag.reportingPeriodId" type="submit" class="form-group btn btn-primary" style="margin: 0px 10px 16px 6px;">+ Добавить клиента вручную</a>
             </div>
 
             <div class="form-group col-md-3">
                 <input name="name" value="@Model.FilterViewModel.SelectedName" class="form-control" placeholder="Поиск по ФИО клиента..." />
             </div>
             <div class="form-group col-md-2">
-
                 <select name="company" asp-items="Model.FilterViewModel.Companies" class="form-control"></select>
             </div>
 
             <input type="submit" value="Применить фильтры" class="form-group btn btn-outline-dark" style="margin: 0px 0px 16px 5px;" />
+
         </form>
+
+        <div class="form-row align-items-center">
+            <form asp-controller="Home" asp-action="ClientRegistration" method="post" enctype="multipart/form-data">
+                <div class="form-group col-md-3">
+                    <input type="file" name="file" />
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="submit" value="Добавить" />
+                </div>
+            </form>
+        </div>
 
         <table class="table table-striped hover">
             <tr>

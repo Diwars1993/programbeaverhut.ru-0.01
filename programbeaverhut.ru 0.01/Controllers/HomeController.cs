@@ -1,19 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using programbeaverhut.ru.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 
 namespace programbeaverhut.ru.Controllers
 {
@@ -22,13 +30,19 @@ namespace programbeaverhut.ru.Controllers
     {
         // Для загурузки файлов https://metanit.com/sharp/aspnet5/21.3.php
         IWebHostEnvironment _appEnvironment;
-
         private PbhContext db;
-        public HomeController(PbhContext context, IWebHostEnvironment appEnvironment)
+        private IWebHostEnvironment Environment;
+        private IConfiguration Configuration;
+        IExcelDataReader reader;
+
+        public HomeController(PbhContext context, IWebHostEnvironment appEnvironment, IWebHostEnvironment _environment, IConfiguration _configuration)
         {
             db = context;
             _appEnvironment = appEnvironment;
+            Environment = _environment;
+            Configuration = _configuration;
         }
+
 
         // Главная страница
         public IActionResult Index(int? staff, string name)
@@ -67,14 +81,14 @@ namespace programbeaverhut.ru.Controllers
             {
                 mymodel.ReportingPeriod1 = db.ReportingPeriods.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier) || o.UserId1 == null).ToList();
             }
-           
+
             mymodel.TaskGroupHi1 = db.TaskGroupHis;
             mymodel.Chat11 = db.Chat1s;
 
             return View(mymodel);
         }
         [HttpPost]
-        public async Task<IActionResult> Index(ReportingPeriod reportingPeriod, Chat1 chat1)
+        public async Task<IActionResult> Index(ReportingPeriod reportingPeriod, Chat1 chat1, IFormFile file)
         {
 
             if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
@@ -320,8 +334,8 @@ namespace programbeaverhut.ru.Controllers
         // Стараница заказа клиента (Тут блять нужно все разобрать и почистить такую помойку нельзя остовлять!) 
         // Объединение сортировки, фильтрации и пагинации. https://metanit.com/sharp/aspnet5/12.9.php
         [HttpGet]
-        public async Task<IActionResult> ClientRegistration(int? id, int? company, string name, int page = 1,
-            SortState sortOrder = SortState.NameDesc)
+        [ActionName("ClientRegistration")]
+        public async Task<IActionResult> ConfirmClientRegistration(int? id, int? company, string name, int page = 1, SortState sortOrder = SortState.NameDesc)
         {
             if (id == null)
                 return RedirectToAction("Index");
@@ -389,7 +403,7 @@ namespace programbeaverhut.ru.Controllers
                 SortViewModel = new SortViewModel(sortOrder),
                 // Выпадпющий список (ТУТ еще спомощью Where сделана фильтрация по UserName) 
                 FilterViewModel = new FilterViewModel(db.Officess.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier) || o.UserId1 == null).ToList(), company, name),
-                
+
             };
 
             // Нужно для фильтрация сообщейний по дате, а не по порядку создания
@@ -406,7 +420,7 @@ namespace programbeaverhut.ru.Controllers
             viewModel.FileModel1 = db.FileModels;
 
             // ТУТ еще спомощью Where сделана фильтрация по UserName (что бы выводились клиенты только этого пользователя)
-            if(User.IsInRole("admin"))
+            if (User.IsInRole("admin"))
             {
                 viewModel.Clients = items;
             }
@@ -419,8 +433,202 @@ namespace programbeaverhut.ru.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> ClientRegistration(Chat1 chat1, IFormFileCollection uploads)
+        public async Task<IActionResult> ClientRegistration(Chat1 chat1, IFormFileCollection uploads, IFormFile file, int? id)
         {
+            // ИМПОРТ КЛИЕНТОВ EXSEL
+            if (file != null)
+            {
+                // Create the Directory if it is not exist
+                string dirPath = Path.Combine(Environment.WebRootPath, "ReceivedReports");
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+
+                // MAke sure that only Excel file is used 
+                string dataFileName = Path.GetFileName(file.FileName);
+
+                string extension = Path.GetExtension(dataFileName);
+
+                string[] allowedExtsnions = new string[] { ".xls", ".xlsx" };
+
+                if (!allowedExtsnions.Contains(extension))
+                    throw new Exception("Sorry! This file is not allowed, make sure that file having extension as either.xls or.xlsx is uploaded.");
+
+                // Make a Copy of the Posted File from the Received HTTP Request
+                string saveToPath = Path.Combine(dirPath, dataFileName);
+
+                using (FileStream stream = new FileStream(saveToPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                // USe this to handle Encodeing differences in .NET Core
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                // read the excel file
+                using (var stream = new FileStream(saveToPath, FileMode.Open))
+                {
+                    if (extension == ".xls")
+                        reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                    else
+                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+
+                    DataSet ds = new DataSet();
+                    ds = reader.AsDataSet();
+                    reader.Close();
+
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        // Read the the Table
+                        DataTable serviceDetails = ds.Tables[0];
+                        DataTable serviceDetails1 = ds.Tables[1];
+                        DataTable serviceDetails2 = ds.Tables[2];
+
+                        for (int i = 1; i < serviceDetails.Rows.Count; i++)
+                        {
+
+                                Client details2 = new Client();
+
+                                details2.ContractNumber = serviceDetails.Rows[i][0].ToString();
+                                details2.SNM = serviceDetails.Rows[i][1].ToString();
+                                details2.Address = serviceDetails.Rows[i][2].ToString();
+                                details2.Telephone = serviceDetails.Rows[i][3].ToString();
+                                details2.Date = serviceDetails.Rows[i][4].ToString();
+                                details2.PassportData = serviceDetails.Rows[i][5].ToString();
+                                details2.ClientINN = serviceDetails.Rows[i][6].ToString();
+                                details2.ClientOGRIP = serviceDetails.Rows[i][7].ToString();
+                                details2.PayGoods = Convert.ToDecimal(serviceDetails.Rows[i][8].ToString());
+                                details2.RemainingСostGoods = Convert.ToDecimal(serviceDetails.Rows[i][9].ToString());
+                                details2.AmountGoods = Convert.ToDecimal(serviceDetails.Rows[i][10].ToString());
+                                details2.PayService = Convert.ToDecimal(serviceDetails.Rows[i][11].ToString());
+                                details2.RemainingСostService = Convert.ToDecimal(serviceDetails.Rows[i][12].ToString());
+                                details2.AmountService = Convert.ToDecimal(serviceDetails.Rows[i][13].ToString());
+                                details2.OrderAssemblyStage = serviceDetails.Rows[i][14].ToString();
+                                details2.ColorId = Convert.ToInt32(serviceDetails.Rows[i][15].ToString());
+                                details2.NameColor = serviceDetails.Rows[i][16].ToString();
+
+                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                                foreach (LegalEntity m in db.LegalEntitys)
+                                {
+                                    if (serviceDetails.Rows[i][18].ToString() == m.LegalEntityName && Convert.ToInt32(serviceDetails.Rows[i][17].ToString()) == m.Id)
+                                    {
+                                        details2.LegalEntityId = Convert.ToInt32(serviceDetails.Rows[i][17].ToString());
+                                        details2.NameLegalEntity = serviceDetails.Rows[i][18].ToString();
+                                    }
+                                    else
+                                    {
+                                        details2.NameLegalEntity = "Компания была удалена";
+                                        details2.LegalEntityId = 1;
+                                    }
+                                }
+
+
+                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                                foreach (Category m in db.Categorys)
+                                {
+                                    if (serviceDetails.Rows[i][20].ToString() == m.NameCategory && Convert.ToInt32(serviceDetails.Rows[i][19].ToString()) == m.Id)
+                                    {
+                                        details2.CategoryId = Convert.ToInt32(serviceDetails.Rows[i][19].ToString());
+                                        details2.NameCategory = serviceDetails.Rows[i][20].ToString();
+                                    }
+                                    else
+                                    {
+                                        details2.NameCategory = "Офис был удален";
+                                        details2.CategoryId = 1;
+                                    }
+                                }
+
+                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                                foreach (Offices m in db.Officess)
+                                {
+                                    if (serviceDetails.Rows[i][22].ToString() == m.Name && Convert.ToInt32(serviceDetails.Rows[i][21].ToString()) == m.Id)
+                                    {
+                                        details2.OfficesId = Convert.ToInt32(serviceDetails.Rows[i][21].ToString());
+                                        details2.Name = serviceDetails.Rows[i][22].ToString();
+                                    }
+                                    else
+                                    {
+                                        details2.Name = "Офис был удален";
+                                        details2.OfficesId = 1;
+                                    }
+                                }
+
+                                // Тут проверки не требуется, ставиться скидывающий USER 
+                                details2.UserName = User.Identity.Name;
+                                details2.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                                foreach (Staff m in db.Staffs)
+                                {
+                                    if (serviceDetails.Rows[i][23].ToString() == m.StaffName)
+                                    {
+                                        details2.Manager = serviceDetails.Rows[i][23].ToString();
+                                        details2.StaffId = Convert.ToInt32(serviceDetails.Rows[i][24].ToString());
+                                    }
+                                    else
+                                    {
+                                        details2.Manager = "Сотрудник был удален";
+                                        details2.StaffId = 1;
+                                    }
+                                }
+
+                                details2.ReportingPeriodId = (int)id;
+
+                                // Add the record in Database
+                                db.Clients.Add(details2);
+                                await db.SaveChangesAsync();
+
+
+
+                            for (int i1 = 1; i1 < serviceDetails1.Rows.Count; i1++)
+                            {
+
+                                if (Convert.ToInt32(serviceDetails.Rows[i][25].ToString()) == Convert.ToInt32(serviceDetails1.Rows[i1][7].ToString()))
+                                {
+                                    Product details3 = new Product();
+
+                                    details3.Description = serviceDetails1.Rows[i1][0].ToString();
+                                    details3.Colour = serviceDetails1.Rows[i1][1].ToString();
+                                    details3.Glass = serviceDetails1.Rows[i1][2].ToString();
+                                    details3.Quantity = Convert.ToDecimal(serviceDetails1.Rows[i1][3].ToString());
+                                    details3.Price = Convert.ToDecimal(serviceDetails1.Rows[i1][4].ToString());
+                                    details3.Amount = Convert.ToDecimal(serviceDetails1.Rows[i1][5].ToString());
+                                    details3.Discount = Convert.ToDecimal(serviceDetails1.Rows[i1][6].ToString());
+
+                                    details3.ClientId = details2.ClientId;
+
+                                    // Add the record in Database
+                                    db.Products.Add(details3);
+                                    await db.SaveChangesAsync();
+                                }
+
+                            }
+
+                            for (int i2 = 1; i2 < serviceDetails2.Rows.Count; i2++)
+                            {
+
+                                if (Convert.ToInt32(serviceDetails.Rows[i][25].ToString()) == Convert.ToInt32(serviceDetails2.Rows[i2][2].ToString()))
+                                {
+                                    Service details4 = new Service();
+
+                                    details4.ServiceDescription = serviceDetails2.Rows[i2][0].ToString();
+                                    details4.ServicePrice = Convert.ToDecimal(serviceDetails2.Rows[i2][1].ToString());
+
+                                    details4.ClientId = details2.ClientId;
+
+                                    // Add the record in Database
+                                    db.Services.Add(details4);
+                                    await db.SaveChangesAsync();
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                return LocalRedirect($"~/Home/ClientRegistration/{id}");
+            }
+
             // Это заполняеться поле UserName и UserId1 
             chat1.UserName = User.Identity.Name;
             chat1.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -440,10 +648,10 @@ namespace programbeaverhut.ru.Controllers
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
-                FileModel file = new FileModel { Name = uploadedFile.FileName, Path = path };
-                file.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                file.Chat1Id = chat1.Chat1Id;
-                db.FileModels.Add(file);
+                FileModel file1 = new FileModel { Name = uploadedFile.FileName, Path = path };
+                file1.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                file1.Chat1Id = chat1.Chat1Id;
+                db.FileModels.Add(file1);
             }
             db.SaveChanges();
 
