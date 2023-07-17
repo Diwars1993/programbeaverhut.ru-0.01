@@ -2034,7 +2034,7 @@ namespace programbeaverhut.ru.Controllers
                     // Номер начальной строки
                     int j = 5;
 
-                    // Выкладка 
+                    // Выкладка №1
                     foreach (Product product in db.Products)
                     {
                         if (id != null)
@@ -2256,7 +2256,7 @@ namespace programbeaverhut.ru.Controllers
 
                                                         ICell cel113 = row.CreateCell(48);
                                                         row.CreateCell(48).SetCellValue((double)service.ServicePrice);
-                                                        cel112.CellStyle = boldStyle14;
+                                                        cel113.CellStyle = boldStyle14;
 
                                                         ICell cel116 = row.CreateCell(49);
                                                         row.CreateCell(49).SetCellValue((double)service.ClientId);
@@ -2272,6 +2272,52 @@ namespace programbeaverhut.ru.Controllers
                                 }
 
                             }
+                        }
+                    }
+
+                    if (id != null)
+                    {
+                        foreach (Client client in db.Clients)
+                        {
+                            //Проверка на кого клиента документы по ID
+                            if (id == client.ReportingPeriodId)
+                            {
+                                // Это у нас Услуги
+                                foreach (Service service in db.Services)
+                                {
+                                    foreach (ReportingPeriod reporting in db.ReportingPeriods)
+                                    {
+                                        if (reporting.Id == client.ReportingPeriodId)
+                                        {
+
+                                            if (client.ClientId == service.ClientId)
+                                            {
+
+                                                ICell cel109 = row.CreateCell(46);
+                                                row.CreateCell(46).SetCellValue(service.ServiceId);
+                                                cel109.CellStyle = boldStyle14;
+
+                                                ICell cel111 = row.CreateCell(47);
+                                                row.CreateCell(47).SetCellValue(service.ServiceDescription);
+                                                cel111.CellStyle = boldStyle14;
+
+                                                ICell cel113 = row.CreateCell(48);
+                                                row.CreateCell(48).SetCellValue((double)service.ServicePrice);
+                                                cel113.CellStyle = boldStyle14;
+
+                                                ICell cel116 = row.CreateCell(49);
+                                                row.CreateCell(49).SetCellValue((double)service.ClientId);
+                                                cel116.CellStyle = boldStyle14;
+
+                                                j++;
+                                            }
+
+                                        }
+
+                                    }
+                                }
+                            }
+
                         }
                     }
 
