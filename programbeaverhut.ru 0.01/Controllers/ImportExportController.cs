@@ -2243,7 +2243,7 @@ namespace programbeaverhut.ru.Controllers
                                                         cel105.CellStyle = boldStyle14;
 
                                                         ICell cel107 = row.CreateCell(45);
-                                                        row.CreateCell(45).SetCellValue((double)product.ClientId);
+                                                        row.CreateCell(45).SetCellValue(product.ClientId);
                                                         cel107.CellStyle = boldStyle14;
 
                                                         ICell cel109 = row.CreateCell(46);
@@ -2281,32 +2281,214 @@ namespace programbeaverhut.ru.Controllers
                                 // Это у нас Услуги
                                 foreach (Service service in db.Services)
                                 {
-
-                                    if (client.ClientId == service.ClientId)
+                                    foreach (ReportingPeriod reporting in db.ReportingPeriods)
                                     {
+                                        if (reporting.Id == client.ReportingPeriodId)
+                                        {
 
-                                        // Какая строка
-                                        row = excelSheet.CreateRow(j);
-                                        // Высота строки
-                                        row.HeightInPoints = 60;
+                                            if (client.ClientId == service.ClientId)
+                                            {
 
-                                        ICell cel109 = row.CreateCell(46);
-                                        row.CreateCell(46).SetCellValue(service.ServiceId);
-                                        cel109.CellStyle = boldStyle14;
+                                                // Какая строка
+                                                row = excelSheet.CreateRow(j);
+                                                // Высота строки
+                                                row.HeightInPoints = 60;
 
-                                        ICell cel111 = row.CreateCell(47);
-                                        row.CreateCell(47).SetCellValue(service.ServiceDescription);
-                                        cel111.CellStyle = boldStyle14;
+                                                // Выделение границ
+                                                ICell cel24 = row.CreateCell(0);
+                                                row.CreateCell(0).SetCellValue(reporting.Id);
+                                                cel24.CellStyle = boldStyle14;
 
-                                        ICell cel113 = row.CreateCell(48);
-                                        row.CreateCell(48).SetCellValue((double)service.ServicePrice);
-                                        cel113.CellStyle = boldStyle14;
+                                                ICell cel25 = row.CreateCell(1);
+                                                row.CreateCell(1).SetCellValue(reporting.NameReportingPeriod);
+                                                cel25.CellStyle = boldStyle14;
 
-                                        ICell cel116 = row.CreateCell(49);
-                                        row.CreateCell(49).SetCellValue((double)service.ClientId);
-                                        cel116.CellStyle = boldStyle14;
+                                                ICell cel26 = row.CreateCell(2);
+                                                row.CreateCell(2).SetCellValue(reporting.Password);
+                                                cel26.CellStyle = boldStyle14;
 
-                                        j++;
+                                                ICell cel27 = row.CreateCell(3);
+                                                row.CreateCell(3).SetCellValue(reporting.PasswordVeri);
+                                                cel27.CellStyle = boldStyle14;
+
+                                                ICell cel28 = row.CreateCell(4);
+                                                row.CreateCell(4).SetCellValue(reporting.NameColor);
+                                                cel28.CellStyle = boldStyle14;
+
+                                                ICell cel29 = row.CreateCell(5);
+                                                row.CreateCell(5).SetCellValue(reporting.ColorId);
+                                                cel29.CellStyle = boldStyle14;
+
+                                                ICell cel30 = row.CreateCell(6);
+                                                row.CreateCell(6).SetCellValue(reporting.UserId1);
+                                                cel30.CellStyle = boldStyle14;
+
+                                                ICell cel31 = row.CreateCell(7);
+                                                row.CreateCell(7).SetCellValue(reporting.UserName);
+                                                cel31.CellStyle = boldStyle14;
+
+                                                ICell cel34 = row.CreateCell(8);
+                                                row.CreateCell(8).SetCellValue(client.ClientId);
+                                                cel34.CellStyle = boldStyle14;
+
+                                                ICell cel35 = row.CreateCell(9);
+                                                row.CreateCell(9).SetCellValue(client.ContractNumber);
+                                                cel35.CellStyle = boldStyle14;
+
+                                                ICell cel37 = row.CreateCell(10);
+                                                row.CreateCell(10).SetCellValue(client.SNM);
+                                                cel37.CellStyle = boldStyle14;
+
+                                                ICell cel39 = row.CreateCell(11);
+                                                row.CreateCell(11).SetCellValue(client.Address);
+                                                cel39.CellStyle = boldStyle14;
+
+                                                ICell cel41 = row.CreateCell(12);
+                                                row.CreateCell(12).SetCellValue(client.Telephone);
+                                                cel41.CellStyle = boldStyle14;
+
+                                                ICell cel43 = row.CreateCell(13);
+                                                row.CreateCell(13).SetCellValue(client.Date);
+                                                cel43.CellStyle = boldStyle14;
+
+                                                ICell cel45 = row.CreateCell(14);
+                                                row.CreateCell(14).SetCellValue(client.PassportData);
+                                                cel45.CellStyle = boldStyle14;
+
+                                                ICell cel47 = row.CreateCell(15);
+                                                row.CreateCell(15).SetCellValue(client.ClientINN);
+                                                cel47.CellStyle = boldStyle14;
+
+                                                ICell cel49 = row.CreateCell(16);
+                                                row.CreateCell(16).SetCellValue(client.ClientOGRIP);
+                                                cel49.CellStyle = boldStyle14;
+
+                                                ICell cel51 = row.CreateCell(17);
+                                                row.CreateCell(17).SetCellValue((double)client.PayGoods);
+                                                cel51.CellStyle = boldStyle14;
+
+                                                ICell cel53 = row.CreateCell(18);
+                                                row.CreateCell(18).SetCellValue((double)client.RemainingСostGoods);
+                                                cel53.CellStyle = boldStyle14;
+
+                                                ICell cel55 = row.CreateCell(19);
+                                                row.CreateCell(19).SetCellValue((double)client.AmountGoods);
+                                                cel55.CellStyle = boldStyle14;
+
+                                                ICell cel57 = row.CreateCell(20);
+                                                row.CreateCell(20).SetCellValue((double)client.PayService);
+                                                cel57.CellStyle = boldStyle14;
+
+                                                ICell cel59 = row.CreateCell(21);
+                                                row.CreateCell(21).SetCellValue((double)client.RemainingСostService);
+                                                cel59.CellStyle = boldStyle14;
+
+                                                ICell cel61 = row.CreateCell(22);
+                                                row.CreateCell(22).SetCellValue((double)client.AmountService);
+                                                cel61.CellStyle = boldStyle14;
+
+                                                ICell cel63 = row.CreateCell(23);
+                                                row.CreateCell(23).SetCellValue(client.OrderAssemblyStage);
+                                                cel63.CellStyle = boldStyle14;
+
+                                                ICell cel65 = row.CreateCell(24);
+                                                row.CreateCell(24).SetCellValue(client.ColorId);
+                                                cel65.CellStyle = boldStyle14;
+
+                                                ICell cel67 = row.CreateCell(25);
+                                                row.CreateCell(25).SetCellValue(client.NameColor);
+                                                cel67.CellStyle = boldStyle14;
+
+                                                ICell cel69 = row.CreateCell(26);
+                                                row.CreateCell(26).SetCellValue(client.LegalEntityId);
+                                                cel69.CellStyle = boldStyle14;
+
+                                                ICell cel71 = row.CreateCell(27);
+                                                row.CreateCell(27).SetCellValue(client.NameLegalEntity);
+                                                cel71.CellStyle = boldStyle14;
+
+                                                ICell cel73 = row.CreateCell(28);
+                                                row.CreateCell(28).SetCellValue(client.CategoryId);
+                                                cel73.CellStyle = boldStyle14;
+
+                                                ICell cel75 = row.CreateCell(29);
+                                                row.CreateCell(29).SetCellValue(client.NameCategory);
+                                                cel75.CellStyle = boldStyle14;
+
+                                                ICell cel77 = row.CreateCell(30);
+                                                row.CreateCell(30).SetCellValue(client.OfficesId);
+                                                cel77.CellStyle = boldStyle14;
+
+                                                ICell cel79 = row.CreateCell(31);
+                                                row.CreateCell(31).SetCellValue(client.Name);
+                                                cel79.CellStyle = boldStyle14;
+
+                                                ICell cel81 = row.CreateCell(32);
+                                                row.CreateCell(32).SetCellValue(client.UserId1);
+                                                cel81.CellStyle = boldStyle14;
+
+                                                ICell cel83 = row.CreateCell(33);
+                                                row.CreateCell(33).SetCellValue(client.UserName);
+                                                cel83.CellStyle = boldStyle14;
+
+                                                ICell cel85 = row.CreateCell(34);
+                                                row.CreateCell(34).SetCellValue(client.StaffId);
+                                                cel85.CellStyle = boldStyle14;
+
+                                                ICell cel87 = row.CreateCell(35);
+                                                row.CreateCell(35).SetCellValue(client.Manager);
+                                                cel87.CellStyle = boldStyle14;
+
+                                                ICell cel89 = row.CreateCell(36);
+                                                row.CreateCell(36).SetCellValue(client.ReportingPeriodId);
+                                                cel89.CellStyle = boldStyle14;
+
+                                                ICell cel91 = row.CreateCell(37);
+                                                cel91.CellStyle = boldStyle14;
+
+                                                ICell cel93 = row.CreateCell(38);
+                                                cel93.CellStyle = boldStyle14;
+
+                                                ICell cel95 = row.CreateCell(39);
+                                                cel95.CellStyle = boldStyle14;
+
+                                                ICell cel97 = row.CreateCell(40);
+                                                cel97.CellStyle = boldStyle14;
+
+                                                ICell cel99 = row.CreateCell(41);
+                                                cel99.CellStyle = boldStyle14;
+
+                                                ICell cel101 = row.CreateCell(42);
+                                                cel101.CellStyle = boldStyle14;
+
+                                                ICell cel103 = row.CreateCell(43);
+                                                cel103.CellStyle = boldStyle14;
+
+                                                ICell cel105 = row.CreateCell(44);
+                                                cel105.CellStyle = boldStyle14;
+
+                                                ICell cel107 = row.CreateCell(45);
+                                                cel107.CellStyle = boldStyle14;
+
+                                                ICell cel109 = row.CreateCell(46);
+                                                row.CreateCell(46).SetCellValue(service.ServiceId);
+                                                cel109.CellStyle = boldStyle14;
+
+                                                ICell cel111 = row.CreateCell(47);
+                                                row.CreateCell(47).SetCellValue(service.ServiceDescription);
+                                                cel111.CellStyle = boldStyle14;
+
+                                                ICell cel113 = row.CreateCell(48);
+                                                row.CreateCell(48).SetCellValue((double)service.ServicePrice);
+                                                cel113.CellStyle = boldStyle14;
+
+                                                ICell cel116 = row.CreateCell(49);
+                                                row.CreateCell(49).SetCellValue(service.ClientId);
+                                                cel116.CellStyle = boldStyle14;
+
+                                                j++;
+                                            }
+                                        }
                                     }
 
                                 }
