@@ -1,24 +1,17 @@
-﻿using ClosedXML.Excel;
-using ExcelDataReader;
+﻿using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using programbeaverhut.ru.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -484,99 +477,113 @@ namespace programbeaverhut.ru.Controllers
                         DataTable serviceDetails1 = ds.Tables[1];
                         DataTable serviceDetails2 = ds.Tables[2];
 
+                        int[] list = new int[2] { 1004, 1005 };
+                        //foreach (Offices offices1 in db.Officess)
+                        //{
+                        //   for (int i11 = 0; i11 < list.Count; i11++)
+                        //   {
+                        //       list[i11] = offices1.Id;
+                        //   }
+                        //}
+
+
                         for (int i = 1; i < serviceDetails.Rows.Count; i++)
                         {
 
-                                Client details2 = new Client();
+                            Client details2 = new Client();
 
-                                details2.ContractNumber = serviceDetails.Rows[i][0].ToString();
-                                details2.SNM = serviceDetails.Rows[i][1].ToString();
-                                details2.Address = serviceDetails.Rows[i][2].ToString();
-                                details2.Telephone = serviceDetails.Rows[i][3].ToString();
-                                details2.Date = serviceDetails.Rows[i][4].ToString();
-                                details2.PassportData = serviceDetails.Rows[i][5].ToString();
-                                details2.ClientINN = serviceDetails.Rows[i][6].ToString();
-                                details2.ClientOGRIP = serviceDetails.Rows[i][7].ToString();
-                                details2.PayGoods = Convert.ToDecimal(serviceDetails.Rows[i][8].ToString());
-                                details2.RemainingСostGoods = Convert.ToDecimal(serviceDetails.Rows[i][9].ToString());
-                                details2.AmountGoods = Convert.ToDecimal(serviceDetails.Rows[i][10].ToString());
-                                details2.PayService = Convert.ToDecimal(serviceDetails.Rows[i][11].ToString());
-                                details2.RemainingСostService = Convert.ToDecimal(serviceDetails.Rows[i][12].ToString());
-                                details2.AmountService = Convert.ToDecimal(serviceDetails.Rows[i][13].ToString());
-                                details2.OrderAssemblyStage = serviceDetails.Rows[i][14].ToString();
-                                details2.ColorId = Convert.ToInt32(serviceDetails.Rows[i][15].ToString());
-                                details2.NameColor = serviceDetails.Rows[i][16].ToString();
+                            details2.ContractNumber = serviceDetails.Rows[i][0].ToString();
+                            details2.SNM = serviceDetails.Rows[i][1].ToString();
+                            details2.Address = serviceDetails.Rows[i][2].ToString();
+                            details2.Telephone = serviceDetails.Rows[i][3].ToString();
+                            details2.Date = serviceDetails.Rows[i][4].ToString();
+                            details2.PassportData = serviceDetails.Rows[i][5].ToString();
+                            details2.ClientINN = serviceDetails.Rows[i][6].ToString();
+                            details2.ClientOGRIP = serviceDetails.Rows[i][7].ToString();
+                            details2.PayGoods = Convert.ToDecimal(serviceDetails.Rows[i][8].ToString());
+                            details2.RemainingСostGoods = Convert.ToDecimal(serviceDetails.Rows[i][9].ToString());
+                            details2.AmountGoods = Convert.ToDecimal(serviceDetails.Rows[i][10].ToString());
+                            details2.PayService = Convert.ToDecimal(serviceDetails.Rows[i][11].ToString());
+                            details2.RemainingСostService = Convert.ToDecimal(serviceDetails.Rows[i][12].ToString());
+                            details2.AmountService = Convert.ToDecimal(serviceDetails.Rows[i][13].ToString());
+                            details2.OrderAssemblyStage = serviceDetails.Rows[i][14].ToString();
+                            details2.ColorId = Convert.ToInt32(serviceDetails.Rows[i][15].ToString());
+                            details2.NameColor = serviceDetails.Rows[i][16].ToString();
 
-                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
-                                foreach (LegalEntity m in db.LegalEntitys)
+                            // Проверкаh с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            foreach (LegalEntity m in db.LegalEntitys)
+                            {
+                                if (serviceDetails.Rows[i][18].ToString() == m.LegalEntityName && Convert.ToInt32(serviceDetails.Rows[i][17].ToString()) == m.Id)
                                 {
-                                    if (serviceDetails.Rows[i][18].ToString() == m.LegalEntityName & Convert.ToInt32(serviceDetails.Rows[i][17].ToString()) == m.Id)
-                                    {
-                                        details2.LegalEntityId = Convert.ToInt32(serviceDetails.Rows[i][17].ToString());
-                                        details2.NameLegalEntity = serviceDetails.Rows[i][18].ToString();
-                                    }
-                                    else
-                                    {
-                                        details2.NameLegalEntity = "Компания была удалена";
-                                        details2.LegalEntityId = 1;
-                                    }
+                                    details2.LegalEntityId = Convert.ToInt32(serviceDetails.Rows[i][17].ToString());
+                                    details2.NameLegalEntity = serviceDetails.Rows[i][18].ToString();
                                 }
+                            }
+                            // Если все пошло по одному месту)
+                            if (details2.NameLegalEntity == null)
+                            {
+                                details2.NameLegalEntity = "Компания была удалена";
+                                details2.LegalEntityId = 1;
+                            }
 
-
-                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
-                                foreach (Category m in db.Categorys)
+                            // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            foreach (Category m in db.Categorys)
+                            {
+                                if (serviceDetails.Rows[i][20].ToString() == m.NameCategory && Convert.ToInt32(serviceDetails.Rows[i][19].ToString()) == m.Id)
                                 {
-                                    if (serviceDetails.Rows[i][20].ToString() == m.NameCategory & Convert.ToInt32(serviceDetails.Rows[i][19].ToString()) == m.Id)
-                                    {
-                                        details2.CategoryId = Convert.ToInt32(serviceDetails.Rows[i][19].ToString());
-                                        details2.NameCategory = serviceDetails.Rows[i][20].ToString();
-                                    }
-                                    else
-                                    {
-                                        details2.NameCategory = "Категория была удалена";
-                                        details2.CategoryId = 1;
-                                    }
+                                    details2.CategoryId = Convert.ToInt32(serviceDetails.Rows[i][19].ToString());
+                                    details2.NameCategory = serviceDetails.Rows[i][20].ToString();
                                 }
+                            }
+                            // Если все пошло по одному месту)
+                            if (details2.NameCategory == null)
+                            {
+                                details2.NameCategory = "Категория была удалена";
+                                details2.CategoryId = 1;
+                            }
 
-                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
-                                foreach (Offices m in db.Officess)
+                            // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            foreach (Offices mgh in db.Officess)
+                            {
+                                if (Convert.ToInt32(serviceDetails.Rows[i][21].ToString()) == mgh.Id && serviceDetails.Rows[i][22].ToString() == mgh.Name)
                                 {
-                                    if (serviceDetails.Rows[i][22].ToString() == m.Name & Convert.ToInt32(serviceDetails.Rows[i][21].ToString()) == m.Id)
-                                    {
-                                        details2.OfficesId = Convert.ToInt32(serviceDetails.Rows[i][21].ToString());
-                                        details2.Name = serviceDetails.Rows[i][22].ToString();
-                                    }
-                                    else
-                                    {
-                                        details2.Name = "Офис был удален";
-                                        details2.OfficesId = 1;
-                                    }
+                                    details2.OfficesId = Convert.ToInt32(serviceDetails.Rows[i][21].ToString());
+                                    details2.Name = serviceDetails.Rows[i][22].ToString();
                                 }
+                            }
+                            // Если все пошло по одному месту)
+                            if (details2.Name == null)
+                            {
+                                details2.Name = "Офис был удален";
+                                details2.OfficesId = 1;
+                            }
 
-                                // Тут проверки не требуется, ставиться скидывающий USER 
-                                details2.UserName = User.Identity.Name;
-                                details2.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                                // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
-                                foreach (Staff m in db.Staffs)
+                            // Тут проверки не требуется, ставиться скидывающий USER 
+                            details2.UserName = User.Identity.Name;
+                            details2.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                            // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            foreach (Staff m in db.Staffs)
+                            {
+                                if (serviceDetails.Rows[i][24].ToString() == m.StaffName && Convert.ToInt32(serviceDetails.Rows[i][23].ToString()) == m.Id)
                                 {
-                                    if (serviceDetails.Rows[i][24].ToString() == m.StaffName && Convert.ToInt32(serviceDetails.Rows[i][23].ToString()) == m.Id)
-                                    {
-                                        details2.Manager = serviceDetails.Rows[i][24].ToString();
-                                        details2.StaffId = Convert.ToInt32(serviceDetails.Rows[i][23].ToString());
-                                    }
-                                    else
-                                    {
-                                        details2.Manager = "Сотрудник был удален";
-                                        details2.StaffId = 1;
-                                    }
+                                    details2.Manager = serviceDetails.Rows[i][24].ToString();
+                                    details2.StaffId = Convert.ToInt32(serviceDetails.Rows[i][23].ToString());
                                 }
+                            }
+                            // Если все пошло по одному месту)
+                            if (details2.Manager == null)
+                            {
+                                details2.Manager = "Сотрудник был удален";
+                                details2.StaffId = 1;
+                            }
 
-                                details2.ReportingPeriodId = (int)id;
+                            details2.ReportingPeriodId = (int)id;
 
-                                // Add the record in Database
-                                db.Clients.Add(details2);
-                                await db.SaveChangesAsync();
+                            // Add the record in Database
+                            db.Clients.Add(details2);
+                            await db.SaveChangesAsync();
 
 
 
@@ -624,6 +631,7 @@ namespace programbeaverhut.ru.Controllers
                             }
 
                         }
+
                     }
                 }
                 return LocalRedirect($"~/Home/ClientRegistration/{id}");
