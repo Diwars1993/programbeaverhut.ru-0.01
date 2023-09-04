@@ -533,7 +533,7 @@ namespace programbeaverhut.ru.Controllers
                                     }
                                     else
                                     {
-                                        details2.NameCategory = "Офис был удален";
+                                        details2.NameCategory = "Категория была удалена";
                                         details2.CategoryId = 1;
                                     }
                                 }
@@ -560,10 +560,10 @@ namespace programbeaverhut.ru.Controllers
                                 // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
                                 foreach (Staff m in db.Staffs)
                                 {
-                                    if (serviceDetails.Rows[i][23].ToString() == m.StaffName)
+                                    if (serviceDetails.Rows[i][24].ToString() == m.StaffName && Convert.ToInt32(serviceDetails.Rows[i][23].ToString()) == m.Id)
                                     {
-                                        details2.Manager = serviceDetails.Rows[i][23].ToString();
-                                        details2.StaffId = Convert.ToInt32(serviceDetails.Rows[i][24].ToString());
+                                        details2.Manager = serviceDetails.Rows[i][24].ToString();
+                                        details2.StaffId = Convert.ToInt32(serviceDetails.Rows[i][23].ToString());
                                     }
                                     else
                                     {
