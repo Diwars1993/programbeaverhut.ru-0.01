@@ -2093,7 +2093,7 @@ namespace programbeaverhut.ru.Controllers
                                 cel77.CellStyle = boldStyle14;
 
                                 ICell cel79 = row.CreateCell(22);
-                                row.CreateCell(23).SetCellValue(client.Name);
+                                row.CreateCell(22).SetCellValue(client.Name);
                                 cel79.CellStyle = boldStyle14;
 
                                 ICell cel85 = row.CreateCell(23);
