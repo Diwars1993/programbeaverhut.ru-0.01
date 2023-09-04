@@ -510,7 +510,7 @@ namespace programbeaverhut.ru.Controllers
                                 // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
                                 foreach (LegalEntity m in db.LegalEntitys)
                                 {
-                                    if (serviceDetails.Rows[i][18].ToString() == m.LegalEntityName && Convert.ToInt32(serviceDetails.Rows[i][17].ToString()) == m.Id)
+                                    if (serviceDetails.Rows[i][18].ToString() == m.LegalEntityName & Convert.ToInt32(serviceDetails.Rows[i][17].ToString()) == m.Id)
                                     {
                                         details2.LegalEntityId = Convert.ToInt32(serviceDetails.Rows[i][17].ToString());
                                         details2.NameLegalEntity = serviceDetails.Rows[i][18].ToString();
@@ -526,7 +526,7 @@ namespace programbeaverhut.ru.Controllers
                                 // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
                                 foreach (Category m in db.Categorys)
                                 {
-                                    if (serviceDetails.Rows[i][20].ToString() == m.NameCategory && Convert.ToInt32(serviceDetails.Rows[i][19].ToString()) == m.Id)
+                                    if (serviceDetails.Rows[i][20].ToString() == m.NameCategory & Convert.ToInt32(serviceDetails.Rows[i][19].ToString()) == m.Id)
                                     {
                                         details2.CategoryId = Convert.ToInt32(serviceDetails.Rows[i][19].ToString());
                                         details2.NameCategory = serviceDetails.Rows[i][20].ToString();
@@ -541,7 +541,7 @@ namespace programbeaverhut.ru.Controllers
                                 // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
                                 foreach (Offices m in db.Officess)
                                 {
-                                    if (serviceDetails.Rows[i][22].ToString() == m.Name && Convert.ToInt32(serviceDetails.Rows[i][21].ToString()) == m.Id)
+                                    if (serviceDetails.Rows[i][22].ToString() == m.Name & Convert.ToInt32(serviceDetails.Rows[i][21].ToString()) == m.Id)
                                     {
                                         details2.OfficesId = Convert.ToInt32(serviceDetails.Rows[i][21].ToString());
                                         details2.Name = serviceDetails.Rows[i][22].ToString();
