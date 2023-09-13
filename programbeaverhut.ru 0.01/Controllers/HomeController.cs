@@ -431,14 +431,14 @@ namespace programbeaverhut.ru.Controllers
             // ИМПОРТ КЛИЕНТОВ EXSEL
             if (file != null)
             {
-                // Create the Directory if it is not exist
+                // Создайте каталог, если он не существует
                 string dirPath = Path.Combine(Environment.WebRootPath, "ReceivedReports");
                 if (!Directory.Exists(dirPath))
                 {
                     Directory.CreateDirectory(dirPath);
                 }
 
-                // MAke sure that only Excel file is used 
+                // Убедитесь, что используется только файл Excel
                 string dataFileName = Path.GetFileName(file.FileName);
 
                 string extension = Path.GetExtension(dataFileName);
@@ -448,7 +448,7 @@ namespace programbeaverhut.ru.Controllers
                 if (!allowedExtsnions.Contains(extension))
                     throw new Exception("Sorry! This file is not allowed, make sure that file having extension as either.xls or.xlsx is uploaded.");
 
-                // Make a Copy of the Posted File from the Received HTTP Request
+                // Сделайте копию опубликованного файла из полученного HTTP-запроса
                 string saveToPath = Path.Combine(dirPath, dataFileName);
 
                 using (FileStream stream = new FileStream(saveToPath, FileMode.Create))
@@ -476,15 +476,6 @@ namespace programbeaverhut.ru.Controllers
                         DataTable serviceDetails = ds.Tables[0];
                         DataTable serviceDetails1 = ds.Tables[1];
                         DataTable serviceDetails2 = ds.Tables[2];
-
-                        int[] list = new int[2] { 1004, 1005 };
-                        //foreach (Offices offices1 in db.Officess)
-                        //{
-                        //   for (int i11 = 0; i11 < list.Count; i11++)
-                        //   {
-                        //       list[i11] = offices1.Id;
-                        //   }
-                        //}
 
 
                         for (int i = 1; i < serviceDetails.Rows.Count; i++)
@@ -589,8 +580,6 @@ namespace programbeaverhut.ru.Controllers
                             db.Clients.Add(details2);
                             await db.SaveChangesAsync();
 
-
-
                             for (int i1 = 1; i1 < serviceDetails1.Rows.Count; i1++)
                             {
 
@@ -638,6 +627,7 @@ namespace programbeaverhut.ru.Controllers
 
                     }
                 }
+                System.IO.File.Delete($"wwwroot/ReceivedReports/{file.FileName}");
                 return LocalRedirect($"~/Home/ClientRegistration/{id}");
             }
 

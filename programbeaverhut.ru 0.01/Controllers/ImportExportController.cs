@@ -1468,9 +1468,11 @@ namespace programbeaverhut.ru.Controllers
                     ICellStyle boldStyle = workbook.CreateCellStyle();
                     boldStyle.SetFont(font);
 
-                    // Только обводка
+                    // Только обводкаа
                     IFont font14 = workbook.CreateFont();
                     ICellStyle boldStyle14 = workbook.CreateCellStyle();
+                    // Автоматический перенос текста
+                    boldStyle14.WrapText = true;
                     boldStyle14.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
                     boldStyle14.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
                     boldStyle14.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
@@ -1791,7 +1793,7 @@ namespace programbeaverhut.ru.Controllers
             }
         }
 
-        // Скачать всех клиентов, товары и услуги
+        // Скачать всех клиентов
         public async Task<IActionResult> TermsBig(int? id)
         {
             string sWebRootFolder = _hostingEnvironment.ContentRootPath;
