@@ -510,7 +510,8 @@ namespace programbeaverhut.ru.Controllers
                             details2.ColorId = Convert.ToInt32(serviceDetails.Rows[i][15].ToString());
                             details2.NameColor = serviceDetails.Rows[i][16].ToString();
 
-                            // Проверкаh с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            // Так, тут была ошибка в цикле foreach если ставишь IF и вместе Else он брал только последний элемент и таблицы бызы данных
                             foreach (LegalEntity m in db.LegalEntitys)
                             {
                                 if (serviceDetails.Rows[i][18].ToString() == m.LegalEntityName && Convert.ToInt32(serviceDetails.Rows[i][17].ToString()) == m.Id)
@@ -527,6 +528,7 @@ namespace programbeaverhut.ru.Controllers
                             }
 
                             // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            // Так, тут была ошибка в цикле foreach если ставишь IF и вместе Else он брал только последний элемент и таблицы бызы данных
                             foreach (Category m in db.Categorys)
                             {
                                 if (serviceDetails.Rows[i][20].ToString() == m.NameCategory && Convert.ToInt32(serviceDetails.Rows[i][19].ToString()) == m.Id)
@@ -543,6 +545,7 @@ namespace programbeaverhut.ru.Controllers
                             }
 
                             // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            // Так, тут была ошибка в цикле foreach если ставишь IF и вместе Else он брал только последний элемент и таблицы бызы данных
                             foreach (Offices mgh in db.Officess)
                             {
                                 if (Convert.ToInt32(serviceDetails.Rows[i][21].ToString()) == mgh.Id && serviceDetails.Rows[i][22].ToString() == mgh.Name)
@@ -564,6 +567,7 @@ namespace programbeaverhut.ru.Controllers
                             details2.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                             // Проверка с циклом нужна, для того что-бы понять есть ли вообще такое в SQL то что накидали в EXSELE.
+                            // Так, тут была ошибка в цикле foreach если ставишь IF и вместе Else он брал только последний элемент и таблицы бызы данных
                             foreach (Staff m in db.Staffs)
                             {
                                 if (serviceDetails.Rows[i][24].ToString() == m.StaffName && Convert.ToInt32(serviceDetails.Rows[i][23].ToString()) == m.Id)
