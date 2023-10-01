@@ -250,6 +250,9 @@ namespace programbeaverhut.ru_0._01.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GHGHG")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LegalEntityId")
                         .HasColumnType("int");
 
@@ -272,9 +275,6 @@ namespace programbeaverhut.ru_0._01.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("OrderAssemblyStage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("POL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PassportData")

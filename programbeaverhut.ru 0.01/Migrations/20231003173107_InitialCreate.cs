@@ -491,6 +491,7 @@ namespace programbeaverhut.ru_0._01.Migrations
                     RemainingСostService = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AmountService = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     OrderAssemblyStage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GHGHG = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ColorId = table.Column<int>(type: "int", nullable: false),
                     NameColor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ColorSelectionId = table.Column<int>(type: "int", nullable: true),

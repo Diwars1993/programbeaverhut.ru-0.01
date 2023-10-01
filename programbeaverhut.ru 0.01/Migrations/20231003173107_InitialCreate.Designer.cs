@@ -10,8 +10,8 @@ using programbeaverhut.ru.Models;
 namespace programbeaverhut.ru_0._01.Migrations
 {
     [DbContext(typeof(PbhContext))]
-    [Migration("20231001131844_AddUserRole")]
-    partial class AddUserRole
+    [Migration("20231003173107_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -252,6 +252,9 @@ namespace programbeaverhut.ru_0._01.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GHGHG")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LegalEntityId")
                         .HasColumnType("int");
 
@@ -274,9 +277,6 @@ namespace programbeaverhut.ru_0._01.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("OrderAssemblyStage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("POL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PassportData")
