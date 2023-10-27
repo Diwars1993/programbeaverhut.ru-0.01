@@ -27,6 +27,7 @@ namespace programbeaverhut.ru.Models
         public string OrderAssemblyStage { get; set; } // Этап сборки
         public string POL { get; set; } // Этап сборкиbb
         public string POL12345888 { get; set; } // Этап сборкиbb
+        public string POL1f3g4 { get; set; } // Этап сборкиbb
 
 
 
