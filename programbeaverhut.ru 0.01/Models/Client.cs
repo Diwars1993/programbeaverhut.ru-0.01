@@ -29,7 +29,7 @@ namespace programbeaverhut.ru.Models
         public string POL123 { get; set; } // Этап сборкиbb
         public string POL444 { get; set; } // Этап сборкиbb
         public string POL4213 { get; set; } // Этап сборкиbb
-        public string POL4213124 { get; set; } // Этап сборкиbb
+
 
 
         public int ColorId { get; set; }
