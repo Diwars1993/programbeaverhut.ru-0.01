@@ -26,9 +26,6 @@ namespace programbeaverhut.ru.Models
         public decimal AmountService { get; set; } // Сумма стоимости за услуги
         public string OrderAssemblyStage { get; set; } // Этап сборки
         public string POL { get; set; } // Этап сборкиbb
-        public string POL12345888 { get; set; } // Этап сборкиbb
-        public string POL1f3g4 { get; set; } // Этап сборкиbb
-
 
 
         public int ColorId { get; set; }
