@@ -30,6 +30,7 @@ namespace programbeaverhut.ru
 
                     var context = services.GetRequiredService<PbhContext>();
                     SampleData.Initialize(context);
+                    
                 }
                 catch (Exception ex)
                 {
