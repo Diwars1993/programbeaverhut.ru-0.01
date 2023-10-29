@@ -14,9 +14,9 @@
         {
             @if (f.ClientId == @ViewBag.ClientId)
             {
-                <form class="form-row align-items-center ">
-                    <h5>Фотографии клиента "@f.SNM"</h5>
-                </form>
+        <form class="form-row align-items-center ">
+            <h5>Фотографии клиента "@f.SNM"</h5>
+        </form>
             }
         }
     </div>
@@ -29,9 +29,13 @@
                     {
                         @if (f.ClientId == @ViewBag.ClientId)
                         {
-                            <div class="form-group col-md-2">
-                                <a href="/Files/@Url.Content(f.Name)"><img style='width:160px; height:100px;' src="@Url.Content(f.Path)" alt=""></a>
-                            </div>
+                            @if (f.Path != null)
+                            {
+                                <div class="form-group col-md-2">
+                                    <a href="/Files/@Url.Content(f.Name)"><img style='width:160px; height:100px;' src="@Url.Content(f.Path)" alt=""></a>
+                                    <a asp-action="Delete25" asp-route-id="@f.FilesClientId" asp-route-id1="@ViewBag.ClientId" method="post" type="submit" class="nav-link text-dark">Удалить</a>
+                                </div>
+                            }
                         }
                     }
                 </form>

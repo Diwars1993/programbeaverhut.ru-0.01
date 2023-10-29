@@ -331,7 +331,7 @@ namespace programbeaverhut.ru.Controllers
         public async Task<IActionResult> ConfirmClientRegistration(int? id, int? company, string name, int page = 1, SortState sortOrder = SortState.NameDesc)
         {
             if (id == null)
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
             // ViewBag представляет такой объект, который позволяет определить любую переменную
             // и передать ей некоторое значение, а затем в представлении извлечь это значение
             ViewBag.reportingPeriodId = id;
@@ -340,7 +340,7 @@ namespace programbeaverhut.ru.Controllers
 
             foreach (ReportingPeriod period in db.ReportingPeriods)
             {
-                if(period.Id == id)
+                if (period.Id == id)
                 {
                     ViewBag.NameReportingPeriod = period.NameReportingPeriod;
                 }
@@ -651,10 +651,14 @@ namespace programbeaverhut.ru.Controllers
             // Для загурузки файлов https://metanit.com/sharp/aspnet5/21.3.php
             foreach (var uploadedFile in uploads)
             {
+                // Генерируем уникальное имя для файла
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadedFile.FileName);
                 // путь к папке Files
-                string path = "/Files/" + uploadedFile.FileName;
+                string path = "/Files/" + fileName;
+                // Получаем путь к папке для сохранения файла на сервере
+                string filePath = Path.Combine(_appEnvironment.WebRootPath + path);
                 // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
@@ -1552,7 +1556,6 @@ namespace programbeaverhut.ru.Controllers
                             }
                         }
                     }
-
                 }
                 db.SaveChanges();
             }
@@ -1679,6 +1682,78 @@ namespace programbeaverhut.ru.Controllers
                     db.Staffs.Remove(staff);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Settings");
+                }
+            }
+            return NotFound();
+        }
+
+        // Удалить фай (Фото у клиента)
+        public async Task<ActionResult> Delete25(int? id, int? id1)
+        {
+            if (id != null)
+            {
+                foreach (FilesClient s in db.FilesClients)
+                {
+                    // ЧТо бы только этого сообщения файлы
+                    if (s.FilesClientId == id)
+                    {
+                        if (System.IO.File.Exists($"wwwroot{s.Path}"))
+                        {
+                            System.IO.File.Delete($"wwwroot{s.Path}");
+                        }
+                    }
+                }
+
+                db.SaveChanges();
+
+            }
+
+            if (id != null)
+            {
+                FilesClient files = await db.FilesClients.FirstOrDefaultAsync(p => p.FilesClientId == id);
+                if (files != null)
+                {
+                    db.FilesClients.Remove(files);
+                    await db.SaveChangesAsync();
+
+                    return LocalRedirect($"~/Home/FilesClient/{id1}");
+                }
+            }
+            return NotFound();
+        }
+
+        // Удалить сообщение в чате группы клиентов
+        public async Task<ActionResult> Delete23(int? id)
+        {
+            if (id != null)
+            {
+                var fileModel1 = db.FileModels.Where(p => p.Chat1Id == id).FirstOrDefault();
+
+                if (fileModel1 != null)
+                {
+                    foreach (FileModel s in db.FileModels)
+                    {
+                        // ЧТо бы только этого сообщения файлы
+                        if (s.Chat1Id == id)
+                        {
+                            if (System.IO.File.Exists($"wwwroot{s.Path}"))
+                            {
+                                System.IO.File.Delete($"wwwroot{s.Path}");
+                            }
+                        }
+                    }
+                }
+                db.SaveChanges();
+            }
+
+            if (id != null)
+            {
+                Chat1 chat = await db.Chat1s.FirstOrDefaultAsync(p => p.Chat1Id == id);
+                if (chat != null)
+                {
+                    db.Chat1s.Remove(chat);
+                    await db.SaveChangesAsync();
+                    return LocalRedirect($"~/Home/ClientRegistration/{chat.ReportingPeriodId}%20");
                 }
             }
             return NotFound();
@@ -2273,15 +2348,22 @@ namespace programbeaverhut.ru.Controllers
         [HttpPost]
         public async Task<IActionResult> FilesClient(IFormFileCollection uploads, int? id)
         {
+            
             foreach (var uploadedFile in uploads)
             {
+                
+                // Генерируем уникальное имя для файла
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadedFile.FileName);
                 // путь к папке Files
-                string path = "/Files/" + uploadedFile.FileName;
+                string path = "/Files/" + fileName;
+                // Получаем путь к папке для сохранения файла на сервере
+                string filePath = Path.Combine(_appEnvironment.WebRootPath + path);
                 // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
+
                 FilesClient file = new FilesClient { Name = uploadedFile.FileName, Path = path };
 
                 file.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
