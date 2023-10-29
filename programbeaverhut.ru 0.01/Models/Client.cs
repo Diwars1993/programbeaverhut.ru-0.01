@@ -25,7 +25,6 @@ namespace programbeaverhut.ru.Models
         public decimal RemainingСostService { get; set; } // Остаток стоимости за услуги
         public decimal AmountService { get; set; } // Сумма стоимости за услуги
         public string OrderAssemblyStage { get; set; } // Этап сборки
-        public string POL { get; set; } // Этап сборкиbb
 
 
         public int ColorId { get; set; }
