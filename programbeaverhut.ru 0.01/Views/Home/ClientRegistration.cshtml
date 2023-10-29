@@ -224,8 +224,14 @@
 
     <!-- card-header -->
     <div class="card-header table-responsive card-body">
-
-        <h4>Все клиенты</h4>
+        @foreach (ReportingPeriod reporting in Model.ReportingPeriods)
+        {
+            <!--Показывать только клиентов выброного отчотного периода-->
+            @if (@ViewBag.reportingPeriodId == reporting.Id)
+            {
+                <h4>Все клиенты "@reporting.NameReportingPeriod"</h4>
+            }
+        }
         <a style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.reportingPeriodId" asp-action="TermsBig">Скачать всех клиентов &#11123</a>
 
     </div>
@@ -326,6 +332,12 @@
                                             @client.OrderAssemblyStage
                                         </div>
                                     }
+                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
+                                    {
+                                        <div style="background: #B5B8B1; text-align: center; ">
+                                            @client.OrderAssemblyStage
+                                        </div>
+                                    }
                                 </div>
                             </td>
                             <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
@@ -383,6 +395,12 @@
                                     @if ("Заказ собран" == client.OrderAssemblyStage)
                                     {
                                         <div style="background: #00FF00; text-align: center; ">
+                                            @client.OrderAssemblyStage
+                                        </div>
+                                    }
+                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
+                                    {
+                                        <div style="background: #B5B8B1; text-align: center; ">
                                             @client.OrderAssemblyStage
                                         </div>
                                     }
@@ -446,6 +464,12 @@
                                             @client.OrderAssemblyStage
                                         </div>
                                     }
+                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
+                                    {
+                                        <div style="background: #B5B8B1; text-align: center; ">
+                                            @client.OrderAssemblyStage
+                                        </div>
+                                    }
                                 </div>
                             </td>
                             <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
@@ -503,6 +527,12 @@
                                     @if ("Заказ собран" == client.OrderAssemblyStage)
                                     {
                                         <div style="background: #00FF00; text-align: center; ">
+                                            @client.OrderAssemblyStage
+                                        </div>
+                                    }
+                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
+                                    {
+                                        <div style="background: #B5B8B1; text-align: center; ">
                                             @client.OrderAssemblyStage
                                         </div>
                                     }
