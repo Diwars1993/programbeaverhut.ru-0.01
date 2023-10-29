@@ -331,12 +331,20 @@ namespace programbeaverhut.ru.Controllers
         public async Task<IActionResult> ConfirmClientRegistration(int? id, int? company, string name, int page = 1, SortState sortOrder = SortState.NameDesc)
         {
             if (id == null)
-                return RedirectToAction("Index");
+            return RedirectToAction("Index");
             // ViewBag представляет такой объект, который позволяет определить любую переменную
             // и передать ей некоторое значение, а затем в представлении извлечь это значение
             ViewBag.reportingPeriodId = id;
             // Дата коментария в чате
             ViewBag.Date = DateTime.UtcNow;
+
+            foreach (ReportingPeriod period in db.ReportingPeriods)
+            {
+                if(period.Id == id)
+                {
+                    ViewBag.NameReportingPeriod = period.NameReportingPeriod;
+                }
+            }
 
             // Обнуления пароля для группы клиентов
             ReportingPeriod reporting = await db.ReportingPeriods.FirstOrDefaultAsync(p => p.Id == id);

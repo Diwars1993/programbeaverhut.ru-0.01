@@ -222,19 +222,15 @@
 
 <div class="card">
 
-    <!-- card-header -->
+    <!-- card-header1 -->
     <div class="card-header table-responsive card-body">
-        @foreach (ReportingPeriod reporting in Model.ReportingPeriods)
-        {
-            <!--Показывать только клиентов выброного отчотного периода-->
-            @if (@ViewBag.reportingPeriodId == reporting.Id)
-            {
-                <h4>Все клиенты "@reporting.NameReportingPeriod"</h4>
-            }
-        }
+
+        <h4>Все клиенты "@ViewBag.NameReportingPeriod"</h4>
+
         <a style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.reportingPeriodId" asp-action="TermsBig">Скачать всех клиентов &#11123</a>
 
     </div>
+
 
     <div class="table-responsive card-body">
 
