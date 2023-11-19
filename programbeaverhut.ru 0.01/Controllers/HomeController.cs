@@ -834,6 +834,10 @@ namespace programbeaverhut.ru.Controllers
             IEnumerable<ServiceName> serviceName = db.ServiceNames;
             ViewBag.ServiceName = new SelectList(serviceName.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList(), "ServName", "ServName", "UserName");
 
+            // Выпадпющий список выделение цветом
+            IEnumerable<ColorSelection> colorSelections = db.ColorSelections;
+            ViewBag.ColorSelections = new SelectList(colorSelections, "Id", "Name");
+
             // Это все нужно для того чтобы было Несколько моделей в одном представлении в MVC https://translated.turbopages.org/proxy_u/en-ru.ru.79cbbd31-62a37310-6f89da8b-74722d776562/https/www.c-sharpcorner.com/uploadfile/ff2f08/multiple-models-in-single-view-in-mvc/
             CombinedLoginRegisterViewModel mymodel = new CombinedLoginRegisterViewModel();
             mymodel.Product1 = db.Products;
@@ -851,7 +855,7 @@ namespace programbeaverhut.ru.Controllers
             return View(mymodel);
         }
         [HttpPost]
-        public async Task<IActionResult> Buy(Product product, Service service, string color, int? id, int? id1)
+        public async Task<IActionResult> Buy(Product product, Service service, string color, int? id, int? id1, int color1)
         {
             Client user = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == id);
 
@@ -859,6 +863,29 @@ namespace programbeaverhut.ru.Controllers
             if (color != null)
             {
                 user.OrderAssemblyStage = color;
+            }
+
+            // Это статус сборки клиента
+            if (color1 != 0)
+            {
+                user.ColorId = color1;
+
+                if (1 == color1)
+                {
+                    user.NameColor = "Без выделения";
+                }
+                if (2 == color1)
+                {
+                    user.NameColor = "Красный";
+                }
+                if (3 == color1)
+                {
+                    user.NameColor = "Желтый";
+                }
+                if (4 == color1)
+                {
+                    user.NameColor = "Зеленый";
+                }
             }
 
             // j = номер ID клиента
@@ -2348,10 +2375,10 @@ namespace programbeaverhut.ru.Controllers
         [HttpPost]
         public async Task<IActionResult> FilesClient(IFormFileCollection uploads, int? id)
         {
-            
+
             foreach (var uploadedFile in uploads)
             {
-                
+
                 // Генерируем уникальное имя для файла
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadedFile.FileName);
                 // путь к папке Files

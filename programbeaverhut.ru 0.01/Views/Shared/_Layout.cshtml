@@ -13,8 +13,6 @@
         height: 40px;
         margin-top: -60px;
     }
-
-
 </style>
 
 
@@ -51,9 +49,12 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Settings">Настройки</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
-                            </li>
+                            @if (!User.IsInRole("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
+                                </li>
+                            }
                             @if (User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
@@ -103,13 +104,22 @@
         <footer class="border-top footer text-muted" style="background: #FFFFFF; display: inline;">
             <div class="container">
                 <form>
+                    @if (!User.IsInRole("admin"))
+                    {
+                        <div class="form-group form-row align-items-center">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
+                        </div>
 
-                    <div class="form-group form-row align-items-center">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
-                    </div>
-                    <div class="form-group" style="margin-top: -40px;">
-                        &copy; 2022 - programbeaverhut.ru
-                    </div>
+                        <div class="form-group" style="margin-top: -40px;">
+                            &copy; 2022 - programbeaverhut.ru
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            &copy; 2022 - programbeaverhut.ru
+                        </div>
+                    }
 
                 </form>
             </div>
