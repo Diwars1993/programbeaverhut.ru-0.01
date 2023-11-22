@@ -834,10 +834,6 @@ namespace programbeaverhut.ru.Controllers
             IEnumerable<ServiceName> serviceName = db.ServiceNames;
             ViewBag.ServiceName = new SelectList(serviceName.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList(), "ServName", "ServName", "UserName");
 
-            // Выпадпющий список выделение цветом
-            IEnumerable<ColorSelection> colorSelections = db.ColorSelections;
-            ViewBag.ColorSelections = new SelectList(colorSelections, "Id", "Name");
-
             // Это все нужно для того чтобы было Несколько моделей в одном представлении в MVC https://translated.turbopages.org/proxy_u/en-ru.ru.79cbbd31-62a37310-6f89da8b-74722d776562/https/www.c-sharpcorner.com/uploadfile/ff2f08/multiple-models-in-single-view-in-mvc/
             CombinedLoginRegisterViewModel mymodel = new CombinedLoginRegisterViewModel();
             mymodel.Product1 = db.Products;
@@ -865,8 +861,8 @@ namespace programbeaverhut.ru.Controllers
                 user.OrderAssemblyStage = color;
             }
 
-            // Это статус сборки клиента
-            if (color1 != 0)
+            // Это цветовое выделение
+            if (0 != color1)
             {
                 user.ColorId = color1;
 
@@ -887,6 +883,7 @@ namespace programbeaverhut.ru.Controllers
                     user.NameColor = "Зеленый";
                 }
             }
+
 
             // j = номер ID клиента
             int? j = id;
