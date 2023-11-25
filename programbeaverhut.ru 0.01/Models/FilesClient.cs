@@ -9,6 +9,7 @@ namespace programbeaverhut.ru.Models
     {
         public int FilesClientId { get; set; }
         public string Name { get; set; }
+        public string NewName { get; set; }
         public string Path { get; set; }
 
         public string UserId1 { get; set; }
