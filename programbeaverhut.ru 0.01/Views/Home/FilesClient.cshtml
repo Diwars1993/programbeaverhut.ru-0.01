@@ -32,7 +32,7 @@
                             @if (f.Path != null)
                             {
                                 <div class="form-group col-md-2">
-                                    <a href="/Files/@Url.Content(f.NewName)"><img style='width:160px; height:100px;' src="@Url.Content(f.Path)" alt=""></a>
+                                    <a href="/Files/@Url.Content(f.Name)"><img style='width:160px; height:100px;' src="@Url.Content(f.Path)" alt=""></a>
                                     <a asp-action="Delete25" asp-route-id="@f.FilesClientId" asp-route-id1="@ViewBag.ClientId" method="post" type="submit" class="nav-link text-dark">Удалить</a>
                                 </div>
                             }
