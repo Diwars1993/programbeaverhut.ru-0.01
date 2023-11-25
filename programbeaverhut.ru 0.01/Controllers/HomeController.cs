@@ -2388,7 +2388,7 @@ namespace programbeaverhut.ru.Controllers
                     await uploadedFile.CopyToAsync(fileStream);
                 }
 
-                FilesClient file = new FilesClient { NewName = fileName, Name = uploadedFile.FileName, Path = path };
+                FilesClient file = new FilesClient {Name = uploadedFile.FileName, Path = path };
 
                 file.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 file.ClientId = id;
