@@ -2380,7 +2380,7 @@ namespace programbeaverhut.ru.Controllers
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadedFile.FileName);
                 // путь к папке Files
                 string path = "/Files/" + fileName;
-                // Получаем путь к папке для сохранения файла на сервере/
+                // Получаем путь к папке для сохранения файла на сервере
                 string filePath = Path.Combine(_appEnvironment.WebRootPath + path);
                 // сохраняем файл в папку Files в каталоге wwwroot
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -2388,7 +2388,7 @@ namespace programbeaverhut.ru.Controllers
                     await uploadedFile.CopyToAsync(fileStream);
                 }
 
-                FilesClient file = new FilesClient {Name = uploadedFile.FileName, Path = path };
+                FilesClient file = new FilesClient { NewName = fileName, Name = uploadedFile.FileName, Path = path };
 
                 file.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 file.ClientId = id;
