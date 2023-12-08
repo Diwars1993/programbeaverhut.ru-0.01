@@ -25,8 +25,6 @@ namespace programbeaverhut.ru.Models
         public string OldPassword { get; set; } //Проверка пароля (Старый пароль)
         public string NewPassword { get; set; } //Проверка пароля (Новый пароль)
 
-        public string NewP1234f { get; set; } //Проверка пароля (Новый пароль)
-
         public int ColorId { get; set; }
         public string NameColor { get; set; }
         public ColorSelection ColorSelection { get; set; }
