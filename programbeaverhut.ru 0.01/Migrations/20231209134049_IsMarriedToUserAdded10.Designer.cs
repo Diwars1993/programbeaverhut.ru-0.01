@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using programbeaverhut.ru.Models;
 
 namespace programbeaverhut.ru_0._01.Migrations
 {
     [DbContext(typeof(PbhContext))]
-    partial class PbhContextModelSnapshot : ModelSnapshot
+    [Migration("20231209134049_IsMarriedToUserAdded10")]
+    partial class IsMarriedToUserAdded10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
