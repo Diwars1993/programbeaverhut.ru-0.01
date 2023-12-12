@@ -34,7 +34,7 @@ namespace programbeaverhut.ru.Models
         public PbhContext(DbContextOptions<PbhContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
     }
