@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace programbeaverhut.ru
 {
+    //
     public class Program
     {
         public static async Task Main(string[] args)
