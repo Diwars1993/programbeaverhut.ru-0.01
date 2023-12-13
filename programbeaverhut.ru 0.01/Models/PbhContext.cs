@@ -28,13 +28,13 @@ namespace programbeaverhut.ru.Models
         public DbSet<FilesClient> FilesClients { get; set; }
         public DbSet<Staff> Staffs { get; set; }
 
-        // По умолчанию у нас база данных отсутствуют.
+        // По умолчанию у нас база данных отсутствуют
         // Поэтому в конструктор MobileContext определен вызов Database.EnsureCreated(), который при отсутствии базы данных автоматически создает ее.
         // Если база данных уже есть, то ничего не происходит
         public PbhContext(DbContextOptions<PbhContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
     }
