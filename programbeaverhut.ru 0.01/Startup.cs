@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace programbeaverhut.ru
 {
-    //
     public class Startup
     {
         public Startup(IConfiguration configuration)
