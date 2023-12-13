@@ -30,11 +30,11 @@ namespace programbeaverhut.ru.Models
 
         // По умолчанию у нас база данных отсутствуют
         // Поэтому в конструктор MobileContext определен вызов Database.EnsureCreated(), который при отсутствии базы данных автоматически создает ее.
-        // Если база данных уже есть, то ничего не происходит.
+        // Если база данных уже есть, то ничего не происходит
         public PbhContext(DbContextOptions<PbhContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
     }
