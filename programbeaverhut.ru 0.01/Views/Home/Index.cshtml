@@ -59,6 +59,140 @@
         [id^="click-expand"]:not(:target) + .wrap-expand-table a[href="#close"] {
             display: none;
         }
+
+    :root {
+        --numDays: 5;
+        --numHours: 10;
+        --timeHeight: 60px;
+        --calBgColor: #fff1f8;
+        --eventBorderColor: #f2d3d8;
+        --eventColor1: #ffd6d1;
+        --eventColor2: #fafaa3;
+        --eventColor3: #e2f8ff;
+        --eventColor4: #d1ffe6;
+    }
+
+    .calendar {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: auto 1fr;
+    }
+
+    .timeline {
+        display: grid;
+        grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+    }
+
+    .days {
+        display: grid;
+        grid-column: 2;
+        gap: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .events {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        border-radius: 5px;
+        background: var(--calBgColor);
+    }
+
+    // Place on Timeline
+    .start-10 {
+        grid-row-start: 2;
+    }
+
+    .start-12 {
+        grid-row-start: 4;
+    }
+
+    .start-1 {
+        grid-row-start: 5;
+    }
+
+    .start-2 {
+        grid-row-start: 6;
+    }
+
+    .end-12 {
+        grid-row-end: 4;
+    }
+
+    .end-1 {
+        grid-row-end: 5;
+    }
+
+    .end-3 {
+        grid-row-end: 7;
+    }
+
+    .end-4 {
+        grid-row-end: 8;
+    }
+
+    .end-5 {
+        grid-row-end: 9;
+    }
+
+
+
+    .title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .event {
+        border: 1px solid var(--eventBorderColor);
+        border-radius: 5px;
+        padding: 0.5rem;
+        margin: 10px 10px 10px 10px;
+        background: white;
+    }
+
+    .space,
+    .date {
+        height: 60px
+    }
+
+    // Global / Etc
+
+    body {
+        font-family: system-ui, sans-serif;
+    }
+
+    .corp-fi {
+        background: var(--eventColor1);
+    }
+
+    .ent-law {
+        background: var(--eventColor2);
+    }
+
+    .writing {
+        background: var(--eventColor3);
+    }
+
+    .securities {
+        background: var(--eventColor4);
+    }
+
+    .date {
+        display: flex;
+        gap: 1em;
+    }
+
+    .date-num {
+        font-size: 1.6rem;
+        font-weight: 300;
+        display: inline;
+    }
+
+    .date-day {
+        display: inline;
+        font-size: 2rem;
+        font-weight: 400;
+    }
+
 </style>
 
 <head>
@@ -102,11 +236,10 @@
 
         <!-- card-header -->
         <div class="card-header">
-            <h5>
+            <h3>
                 Актуальные задачи
-            </h5>
+            </h3>
         </div>
-        <!-- card-body -->
         <div class="table-responsive card-body">
             <form class="form-row align-items-center">
                 <div class="form-group col-md-3">
@@ -119,50 +252,233 @@
                 <input type="submit" value="Применить фильтры" class="form-group btn btn-outline-dark" style="margin: 0px 0px 16px 5px;" />
             </form>
 
-            <div id="click-expand1"></div>
-
-            <div class="wrap-expand-table">
-
-                <table class="table table-striped">
-                    <tr>
-                        <td><strong>Группа задач</strong></td>
-                        <td><strong>Дата и время задачи</strong></td>
-                        <td><strong>Сотрудник(и)</strong></td>
-                        <td><strong>Описание задачи</strong></td>
-                    </tr>
-
-
-                    @foreach (var tasks in Model.TaskGroupHi1)
-                    {
-                        @foreach (var tasks1 in Model.Tasks1)
-                        {
-                            if (tasks1.Date <= DateTime.UtcNow.AddDays(0.6))
+            <div class="calendar">
+                <div class="days">
+                    <div class="day mon">
+                        <div class="date">
+                            <p class="date-day">@DateTime.Today.AddDays(-2).ToString("ddd")</p>
+                            <p class="date-num">@DateTime.Today.AddDays(-2).ToString("d")</p>
+                        </div>
+                        <div class="events">
+                            @foreach (var tasks in Model.TaskGroupHi1)
                             {
-                                if (tasks1.Date >= DateTime.UtcNow.AddDays(-0.6))
+                                @foreach (var tasks1 in Model.Tasks1)
                                 {
-                                    if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
+                                    if (tasks1.Date <= DateTime.Today.AddDays(-1))
                                     {
-                                        @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                                        if (tasks1.Date >= DateTime.Today.AddDays(-2))
                                         {
+                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
+                                            {
+                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                                                {
+                                                    <div class="event corp-fi">
+                                                        <!--Показывать только задачи этого пользователя-->
 
-                                            <!--Показывать только задачи этого пользователя-->
-                                            <tr>
-                                                <td> &#9745 @tasks.NameTaskGroup</td>
+                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
 
-                                                <td>@tasks1.Date</td>
+                                                        <p class="time">@tasks1.Employees</p>
 
-                                                <td>@tasks1.Employees</td>
+                                                        <p class="time">@tasks1.Description</p>
 
-                                                <td>@tasks1.Description</td>
-                                            </tr>
+                                                        <p>
+                                                            ——————
+                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
+                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
+       
+                                                        </p>
+
+                                                    </div>
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    }
-                </table>
-                <a href="#close" class="form-group btn btn-outline-dark test">&laquo Cвернуть</a><a href="#click-expand1" class="form-group btn btn-outline-dark test"> Посмотреть весь список &raquo</a>
+
+                        </div>
+                    </div>
+                    <div class="day tues">
+                        <div class="date">
+                            <div class="date">
+                                <p class="date-day">@DateTime.Today.AddDays(-1).ToString("ddd")</p>
+                                <p class="date-num">@DateTime.Today.AddDays(-1).ToString("d")</p>
+                            </div>
+                        </div>
+                        <div class="events">
+                            @foreach (var tasks in Model.TaskGroupHi1)
+                            {
+                                @foreach (var tasks1 in Model.Tasks1)
+                                {
+                                    if (tasks1.Date <= DateTime.Today)
+                                    {
+                                        if (tasks1.Date >= DateTime.Today.AddDays(-1))
+                                        {
+                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
+                                            {
+                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                                                {
+                                                    <div class="event ent-law">
+                                                        <!--Показывать только задачи этого пользователя-->
+
+                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
+
+                                                        <p class="time">@tasks1.Employees</p>
+
+                                                        <p class="time">@tasks1.Description</p>
+
+                                                        <p>
+                                                            ——————
+                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
+                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
+                                                        </p>
+
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="day wed">
+                        <div class="date">
+                            <div class="date">
+                                <p class="date-day">@DateTime.Today.AddDays(0).ToString("ddd")</p>
+                                <p class="date-num">@DateTime.Today.AddDays(0).ToString("d")</p>
+                            </div>
+                        </div>
+                        <div class="events">
+                            @foreach (var tasks in Model.TaskGroupHi1)
+                            {
+                                @foreach (var tasks1 in Model.Tasks1)
+                                {
+                                    if (tasks1.Date <= DateTime.Today.AddDays(1))
+                                    {
+                                        if (tasks1.Date >= DateTime.Today)
+                                        {
+                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
+                                            {
+                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                                                {
+                                                    <div class="event securities">
+                                                        <!--Показывать только задачи этого пользователя-->
+
+                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
+
+                                                        <p class="time">@tasks1.Employees</p>
+
+                                                        <p class="time">@tasks1.Description</p>
+
+                                                        <p>
+                                                            ——————
+                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
+                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
+                                                        </p>
+
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="day thurs">
+                        <div class="date">
+                            <div class="date">
+                                <p class="date-day">@DateTime.Today.AddDays(1).ToString("ddd")</p>
+                                <p class="date-num">@DateTime.Today.AddDays(1).ToString("d")</p>
+                            </div>
+                        </div>
+                        <div class="events">
+                            @foreach (var tasks in Model.TaskGroupHi1)
+                            {
+                                @foreach (var tasks1 in Model.Tasks1)
+                                {
+                                    if (tasks1.Date <= DateTime.Today.AddDays(2))
+                                    {
+                                        if (tasks1.Date >= DateTime.Today.AddDays(1))
+                                        {
+                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
+                                            {
+                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                                                {
+                                                    <div class="event ent-law">
+                                                        <!--Показывать только задачи этого пользователя-->
+
+                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
+
+                                                        <p class="time">@tasks1.Employees</p>
+
+                                                        <p class="time">@tasks1.Description</p>
+
+                                                        <p>
+                                                            ——————
+                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
+                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
+                                                        </p>
+
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="day fri">
+                        <div class="date">
+                            <div class="date">
+                                <p class="date-day">@DateTime.Today.AddDays(2).ToString("ddd")</p>
+                                <p class="date-num">@DateTime.Today.AddDays(2).ToString("d")</p>
+                            </div>
+                        </div>
+                        <div class="events">
+                            @foreach (var tasks in Model.TaskGroupHi1)
+                            {
+                                @foreach (var tasks1 in Model.Tasks1)
+                                {
+                                    if (tasks1.Date <= DateTime.Today.AddDays(3))
+                                    {
+                                        if (tasks1.Date >= DateTime.Today.AddDays(2))
+                                        {
+                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
+                                            {
+                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
+                                                {
+                                                    <div class="event corp-fi">
+                                                        <!--Показывать только задачи этого пользователя-->
+
+                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
+
+                                                        <p class="time">@tasks1.Employees</p>
+
+                                                        <p class="time">@tasks1.Description</p>
+
+                                                        <p>
+                                                            ——————
+                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
+                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
+                                                        </p>
+
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
