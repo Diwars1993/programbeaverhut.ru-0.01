@@ -1197,7 +1197,7 @@ namespace programbeaverhut.ru.Controllers
             return NotFound();
         }
 
-        // Удаление клиента
+        // Удаление клиента.
         [HttpGet]
         [ActionName("Delete")]
         public async Task<IActionResult> ConfirmDelete(int? id)
