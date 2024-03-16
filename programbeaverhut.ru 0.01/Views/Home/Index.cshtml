@@ -95,6 +95,9 @@
         grid-template-rows: auto 1fr auto;
         border-radius: 5px;
         background: var(--calBgColor);
+        
+        grid-auto-rows: 50%;
+        
     }
 
     // Place on Timeline
@@ -178,7 +181,7 @@
 
     .date {
         display: flex;
-        gap: 0,1em;
+        gap: -5em;
     }
 
     .date-num {
@@ -201,7 +204,7 @@
     <title>:hover</title>
     <style>
         [data-tooltip] {
-            position: relative; /* Относительное позиционирование */
+            position: relative; /* Относительное позиционирование. */
         }
 
             [data-tooltip]::after {
@@ -299,8 +302,9 @@
                         </div>
                     </div>
                     <div class="day tues">
+
                         <div class="date">
-                            <div class="date">
+                            <div class="date" style="font-size: 5px;">
                                 <p class="date-day">@DateTime.Today.AddDays(-1).ToString("ddd")</p>
                                 <p class="date-num">@DateTime.Today.AddDays(-1).ToString("d")</p>
                             </div>
@@ -344,8 +348,9 @@
                         </div>
                     </div>
                     <div class="day wed">
+
                         <div class="date">
-                            <div class="date">
+                            <div class="date" style="font-size: 5px;">
                                 <p class="date-day">@DateTime.Today.AddDays(0).ToString("ddd")</p>
                                 <p class="date-num">@DateTime.Today.AddDays(0).ToString("d")</p>
                             </div>
@@ -389,8 +394,9 @@
                         </div>
                     </div>
                     <div class="day thurs">
+
                         <div class="date">
-                            <div class="date">
+                            <div class="date" style="font-size: 5px;">
                                 <p class="date-day">@DateTime.Today.AddDays(1).ToString("ddd")</p>
                                 <p class="date-num">@DateTime.Today.AddDays(1).ToString("d")</p>
                             </div>
@@ -434,8 +440,9 @@
                         </div>
                     </div>
                     <div class="day fri">
+
                         <div class="date">
-                            <div class="date">
+                            <div class="date" style="font-size: 5px;">
                                 <p class="date-day">@DateTime.Today.AddDays(2).ToString("ddd")</p>
                                 <p class="date-num">@DateTime.Today.AddDays(2).ToString("d")</p>
                             </div>
