@@ -19,15 +19,12 @@
         <form asp-action="edit1" asp-controller="home" asp-route-id="@Model.ServiceId">
 
             <!--Так как в отличии от клиента товар превяз к одному из клиентов, нужно передовать ClientId.
-                И почему то нужно передовать еще и ProductId а иначе содаеться новый товар. Для этого внизу два скрытых поля -->
+                И почему то нужно передовать еще и ProductId а иначе содаеться новый товар. Для этого внизу два скрытых поля1111 -->
             <div class="form-group">
                 <input type="hidden" asp-for="ServiceId" />
             </div>
             <div class="form-group">
                 <input type="hidden" asp-for="ClientId" />
-            </div>
-            <div class="form-group">
-                <input type="hidden" asp-for="ServicePriceOld" />
             </div>
 
 

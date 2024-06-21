@@ -2123,16 +2123,13 @@ namespace programbeaverhut.ru.Controllers
         [ActionName("Edit1")]
         public async Task<IActionResult> ConfirmEdit1(int? id)
         {
-            // Выпадпющий список УСЛУГ (ТУТ еще спомощью Where сделана фильтрация по UserName) 
+            // Выпадпющий список УСЛУГ (ТУТ еще спомощью Where сделана фильтрация по UserName) 111
             IEnumerable<ServiceName> serviceName = db.ServiceNames;
             ViewBag.ServiceName = new SelectList(serviceName.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList(), "ServName", "ServName", "UserName");
 
             if (id != null)
             {
                 Service service = await db.Services.FirstOrDefaultAsync(p => p.ServiceId == id);
-
-                // Очередной костыль (Потому что я вундеркинд)
-                service.ServicePriceOld = service.ServicePrice;
 
 
                 if (service != null)
@@ -2143,23 +2140,6 @@ namespace programbeaverhut.ru.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit1(Service service, int? id)
         {
-
-            if (id != null)
-            {
-
-                if (service.ServiceId == id)
-                {
-
-                    Client user2 = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == service.ClientId);
-                    
-                    decimal d = (user2.AmountService - service.ServicePriceOld) + service.ServicePrice;
-                    user2.AmountService = d;
-                    // Сохранение всех изминений в клиента
-                    db.Clients.Update(user2);
-                }
-            }
-            await db.SaveChangesAsync();
-
             // j = номер ID клиента
             int j = service.ClientId;
             db.Services.Update(service);
