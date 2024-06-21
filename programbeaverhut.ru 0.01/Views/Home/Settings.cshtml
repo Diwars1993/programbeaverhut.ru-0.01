@@ -357,7 +357,7 @@
 
                         @foreach (var staff in Model.Staff1)
                         {
-                            <!--Показывать только категории этого пользователя-->
+                            <!--Показывать только категории этого пользователя1-->
                             @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == staff.UserId1)
                             {
                                 <tr>
