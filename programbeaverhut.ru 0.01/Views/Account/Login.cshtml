@@ -1,73 +1,136 @@
 ﻿@model programbeaverhut.ru.ViewModels.LoginViewModel
 
 <style>
-    .html {
+    html, body {
+        height: 100%;
+        margin: 0;
         background-color: #0d72ee;
+        font-family: Arial, sans-serif;
     }
 
     .login-page {
-        width: 360px;
-        padding: 8% 0 0;
-        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
     }
 
     .form {
-        border-radius: 5px;
-        position: relative;
-        z-index: 1;
-        background: #FFFFFF;
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        width: 100%;
         max-width: 360px;
-        margin: 0 auto 100px;
-        padding: 45px;
-        text-align: center;
-        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     }
 
-    .form1 {
+        .form h4 {
+            margin-bottom: 20px;
+            color: #0d72ee;
+        }
 
-        position: relative;
-        z-index: 1;
-        max-width: 360px;
-        margin: 0 auto -10px;
-        padding: 0px;
-        text-align: right;
+        .form input[type="email"],
+        .form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .form .checkbox {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #0d72ee;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .form input[type="submit"]:hover {
+                background-color: #105dd1;
+            }
+
+        .form .validation-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form .register-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #0d72ee;
+            text-decoration: none;
+        }
+
+            .form .register-link:hover {
+                text-decoration: underline;
+            }
+
+    .app-info {
+        margin-top: 30px;
+        font-size: 0.85em;
+        color: #333;
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
     }
 
+        .app-info .warning {
+            color: #b30000;
+            font-weight: bold;
+            margin-top: 10px;
+        }
 </style>
 
+<div class="login-page">
+    <div class="form">
+        <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>ВХОД В ПРИЛОЖЕНИЕ</h4>
 
+            <div asp-validation-summary="ModelOnly" class="validation-message"></div>
 
-<body class="html">
-   
-    <div class="login-page">
-        <div class="form1">
-            <a class="form-group btn col-md-5" style="background-color: #FFFFFF; box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.24); " asp-controller="Account" asp-action="Register">Регистрация</a>
-        </div>
+            <input asp-for="Email" type="email" placeholder="Email" />
+            <span asp-validation-for="Email" class="validation-message"></span>
 
-        <div class="form">
-            <form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
-                <div asp-validation-summary="ModelOnly"> </div>
-                <h4> ВХОД В ПРИЛОЖЕНИЕ</h4>
-                <div>
-                    <label> </label> <br />
-                    <input asp-for="Email" class="form-control" placeholder="Email" />
-                    <span asp-validation-for="Email"> </span>
-                </div>
-                <div>
-                    <label> </label> <br />
-                    <input asp-for="Password" class="form-control" placeholder="Пароль" />
-                    <span asp-validation-for="Password"> </span>
-                </div>
-                <div class="checkbox login-options">
-                    <label> </label> <br />
-                    <label><input type="checkbox" asp-for="RememberMe" /> Запомнить вас?</label>
-                </div>
+            <input asp-for="Password" type="password" placeholder="Пароль" />
+            <span asp-validation-for="Password" class="validation-message"></span>
 
-                <div>
-                    <input type="submit" value="Войти" class="form-group btn btn-outline-light col-md-12" style="background-color: #0d72ee" />
-                </div>
-            </form>
+            <div class="checkbox">
+                <label>
+                    <input asp-for="RememberMe" />
+                    Запомнить вас?
+                </label>
+            </div>
+
+            <input type="submit" value="Войти" />
+
+            <a asp-controller="Account" asp-action="Register" class="register-link">Регистрация</a>
+        </form>
+
+        <div class="app-info">
+            <p><strong>ProDoors</strong> — это приложение для управления заказами, клиентами и продукцией компании, специализирующейся на производстве и продаже межкомнатных дверей, перегородок и мебели.</p>
+
+            <p class="warning">
+                ⚠️ Внимание: приложение находится в стадии разработки. Возможны ошибки, потеря данных и нестабильная работа.
+                Используя данную систему, вы соглашаетесь с тем, что текущая версия предоставляется «как есть» без каких-либо гарантий.
+            </p>
         </div>
     </div>
-</body>
+</div>
 

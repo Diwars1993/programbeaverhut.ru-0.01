@@ -4,490 +4,121 @@
 
 
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 
 
 <style>
 
-    /* Эфекты при наведении таблицы */
-    .hover {
-    }
+	/* Эфекты при наведении таблицы */
+	.hover {
+	}
 
-        .hover tr:hover {
-            background: #9e9e9e !important; /* Цвет фона при наведении */
-            color: #fff !important; /* Цвет текста при наведении */
-        }
-        /* Изменяет на руку при наведении на таблицу */
-        .hover tr:hover {
-            cursor: pointer;
-        }
-
-    /* Размер кнопки развернуть или светнуть в задачах */
-    .test {
-        font-size: 90%;
-    }
-
-    /* сварачивать таблицу */
-    .my-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-        .my-table tbody td, .my-table thead th {
-            border: 1px solid #646a6e;
-            padding: 2px 5px;
-        }
-
-        .my-table thead tr th {
-            background: #00a140;
-            text-align: center;
-        }
-
-    .wrap-expand-table a[href^="#click-expand"], .wrap-expand-table a[href="#close"] {
-        text-decoration: none;
-    }
-
-    /* Если браузер не поддерживает структурные псевдоклассы, то список будет раскрыт и доступ к данным сохранится */
-    [id^="click-expand"] {
-        position: fixed; /* чтобы страница "не подпрыгивала" к id */
-    }
-
-        [id^="click-expand"]:target + .wrap-expand-table a[href^="#click-expand"],
-        [id^="click-expand"]:not(:target) + .wrap-expand-table tbody tr:nth-of-type(n+5), /* 5 — порядковый номер строки, после которой строки будут скрыты */
-        [id^="click-expand"]:not(:target) + .wrap-expand-table a[href="#close"] {
-            display: none;
-        }
-
-    :root {
-        --numDays: 5;
-        --numHours: 10;
-        --timeHeight: 60px;
-        --calBgColor: #fff1f8;
-        --eventBorderColor: #f2d3d8;
-        --eventColor1: #ffd6d1;
-        --eventColor2: #fafaa3;
-        --eventColor3: #e2f8ff;
-        --eventColor4: #d1ffe6;
-    }
-
-    .calendar {
-        display: grid;
-        gap: 10px;
-        grid-template-columns: auto 1fr;
-    }
-
-    .timeline {
-        display: grid;
-        grid-template-rows: repeat(var(--numHours), var(--timeHeight));
-    }
-
-    .days {
-        display: grid;
-        grid-column: 2;
-        gap: 5px;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-
-    .events {
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        border-radius: 5px;
-        background: var(--calBgColor);
-        grid-auto-rows: 50%;
-        
-    }
-
-    // Place on Timeline
-    .start-10 {
-        grid-row-start: 2;
-    }
-
-    .start-12 {
-        grid-row-start: 4;
-    }
-
-    .start-1 {
-        grid-row-start: 5;
-    }
-
-    .start-2 {
-        grid-row-start: 6;
-    }
-
-    .end-12 {
-        grid-row-end: 4;
-    }
-
-    .end-1 {
-        grid-row-end: 5;
-    }
-
-    .end-3 {
-        grid-row-end: 7;
-    }
-
-    .end-4 {
-        grid-row-end: 8;
-    }
-
-    .end-5 {
-        grid-row-end: 9;
-    }
-
-
-
-    .title {
-        font-weight: 600;
-        margin-bottom: 0.25rem;
-    }
-
-    .event {
-        border: 1px solid var(--eventBorderColor);
-        border-radius: 5px;
-        padding: 0.5rem;
-        margin: 10px 10px 10px 10px;
-        background: white;
-    }
-
-    .space,
-    .date {
-        height: 60px
-    }
-
-    // Global / Etc
-
-    body {
-        font-family: system-ui, sans-serif;
-    }
-
-    .corp-fi {
-        background: var(--eventColor1);
-    }
-
-    .ent-law {
-        background: var(--eventColor2);
-    }
-
-    .writing {
-        background: var(--eventColor3);
-    }
-
-    .securities {
-        background: var(--eventColor4);
-    }
-
-    .date {
-        display: flex;
-        gap: -5em;
-    }
-
-    .date-num {
-        font-size: 1.6rem;
-        font-weight: 300;
-        display: inline;
-    }
-
-    .date-day {
-        display: inline;
-        font-size: 2rem;
-        font-weight: 400;
-    }
+		.hover tr:hover {
+			background: #9e9e9e !important; /* Цвет фона при наведении */
+			color: #fff !important; /* Цвет текста при наведении */
+		}
+		/* Изменяет на руку при наведении на таблицу */
+		.hover tr:hover {
+			cursor: pointer;
+		}
 
 </style>
 
-<head>
-
-    <meta charset="utf-8">
-    <title>:hover</title>
-    <style>
-        [data-tooltip] {
-            position: relative; /* Относительное позиционирование. */
-        }
-
-            [data-tooltip]::after {
-                opacity: 1;
-                font-size: 70%;
-                content: attr(data-tooltip); /* Выводим текст */
-                position: absolute; /* Абсолютное позиционирование */
-                z-index: 100;
-                width: auto; /* Ширина подсказки */
-                left: 0px;
-                top: 0px; /* Положение подсказки */
-                background: #3989c9; /* Синий цвет фона */
-                color: #fff; /* Цвет текста */
-                padding: 0.5em; /* Поля вокруг текста */
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
-                pointer-events: none; /* Подсказка */
-                opacity: 0; /* Подсказка невидима */
-                transition: 1.5s; /* Время появления подсказки */
-            }
-
-            [data-tooltip]:hover::after {
-                opacity: 1; /* Показываем подсказку */
-                top: -3em; /* Положение подсказки */
-            }
-    </style>
-</head>
 
 <html>
 <body>
+	<style>
+		.filter-spacing {
+			margin-right: 12px;
+		}
 
-    <div class="card" style="margin: 0px 0px 15px 0px;">
+		.custom-select-wrapper {
+			border: 1px solid #ced4da;
+			border-radius: 0.375rem;
+			padding: 2px 4px;
+			background-color: #fff;
+		}
+	</style>
 
-        <!-- card-header -->
-        <div class="card-header">
-            <h3>
-                Актуальные задачи
-            </h3>
-        </div>
-        <div class="table-responsive card-body">
-            <form class="form-row align-items-center">
-                <div class="form-group col-md-3">
-                    <input name="name" class="form-control" placeholder="Поиск по группе задач..." />
-                </div>
-                <div class="form-group col-md-2">
-                    <select name="staff" asp-items="Model.Staffss" class="form-control"></select>
-                </div>
+	<div class="card mt-3">
+		<div class="card-header d-flex justify-content-between align-items-center" style="background-color: #007bff; color: white;">
+			<div class="fw-semibold h4 mb-0">
+				Актуальные задачи
+			</div>
+			<form method="get" class="d-flex align-items-center">
+				<div class="filter-spacing">
+					<input name="name" class="form-control form-control-sm" placeholder="Поиск по группе задач..." />
+				</div>
+				<div class="filter-spacing custom-select-wrapper">
+					<select name="staff" asp-items="Model.Staffss" class="form-select form-select-sm border-0">
+						<option>Все сотрудники</option>
+					</select>
+				</div>
+				<div>
+					<button type="submit" class="btn btn-sm btn-outline-light">Фильтр</button>
+				</div>
+			</form>
+		</div>
 
-                <input type="submit" value="Применить фильтры" class="form-group btn btn-outline-dark" style="margin: 0px 0px 16px 5px;" />
-            </form>
+		<div class="card-body">
+			<div class="row row-cols-1 row-cols-md-3 g-3">
+				@for (int i = -2; i <= 2; i++)
+				{
+					var day = DateTime.Today.AddDays(i);
+					<div class="col">
+						<div class="border rounded p-2 h-100">
+							<h6 class="text-center text-muted">
+								@day.ToString("dddd")<br />
+								<strong>@day.ToString("d")</strong>
+							</h6>
 
-            <div class="calendar">
-                <div class="days">
-                    <div class="day mon">
-                        <div class="date">
-                            <p class="date-day">@DateTime.Today.AddDays(-2).ToString("ddd")</p>
-                            <p class="date-num">@DateTime.Today.AddDays(-2).ToString("d")</p>
-                        </div>
-                        <div class="events">
-                            @foreach (var tasks in Model.TaskGroupHi1)
-                            {
-                                @foreach (var tasks1 in Model.Tasks1)
-                                {
-                                    if (tasks1.Date <= DateTime.Today.AddDays(-1))
-                                    {
-                                        if (tasks1.Date >= DateTime.Today.AddDays(-2))
-                                        {
-                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
-                                            {
-                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
-                                                {
-                                                    <div class="event corp-fi">
-                                                        <!--Показывать только задачи этого пользователя.-->
+							@foreach (var group in Model.TaskGroupHi1)
+							{
+								foreach (var task in Model.Tasks1)
+								{
+									if (task.Date.Date == day.Date &&
+									task.TaskGroupHiId == group.TaskGroupHiId &&
+									User.FindFirstValue(ClaimTypes.NameIdentifier) == group.UserId1)
+									{
+										<div class="border rounded bg-light p-2 mb-2">
+											<div class="d-flex justify-content-between align-items-center">
+												<span class="fw-bold">@group.NameTaskGroup</span>
+												<small class="text-muted">@task.Date.ToString("HH:mm")</small>
+											</div>
+											<div><span class="text-secondary">👥</span> @task.Employees</div>
+											<div><span class="text-secondary">📝</span> @task.Description</div>
+											<div>
+												<a asp-action="Edit4"
+												   asp-controller="Home"
+												   asp-route-id="@task.Id"
+												   class="btn btn-sm btn-outline-primary me-1"
+												   data-bs-toggle="tooltip"
+												   title="Редактировать группу клиентов">
+													<i class="bi bi-pencil-square"></i>
+												</a>
+												<a asp-action="Delete8"
+												   asp-controller="Home"
+												   asp-route-id="@task.Id"
+												   class="btn btn-sm btn-outline-danger"
+												   data-bs-toggle="tooltip"
+												   title="Удалить группу клиентов"
+												   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+													<i class="bi bi-trash"></i>
+												</a>
+											</div>
+										</div>
+									}
+								}
+							}
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
 
-                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
-
-                                                        <p class="time">@tasks1.Employees</p>
-
-                                                        <p class="time">@tasks1.Description</p>
-
-                                                        <p>
-                                                            ——————
-                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
-                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
-
-                                                        </p>
-
-                                                    </div>
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        </div>
-                    </div>
-                    <div class="day tues">
-
-                        <div class="date">
-                            <div class="date" style="font-size: 5px;">
-                                <p class="date-day">@DateTime.Today.AddDays(-1).ToString("ddd")</p>
-                                <p class="date-num">@DateTime.Today.AddDays(-1).ToString("d")</p>
-                            </div>
-                        </div>
-                        <div class="events">
-                            @foreach (var tasks in Model.TaskGroupHi1)
-                            {
-                                @foreach (var tasks1 in Model.Tasks1)
-                                {
-                                    if (tasks1.Date <= DateTime.Today)
-                                    {
-                                        if (tasks1.Date >= DateTime.Today.AddDays(-1))
-                                        {
-                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
-                                            {
-                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
-                                                {
-                                                    <div class="event ent-law">
-                                                        <!--Показывать только задачи этого пользователя-->
-
-                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
-
-                                                        <p class="time">@tasks1.Employees</p>
-
-                                                        <p class="time">@tasks1.Description</p>
-
-                                                        <p>
-                                                            ——————
-                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
-                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
-                                                        </p>
-
-                                                    </div>
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        </div>
-                    </div>
-                    <div class="day wed">
-
-                        <div class="date">
-                            <div class="date" style="font-size: 5px;">
-                                <p class="date-day">@DateTime.Today.AddDays(0).ToString("ddd")</p>
-                                <p class="date-num">@DateTime.Today.AddDays(0).ToString("d")</p>
-                            </div>
-                        </div>
-                        <div class="events">
-                            @foreach (var tasks in Model.TaskGroupHi1)
-                            {
-                                @foreach (var tasks1 in Model.Tasks1)
-                                {
-                                    if (tasks1.Date <= DateTime.Today.AddDays(1))
-                                    {
-                                        if (tasks1.Date >= DateTime.Today)
-                                        {
-                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
-                                            {
-                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
-                                                {
-                                                    <div class="event securities">
-                                                        <!--Показывать только задачи этого пользователя-->
-
-                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
-
-                                                        <p class="time">@tasks1.Employees</p>
-
-                                                        <p class="time">@tasks1.Description</p>
-
-                                                        <p>
-                                                            ——————
-                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
-                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
-                                                        </p>
-
-                                                    </div>
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        </div>
-                    </div>
-                    <div class="day thurs">
-
-                        <div class="date">
-                            <div class="date" style="font-size: 5px;">
-                                <p class="date-day">@DateTime.Today.AddDays(1).ToString("ddd")</p>
-                                <p class="date-num">@DateTime.Today.AddDays(1).ToString("d")</p>
-                            </div>
-                        </div>
-                        <div class="events">
-                            @foreach (var tasks in Model.TaskGroupHi1)
-                            {
-                                @foreach (var tasks1 in Model.Tasks1)
-                                {
-                                    if (tasks1.Date <= DateTime.Today.AddDays(2))
-                                    {
-                                        if (tasks1.Date >= DateTime.Today.AddDays(1))
-                                        {
-                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
-                                            {
-                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
-                                                {
-                                                    <div class="event ent-law">
-                                                        <!--Показывать только задачи этого пользователя-->
-
-                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
-
-                                                        <p class="time">@tasks1.Employees</p>
-
-                                                        <p class="time">@tasks1.Description</p>
-
-                                                        <p>
-                                                            ——————
-                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
-                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
-                                                        </p>
-
-                                                    </div>
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        </div>
-                    </div>
-                    <div class="day fri">
-
-                        <div class="date">
-                            <div class="date" style="font-size: 5px;">
-                                <p class="date-day">@DateTime.Today.AddDays(2).ToString("ddd")</p>
-                                <p class="date-num">@DateTime.Today.AddDays(2).ToString("d")</p>
-                            </div>
-                        </div>
-                        <div class="events">
-                            @foreach (var tasks in Model.TaskGroupHi1)
-                            {
-                                @foreach (var tasks1 in Model.Tasks1)
-                                {
-                                    if (tasks1.Date <= DateTime.Today.AddDays(3))
-                                    {
-                                        if (tasks1.Date >= DateTime.Today.AddDays(2))
-                                        {
-                                            if (tasks.TaskGroupHiId == tasks1.TaskGroupHiId)
-                                            {
-                                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == tasks.UserId1)
-                                                {
-                                                    <div class="event corp-fi">
-                                                        <!--Показывать только задачи этого пользователя.-->
-
-                                                        <p class="title">@tasks.NameTaskGroup @tasks1.Date.ToString("T")</p>
-
-                                                        <p class="time">@tasks1.Employees</p>
-
-                                                        <p class="time">@tasks1.Description</p>
-
-                                                        <p>
-                                                            ——————
-                                                            <a data-tooltip="Редактировать" asp-action="Edit4" asp-controller="Home" asp-route-id="@tasks1.Id"> &#9999 </a>
-                                                            <a data-tooltip="Удалить" asp-action="Delete8" asp-controller="Home" asp-route-id="@tasks1.Id"> &#128465 </a>
-                                                        </p>
-
-                                                    </div>
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
 
@@ -495,450 +126,540 @@
 <html>
 <body>
 
-    <div>
-        <div class="card border">
-            <!-- card-header -->
-            <div class="card-header">
-                <form class="form-row align-items-center ">
-                    <h3>
-                        Группы клиентов
-                    </h3>
-                </form>
-            </div>
+	<div>
+		<div class="card border">
+			<!-- card-header -->
+			<div class="card-header d-flex justify-content-between align-items-center" style="background-color: #007bff; color: white;">
+				<div class="fw-semibold h4 mb-0">
 
-            <div class="table-responsive card-body">
+					Группы клиентов
 
-                <form class="form-row align-items-center">
-                    <a asp-action="ClientGroup" type="submit" class="form-group btn btn-primary" style="margin: 0px 10px 10px 6px;">+ Добавить группу клиентов</a>
-                </form>
+				</div>
+			</div>
 
-                <table class="table table-striped hover">
+			<div class="table-responsive card-body">
 
-                    @foreach (var reportingPeriod in Model.ReportingPeriod1)
-                    {
-                        @if (User.IsInRole("admin"))
-                        {
-                            if ("Зеленый" == reportingPeriod.NameColor)
-                            {
-                                <tr style="background: #98FB98">
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
+
+				<form class="form-row align-items-center">
+					<a asp-action="ClientGroup" class="form-group btn" style="background-color: #007bff; color: white; margin: 0px 10px 10px 6px;">
+						+ Добавить группу клиентов
+					</a>
+				</form>
 
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+				<table class="table table-striped hover">
+
+					@foreach (var reportingPeriod in Model.ReportingPeriod1)
+					{
+						@if (User.IsInRole("admin"))
+						{
+							if ("Зеленый" == reportingPeriod.NameColor)
+							{
+								<tr style="background: #98FB98">
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
 
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
 
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
 
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-                            if ("Желтый" == reportingPeriod.NameColor)
-                            {
-                                <tr style="background: #FFFF00 ">
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
-
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
-
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
-
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-                            if ("Красный" == reportingPeriod.NameColor)
-                            {
-                                <tr style="background: #FA8072">
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
-
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
-
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
-
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-
-                            if ("Без выделения" == reportingPeriod.NameColor)
-                            {
-                                <tr>
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
-
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
-
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
-                                            <div>
-                                                User: @reportingPeriod.UserName
-                                            </div>
-
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-                                            <div>
-                                                User: @reportingPeriod.UserName
-                                            </div>
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-
-                            if ("Зеленый" == reportingPeriod.NameColor)
-                            {
-                                <tr style="background: #98FB98">
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
-
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
-
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
-
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-                                        <a data-tooltip="Редактировать" asp-action="Edit3" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-                            if ("Желтый" == reportingPeriod.NameColor)
-                            {
-                                <tr style="background: #FFFF00 ">
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
-
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
-
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
-
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-                                        <a data-tooltip="Редактировать" asp-action="Edit3" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-                            if ("Красный" == reportingPeriod.NameColor)
-                            {
-                                <tr style="background: #FA8072">
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
-
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
-
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
-
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-                                        <a data-tooltip="Редактировать" asp-action="Edit3" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-
-                            if ("Без выделения" == reportingPeriod.NameColor)
-                            {
-                                <tr>
-                                    @if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
-                                    {
-
-                                        <td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
-
-                                            <h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
-
-                                        </td>
-
-                                    }
-                                    @if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
-                                    {
-                                        <td>
-                                            <h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
-
-
-                                            <form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
-
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.Password" name="Password" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
-                                                <!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
-                                                <input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
-
-
-                                                <input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
-                                                <button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
-
-                                            </form>
-
-                                        </td>
-                                    }
-
-                                    <td align="right">
-                                        <a data-tooltip="Редактировать" asp-action="Edit3" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#9999 </a>
-                                        <a data-tooltip="Удалить" asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id " class="form-group btn btn-outline-dark test" style="margin-bottom: 4px;"> &#128465 </a>
-                                    </td>
-
-                                </tr>
-                            }
-
-
-                        }
-
-                    }
-                </table>
-            </div>
-        </div>
-    </div>
+											</form>
+
+										</td>
+									}
+
+									<td align="right">
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+							if ("Желтый" == reportingPeriod.NameColor)
+							{
+								<tr style="background: #FFFF00 ">
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
+
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
+
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
+
+											</form>
+
+										</td>
+									}
+
+									<td align="right">
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+							if ("Красный" == reportingPeriod.NameColor)
+							{
+								<tr style="background: #FA8072">
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
+
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
+
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
+
+											</form>
+
+										</td>
+									}
+
+									<td align="right">
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+
+							if ("Без выделения" == reportingPeriod.NameColor)
+							{
+								<tr>
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
+
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+											<div>
+												User: @reportingPeriod.UserName
+											</div>
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+											<div>
+												User: @reportingPeriod.UserName
+											</div>
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
+
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
+
+											</form>
+
+										</td>
+									}
+
+									<td align="right">
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+						}
+						else
+						{
+
+							if ("Зеленый" == reportingPeriod.NameColor)
+							{
+								<tr style="background: #98FB98">
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
+
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
+
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
+
+											</form>
+
+										</td>
+									}
+									<td align="right">
+										<a asp-action="Edit3"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-primary me-1"
+										   data-bs-toggle="tooltip"
+										   title="Редактировать группу клиентов">
+											<i class="bi bi-pencil-square"></i>
+										</a>
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+							if ("Желтый" == reportingPeriod.NameColor)
+							{
+								<tr style="background: #FFFF00 ">
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
+
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
+
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
+
+											</form>
+
+										</td>
+									}
+
+									<td align="right">
+										<a asp-action="Edit3"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-primary me-1"
+										   data-bs-toggle="tooltip"
+										   title="Редактировать группу клиентов">
+											<i class="bi bi-pencil-square"></i>
+										</a>
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+							if ("Красный" == reportingPeriod.NameColor)
+							{
+								<tr style="background: #FA8072">
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
+
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
+
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
+
+											</form>
+
+										</td>
+									}
+
+									<td align="right">
+										<a asp-action="Edit3"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-primary me-1"
+										   data-bs-toggle="tooltip"
+										   title="Редактировать группу клиентов">
+											<i class="bi bi-pencil-square"></i>
+										</a>
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+
+							if ("Без выделения" == reportingPeriod.NameColor)
+							{
+								<tr>
+									@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
+									{
+
+										<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+
+											<h5> &#128449 @reportingPeriod.NameReportingPeriod</h5>
+
+										</td>
+
+									}
+									@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
+									{
+										<td>
+											<h5>&#128449 @reportingPeriod.NameReportingPeriod  </h5>
+
+
+											<form asp-action="Index" asp-controller="home" asp-route-id="@reportingPeriod.Id" class="form-inline">
+
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameReportingPeriod" name="NameReportingPeriod" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.Password" name="Password" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.PasswordVeri" name="PasswordVeri" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.ColorId" name="ColorId" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.NameColor" name="NameColor" />
+												<!--Это нужно что бы передать значение, и так как нам не надо что бы туда внасили он в скрытом формате -->
+												<input type="hidden" value="@reportingPeriod.VerificationPassword" name="VerificationPassword" />
+
+
+												<input type="text" name="AppliedPassword" placeholder="Ввести пароль..." class="form-control test" style="margin-bottom: 4px; margin-left: 4px;" />
+												<button type="submit" class="form-group btn btn-outline-dark test" style="margin-bottom: 4px; margin-left: 4px;">Сохранить</button>
+
+											</form>
+
+										</td>
+									}
+
+									<td align="right">
+										<a asp-action="Edit3"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-primary me-1"
+										   data-bs-toggle="tooltip"
+										   title="Редактировать группу клиентов">
+											<i class="bi bi-pencil-square"></i>
+										</a>
+										<a asp-action="Delete6"
+										   asp-controller="Home"
+										   asp-route-id="@reportingPeriod.Id"
+										   class="btn btn-sm btn-outline-danger"
+										   data-bs-toggle="tooltip"
+										   title="Удалить группу клиентов"
+										   onclick="return confirm('Вы уверены, что хотите удалить эту группу клиентов?');">
+											<i class="bi bi-trash"></i>
+										</a>
+									</td>
+
+								</tr>
+							}
+
+
+						}
+
+					}
+				</table>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

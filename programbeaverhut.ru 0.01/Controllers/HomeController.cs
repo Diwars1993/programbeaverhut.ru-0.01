@@ -42,42 +42,43 @@ namespace programbeaverhut.ru.Controllers
         public IActionResult Index(int? staff, string name)
         {
             IQueryable<Tasks> tasks = db.Taskss.Include(p => p.Staff);
+
             if (staff != null && staff != 0)
             {
                 tasks = tasks.Where(p => p.StaffId == staff);
             }
-            if (!String.IsNullOrEmpty(name))
+
+            if (!string.IsNullOrEmpty(name))
             {
                 tasks = tasks.Where(p => p.TaskGroupHiName.Contains(name));
             }
 
-            List<Staff> staffs = db.Staffs.ToList();
-            // устанавливаем начальный элемент, который позволит выбрать всех
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Загружаем только валидных сотрудников
+            var staffs = db.Staffs
+                .Where(s =>
+                    !string.IsNullOrWhiteSpace(s.StaffName) &&
+                    s.StaffName != "Сотрудник был удален" &&
+                    s.StaffName != "Все сотрудники" &&
+                    (s.UserId1 == currentUserId || s.UserId1 == null))
+                .OrderBy(s => s.StaffName)
+                .ToList();
+
+            // Добавляем строку "Все сотрудники" в начало
             staffs.Insert(0, new Staff { StaffName = "Все сотрудники", Id = 0 });
 
-
-            // Это все нужно для того чтобы было Несколько моделей в одном представлении в MVC (Сдесь это может пригодиться)
             CombinedLoginRegisterViewModel mymodel = new CombinedLoginRegisterViewModel
             {
                 Tasks1 = tasks.ToList(),
-                // Тут кстати проверка на пользователя как if но через раширение линькью вроде....
-                Staffss = new SelectList(staffs.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier) || o.UserId1 == null).ToList(), "Id", "StaffName"),
-                Name = name
+                Staffss = new SelectList(staffs, "Id", "StaffName"),
+                Name = name,
+                ReportingPeriod1 = User.IsInRole("admin")
+                    ? db.ReportingPeriods.ToList()
+                    : db.ReportingPeriods.Where(o => o.UserId1 == currentUserId || o.UserId1 == null).ToList(),
+                TaskGroupHi1 = db.TaskGroupHis.ToList(),
+                Chat11 = db.Chat1s.ToList()
             };
-
-            //Если админ то выводяться все клиенты 
-            if (User.IsInRole("admin"))
-            {
-                mymodel.ReportingPeriod1 = db.ReportingPeriods;
-            }
-            // Если нет то только клиенты пользователя
-            else
-            {
-                mymodel.ReportingPeriod1 = db.ReportingPeriods.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier) || o.UserId1 == null).ToList();
-            }
-
-            mymodel.TaskGroupHi1 = db.TaskGroupHis;
-            mymodel.Chat11 = db.Chat1s;
 
             return View(mymodel);
         }
@@ -2131,6 +2132,8 @@ namespace programbeaverhut.ru.Controllers
             {
                 Service service = await db.Services.FirstOrDefaultAsync(p => p.ServiceId == id);
 
+                // Очередной костыль (Потому что я вундеркинд)
+                ViewBag.referrer = service.ServicePrice;
 
                 if (service != null)
                     return View(service);
@@ -2138,14 +2141,29 @@ namespace programbeaverhut.ru.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> Edit1(Service service, int? id)
+        public async Task<IActionResult> Edit1(Service service, int? id, decimal referrer)
         {
+
+            if (id != null)
+            {
+
+                if (service.ServiceId == id)
+                {
+
+                    Client user2 = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == service.ClientId);
+                    
+                    decimal d = (user2.AmountService - referrer) + service.ServicePrice;
+                    user2.AmountService = d;
+                    // Сохранение всех изминений в клиента
+                    db.Clients.Update(user2);
+                }
+            }
+            await db.SaveChangesAsync();
+
             // j = номер ID клиента
             int j = service.ClientId;
             db.Services.Update(service);
             await db.SaveChangesAsync();
-
-
 
             Client client = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == service.ClientId);
 
