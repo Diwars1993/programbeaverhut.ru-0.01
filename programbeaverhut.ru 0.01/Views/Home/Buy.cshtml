@@ -167,6 +167,23 @@
                                 }
                             }
 
+                            <table class="table table-striped">
+
+                                @foreach (var client1 in Model.Clients1)
+                                {
+                                    <!--Проверка на совподение открытого клиента и выводимого внем товара.
+                                    Если ViewBag.ClientId равен @client1.ClientId то товар выводиться если не равен то не выводиться
+                                    ViewBag.***** представляет такой объект, который позволяет определить любую переменную
+                                    и передать ей некоторое значение, а затем в представлении извлечь это значение-->
+                                    @if (ViewBag.ClientId == @client1.ClientId)
+                                    {
+                                        <tr><th>Сумма за продукцию с учетом скидки:</th><th></th><th>@client1.AmountGoods</th></tr>
+                                    }
+                                }
+
+
+                            </table>
+
                         </table>
                     </div>
                 </div>
@@ -230,13 +247,7 @@
             <div class="card" style="margin: 0px 0px 8px 0px;">
                 <!-- card-header -->
                 <div class="card-header">
-                    @foreach (var client in Model.Clients1)
-                    {
-                        @if (ViewBag.ClientId == @client.ClientId)
-                        {
-                            <h5>Заказанные услуги</h5>
-                        }
-                    }
+                    <h5>Заказанные услуги</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped">
@@ -262,6 +273,22 @@
                             }
                         }
 
+                        <table class="table table-striped">
+
+                            @foreach (var client1 in Model.Clients1)
+                            {
+                                <!--Проверка на совподение открытого клиента и выводимого внем товара.
+                                Если ViewBag.ClientId равен @client1.ClientId то товар выводиться если не равен то не выводиться
+                                ViewBag.***** представляет такой объект, который позволяет определить любую переменную
+                                и передать ей некоторое значение, а затем в представлении извлечь это значение-->
+                                @if (ViewBag.ClientId == @client1.ClientId)
+                                {
+                                    <tr><th>Сумма за услуги:</th><th></th><th>@client1.AmountService</th></tr>
+                                }
+                            }
+
+
+                        </table>
 
                     </table>
                 </div>

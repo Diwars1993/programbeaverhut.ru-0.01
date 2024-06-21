@@ -923,6 +923,7 @@ namespace programbeaverhut.ru.Controllers
 
             // Занести новый товар
             if (product.Description != null)
+
             {
                 db.Products.Add(product);
                 // сохраняем в бд все изменения
@@ -1034,7 +1035,7 @@ namespace programbeaverhut.ru.Controllers
 
                             LegalEntity details2 = new LegalEntity();
 
-                            
+
                             details2.LegalEntityName = serviceDetails.Rows[i][1].ToString();
                             details2.Address = serviceDetails.Rows[i][2].ToString();
                             details2.Telephone = serviceDetails.Rows[i][3].ToString();
@@ -1287,7 +1288,7 @@ namespace programbeaverhut.ru.Controllers
 
             db.Taskss.Add(tasks);
             await db.SaveChangesAsync();
-            return LocalRedirect($"~/Home/Tasks/{ tasks.TaskGroupHiId}");
+            return LocalRedirect($"~/Home/Tasks/{tasks.TaskGroupHiId}");
         }
 
         // Удаление группы задач
@@ -2118,7 +2119,9 @@ namespace programbeaverhut.ru.Controllers
         }
 
         // Изменить услугу
-        public async Task<IActionResult> Edit1(int? id)
+        [HttpGet]
+        [ActionName("Edit1")]
+        public async Task<IActionResult> ConfirmEdit1(int? id)
         {
             // Выпадпющий список УСЛУГ (ТУТ еще спомощью Where сделана фильтрация по UserName) 
             IEnumerable<ServiceName> serviceName = db.ServiceNames;
@@ -2127,21 +2130,45 @@ namespace programbeaverhut.ru.Controllers
             if (id != null)
             {
                 Service service = await db.Services.FirstOrDefaultAsync(p => p.ServiceId == id);
+
+                // Очередной костыль (Потому что я вундеркинд)
+                service.ServicePriceOld = service.ServicePrice;
+
+
                 if (service != null)
                     return View(service);
             }
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> Edit1(Service service)
+        public async Task<IActionResult> Edit1(Service service, int? id)
         {
+
+            if (id != null)
+            {
+
+                if (service.ServiceId == id)
+                {
+
+                    Client user2 = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == service.ClientId);
+                    
+                    decimal d = (user2.AmountService - service.ServicePriceOld) + service.ServicePrice;
+                    user2.AmountService = d;
+                    // Сохранение всех изминений в клиента
+                    db.Clients.Update(user2);
+                }
+            }
+            await db.SaveChangesAsync();
+
             // j = номер ID клиента
             int j = service.ClientId;
+            db.Services.Update(service);
+            await db.SaveChangesAsync();
+
+
 
             Client client = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == service.ClientId);
 
-            db.Services.Update(service);
-            await db.SaveChangesAsync();
             return RedirectPermanent($"/Home/Buy/{j}?id1={client.ReportingPeriodId}");
         }
 
@@ -2602,6 +2629,194 @@ namespace programbeaverhut.ru.Controllers
             await db.SaveChangesAsync();
 
             return RedirectPermanent($"/Home/Buy/{j}?id1={user2.ReportingPeriodId}");
+        }
+
+        // Копировать клиента
+        [HttpGet]
+        [ActionName("CopyClient")]
+        public async Task<IActionResult> ConfirmCopyClient(int? id)
+        {
+
+            // Выпадпющий список (ТУТ еще спомощью класса SelectList сделана фильтрация по UserName) 
+            IEnumerable<Offices> offices = db.Officess;
+            ViewBag.Offices = new SelectList(offices.Where(o => o.UserName == User.Identity.Name).ToList(), "Id", "Name", "UserName");
+
+            // Выпадпющий список (ТУТ еще спомощью Where сделана фильтрация по UserName) 
+            IEnumerable<Category> categories = db.Categorys;
+            ViewBag.Сategories = new SelectList(categories.Where(o => o.UserName == User.Identity.Name).ToList(), "Id", "NameCategory", "UserName");
+
+            // Выпадпющий список (ТУТ еще спомощью Where сделана фильтрация по UserName) 
+            IEnumerable<LegalEntity> legals = db.LegalEntitys;
+            ViewBag.LegalEntitys = new SelectList(legals.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList(), "Id", "LegalEntityName", "UserName");
+
+            // Выпадпющий список (ТУТ еще спомощью Where сделана фильтрация по UserName) 
+            IEnumerable<Staff> staff = db.Staffs;
+            ViewBag.Staffs = new SelectList(staff.Where(o => o.UserId1 == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList(), "Id", "StaffName", "UserName");
+
+            // Выпадпющий список выделение цветом
+            IEnumerable<ColorSelection> colorSelections = db.ColorSelections;
+            ViewBag.ColorSelections = new SelectList(colorSelections, "Id", "Name");
+
+            // Этап сборки
+            foreach (Client client1 in db.Clients)
+            {
+                if (client1.ClientId == id)
+                {
+                    ViewBag.OrderAssemblyStage = client1.OrderAssemblyStage;
+                }
+            }
+            // Сумма стоимости за товар
+            foreach (Client client1 in db.Clients)
+            {
+                if (client1.ClientId == id)
+                {
+                    ViewBag.AmountGoods = client1.AmountGoods;
+                }
+            }
+            // Сумма стоимости за услуги
+            foreach (Client client1 in db.Clients)
+            {
+                if (client1.ClientId == id)
+                {
+                    ViewBag.AmountService = client1.AmountService;
+                }
+            }
+
+            // Это все нужно для того чтобы было Несколько моделей в одном представлении в MVC https://translated.turbopages.org/proxy_u/en-ru.ru.79cbbd31-62a37310-6f89da8b-74722d776562/https/www.c-sharpcorner.com/uploadfile/ff2f08/multiple-models-in-single-view-in-mvc/
+            CombinedLoginRegisterViewModel mymodel = new CombinedLoginRegisterViewModel();
+            mymodel.Product1 = db.Products;
+            mymodel.Service1 = db.Services;
+            mymodel.ReportingPeriod1 = db.ReportingPeriods;
+            mymodel.Clients1 = db.Clients;
+
+            if (id != null)
+            {
+
+                Client client = await db.Clients.FirstOrDefaultAsync(p => p.ClientId == id);
+                if (client != null)
+                    return View(client);
+            }
+
+            return NotFound();
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> CopyClient(Client client, string color, int? id)
+        {
+
+            // Это заполняеться поле NameUser и UserId1
+            client.UserName = User.Identity.Name;
+            client.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Очень важный нюанс! Так как я не придумал не чего умнее...
+            // Сдесь спомощью перебора и условного оператора добываем нужное имя офиса,категории и добовляем их в базу данных!
+            // Это проверка нужна, что бы если нет, не одного офиса и выпадающий список пуст, клиент всеравно создовался с офисом по умолчанию.
+            if (0 != client.OfficesId)
+            {
+                foreach (Offices j in db.Officess)
+                {
+
+                    if (client.OfficesId == j.Id)
+                    {
+                        client.Name = j.Name;
+                    }
+                }
+            }
+            else
+            {
+                client.OfficesId = 1;
+                foreach (Offices j in db.Officess)
+                {
+
+                    if (client.OfficesId == j.Id)
+                    {
+                        client.Name = j.Name;
+                    }
+                }
+            }
+
+            // Это проверка нужна, что бы если нет, не одной категории и выпадающий список пуст, клиент всеравно создовался с категорией по умолчанию.
+            if (0 != client.CategoryId)
+            {
+                foreach (Category j in db.Categorys)
+                {
+                    if (client.CategoryId == j.Id)
+                    {
+                        client.NameCategory = j.NameCategory;
+                    }
+                }
+            }
+            else
+            {
+                client.CategoryId = 1;
+                foreach (Category j in db.Categorys)
+                {
+                    if (client.CategoryId == j.Id)
+                    {
+                        client.NameCategory = j.NameCategory;
+                    }
+                }
+            }
+
+            // Это проверка нужна, что бы если нет, не одной категории и выпадающий список пуст, клиент всеравно создовался с категорией по умолчанию.
+            if (0 != client.LegalEntityId)
+            {
+                foreach (LegalEntity j in db.LegalEntitys)
+                {
+                    if (client.LegalEntityId == j.Id)
+                    {
+                        client.NameLegalEntity = j.LegalEntityName;
+                    }
+                }
+            }
+            else
+            {
+                client.LegalEntityId = 1;
+                foreach (LegalEntity j in db.LegalEntitys)
+                {
+                    if (client.LegalEntityId == j.Id)
+                    {
+                        client.NameLegalEntity = j.LegalEntityName;
+                    }
+                }
+            }
+
+            // Это проверка нужна, что бы если нет, не одного сотрудника и выпадающий список пуст, клиент всеравно создовался с сотрудникам по умолчанию по умолчанию.
+            if (0 != client.StaffId)
+            {
+                foreach (Staff j in db.Staffs)
+                {
+                    if (client.StaffId == j.Id)
+                    {
+                        client.Manager = j.StaffName;
+                    }
+                }
+            }
+            else
+            {
+                client.StaffId = 1;
+                foreach (Staff j in db.Staffs)
+                {
+                    if (client.StaffId == j.Id)
+                    {
+                        client.Manager = j.StaffName;
+                    }
+                }
+            }
+
+            foreach (ColorSelection m in db.ColorSelections)
+            {
+                if (client.ColorId == m.Id)
+                {
+                    client.NameColor = m.Name;
+                }
+            }
+
+            db.Clients.Update(client);
+            await db.SaveChangesAsync();
+            int? k = client.ReportingPeriodId;
+
+            return LocalRedirect($"~/Home/ClientRegistration/{k}");
         }
 
         // Добавить фото к клиенту

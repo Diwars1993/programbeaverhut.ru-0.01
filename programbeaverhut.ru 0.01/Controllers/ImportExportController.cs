@@ -1880,6 +1880,441 @@ namespace programbeaverhut.ru.Controllers
             }
         }
 
+        // Скачать одного клиента
+        public async Task<IActionResult> Copyclient(int? id)
+        {
+            string sWebRootFolder = _hostingEnvironment.ContentRootPath;
+            string sFileName = @"Клиенты.xlsx";
+            string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
+            FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            var memory = new MemoryStream();
+            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+            {
+
+                if (id != null)
+                {
+                    IWorkbook workbook;
+                    workbook = new XSSFWorkbook();
+                    ISheet excelSheet = workbook.CreateSheet("Клиенты");
+                    IRow row = excelSheet.CreateRow(0);
+                    ISheet excelSheet1 = workbook.CreateSheet("Заказы");
+                    IRow row1 = excelSheet1.CreateRow(0);
+                    ISheet excelSheet2 = workbook.CreateSheet("Услуги");
+                    IRow row2 = excelSheet2.CreateRow(0);
+
+                    // Выделение жирным
+                    IFont font = workbook.CreateFont();
+                    font.IsBold = true;
+                    font.FontHeightInPoints = 11;
+                    ICellStyle boldStyle = workbook.CreateCellStyle();
+                    boldStyle.SetFont(font);
+
+                    // Только обводка
+                    IFont font14 = workbook.CreateFont();
+                    ICellStyle boldStyle14 = workbook.CreateCellStyle();
+                    boldStyle14.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle14.SetFont(font14);
+
+                    // Обводка, выделение и по центру размещение
+                    IFont font15 = workbook.CreateFont();
+                    font15.IsBold = true;
+                    font15.FontHeightInPoints = 11;
+                    ICellStyle boldStyle15 = workbook.CreateCellStyle();
+                    boldStyle15.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle15.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle15.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+                    boldStyle15.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+                    // Выравнивание текста по горизонтали и вертикали
+                    boldStyle15.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    // Вертикальное выравнивание
+                    boldStyle15.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    boldStyle15.SetFont(font15);
+
+                    // Какая строка
+                    row = excelSheet.CreateRow(0);
+                    // Какую ячейку выделяем жирным
+                    ICell cel16 = row.CreateCell(0);
+                    ICell cel17 = row.CreateCell(1);
+                    ICell cel18 = row.CreateCell(2);
+                    ICell cel19 = row.CreateCell(3);
+                    ICell cel20 = row.CreateCell(4);
+                    ICell cel21 = row.CreateCell(5);
+                    ICell cel22 = row.CreateCell(6);
+                    ICell cel23 = row.CreateCell(7);
+                    ICell cel32 = row.CreateCell(8);
+                    ICell cel33 = row.CreateCell(9);
+                    ICell cel36 = row.CreateCell(10);
+                    ICell cel38 = row.CreateCell(11);
+                    ICell cel40 = row.CreateCell(12);
+                    ICell cel42 = row.CreateCell(13);
+                    ICell cel44 = row.CreateCell(14);
+                    ICell cel46 = row.CreateCell(15);
+                    ICell cel48 = row.CreateCell(16);
+                    ICell cel50 = row.CreateCell(17);
+                    ICell cel52 = row.CreateCell(18);
+                    ICell cel54 = row.CreateCell(19);
+                    ICell cel56 = row.CreateCell(20);
+                    ICell cel58 = row.CreateCell(21);
+                    ICell cel60 = row.CreateCell(22);
+                    ICell cel62 = row.CreateCell(23);
+                    ICell cel64 = row.CreateCell(24);
+                    ICell cel82 = row.CreateCell(25);
+
+                    row.CreateCell(0).SetCellValue("№ договора");
+                    row.CreateCell(1).SetCellValue("ФИО клиента");
+                    row.CreateCell(2).SetCellValue("Адрес клиента");
+                    row.CreateCell(3).SetCellValue("Телефон клиента");
+                    row.CreateCell(4).SetCellValue("Дата оформления");
+                    row.CreateCell(5).SetCellValue("Паспортные данные");
+                    row.CreateCell(6).SetCellValue("ИНН");
+                    row.CreateCell(7).SetCellValue("ОГРИП");
+                    row.CreateCell(8).SetCellValue("Оплата товара");
+                    row.CreateCell(9).SetCellValue("Остаток");
+                    row.CreateCell(10).SetCellValue("Сумма");
+                    row.CreateCell(11).SetCellValue("Оплата услуг");
+                    row.CreateCell(12).SetCellValue("Остаток за услуги");
+                    row.CreateCell(13).SetCellValue("Сумма за услуги");
+                    row.CreateCell(14).SetCellValue("Этап сборки");
+                    row.CreateCell(15).SetCellValue("Color Id клиента");
+                    row.CreateCell(16).SetCellValue("Name Color клиента");
+                    row.CreateCell(17).SetCellValue("Id компании");
+                    row.CreateCell(18).SetCellValue("Название компании");
+                    row.CreateCell(19).SetCellValue("Id категории");
+                    row.CreateCell(20).SetCellValue("Название категории");
+                    row.CreateCell(21).SetCellValue("Id офиса");
+                    row.CreateCell(22).SetCellValue("Название офиса");
+                    row.CreateCell(23).SetCellValue("Id менеджера который оформил");
+                    row.CreateCell(24).SetCellValue("ФИО менеджера который оформил");
+                    row.CreateCell(25).SetCellValue("Старое Id");
+
+                    // Задавание стиля
+                    cel16.CellStyle = boldStyle15;
+                    cel17.CellStyle = boldStyle15;
+                    cel18.CellStyle = boldStyle15;
+                    cel19.CellStyle = boldStyle15;
+                    cel20.CellStyle = boldStyle15;
+                    cel21.CellStyle = boldStyle15;
+                    cel22.CellStyle = boldStyle15;
+                    cel23.CellStyle = boldStyle15;
+                    cel32.CellStyle = boldStyle15;
+                    cel33.CellStyle = boldStyle15;
+                    cel36.CellStyle = boldStyle15;
+                    cel38.CellStyle = boldStyle15;
+                    cel40.CellStyle = boldStyle15;
+                    cel42.CellStyle = boldStyle15;
+                    cel44.CellStyle = boldStyle15;
+                    cel46.CellStyle = boldStyle15;
+                    cel48.CellStyle = boldStyle15;
+                    cel50.CellStyle = boldStyle15;
+                    cel52.CellStyle = boldStyle15;
+                    cel54.CellStyle = boldStyle15;
+                    cel56.CellStyle = boldStyle15;
+                    cel58.CellStyle = boldStyle15;
+                    cel60.CellStyle = boldStyle15;
+                    cel62.CellStyle = boldStyle15;
+                    cel64.CellStyle = boldStyle15;
+                    cel82.CellStyle = boldStyle15;
+
+
+
+                    // Какая строка
+                    row1 = excelSheet1.CreateRow(0);
+                    // Какую ячейку выделяем жирным
+                    ICell cel66 = row1.CreateCell(0);
+                    ICell cel68 = row1.CreateCell(1);
+                    ICell cel70 = row1.CreateCell(2);
+                    ICell cel72 = row1.CreateCell(3);
+                    ICell cel74 = row1.CreateCell(4);
+                    ICell cel76 = row1.CreateCell(5);
+                    ICell cel78 = row1.CreateCell(6);
+                    ICell cel80 = row1.CreateCell(7);
+
+
+                    row1.CreateCell(0).SetCellValue("Описание");
+                    row1.CreateCell(1).SetCellValue("Цвет");
+                    row1.CreateCell(2).SetCellValue("Стекло");
+                    row1.CreateCell(3).SetCellValue("Количество");
+                    row1.CreateCell(4).SetCellValue("Цена");
+                    row1.CreateCell(5).SetCellValue("Cумма");
+                    row1.CreateCell(6).SetCellValue("Скидка");
+                    row1.CreateCell(7).SetCellValue("Старый ID клиента");
+
+                    // Задавание стиля
+                    cel66.CellStyle = boldStyle15;
+                    cel68.CellStyle = boldStyle15;
+                    cel70.CellStyle = boldStyle15;
+                    cel72.CellStyle = boldStyle15;
+                    cel74.CellStyle = boldStyle15;
+                    cel76.CellStyle = boldStyle15;
+                    cel78.CellStyle = boldStyle15;
+                    cel80.CellStyle = boldStyle15;
+
+
+
+                    // Какая строка
+                    row2 = excelSheet2.CreateRow(0);
+                    // Какую ячейку выделяем жирным
+                    ICell cel84 = row2.CreateCell(0);
+                    ICell cel86 = row2.CreateCell(1);
+                    ICell cel88 = row2.CreateCell(2);
+
+
+
+                    row2.CreateCell(0).SetCellValue("Описание");
+                    row2.CreateCell(1).SetCellValue("Цена");
+                    row2.CreateCell(2).SetCellValue("Старый ID клиента");
+
+
+                    // Задавание стиля
+                    cel84.CellStyle = boldStyle15;
+                    cel86.CellStyle = boldStyle15;
+                    cel88.CellStyle = boldStyle15;
+
+
+
+
+                    // Номер начальной строки
+                    int j = 1;
+
+                    // Страница клиенты
+                    if (id != null)
+                    {
+                        foreach (Client client in db.Clients)
+                        {
+                            //Проверка
+                            if (id == client.ClientId)
+                            {
+
+                                // Какая строка
+                                row = excelSheet.CreateRow(j);
+                                // Высота строки
+                                row.HeightInPoints = 60;
+
+                                ICell cel35 = row.CreateCell(0);
+                                row.CreateCell(0).SetCellValue(client.ContractNumber);
+                                cel35.CellStyle = boldStyle14;
+
+                                ICell cel37 = row.CreateCell(1);
+                                row.CreateCell(1).SetCellValue(client.SNM);
+                                cel37.CellStyle = boldStyle14;
+
+                                ICell cel39 = row.CreateCell(2);
+                                row.CreateCell(2).SetCellValue(client.Address);
+                                cel39.CellStyle = boldStyle14;
+
+                                ICell cel41 = row.CreateCell(3);
+                                row.CreateCell(3).SetCellValue(client.Telephone);
+                                cel41.CellStyle = boldStyle14;
+
+                                ICell cel43 = row.CreateCell(4);
+                                row.CreateCell(4).SetCellValue(client.Date);
+                                cel43.CellStyle = boldStyle14;
+
+                                ICell cel45 = row.CreateCell(5);
+                                row.CreateCell(5).SetCellValue(client.PassportData);
+                                cel45.CellStyle = boldStyle14;
+
+                                ICell cel47 = row.CreateCell(6);
+                                row.CreateCell(6).SetCellValue(client.ClientINN);
+                                cel47.CellStyle = boldStyle14;
+
+                                ICell cel49 = row.CreateCell(7);
+                                row.CreateCell(7).SetCellValue(client.ClientOGRIP);
+                                cel49.CellStyle = boldStyle14;
+
+                                ICell cel51 = row.CreateCell(8);
+                                row.CreateCell(8).SetCellValue((double)client.PayGoods);
+                                cel51.CellStyle = boldStyle14;
+
+                                ICell cel53 = row.CreateCell(9);
+                                row.CreateCell(9).SetCellValue((double)client.RemainingСostGoods);
+                                cel53.CellStyle = boldStyle14;
+
+                                ICell cel55 = row.CreateCell(10);
+                                row.CreateCell(10).SetCellValue((double)client.AmountGoods);
+                                cel55.CellStyle = boldStyle14;
+
+                                ICell cel57 = row.CreateCell(11);
+                                row.CreateCell(11).SetCellValue((double)client.PayService);
+                                cel57.CellStyle = boldStyle14;
+
+                                ICell cel59 = row.CreateCell(12);
+                                row.CreateCell(12).SetCellValue((double)client.RemainingСostService);
+                                cel59.CellStyle = boldStyle14;
+
+                                ICell cel61 = row.CreateCell(13);
+                                row.CreateCell(13).SetCellValue((double)client.AmountService);
+                                cel61.CellStyle = boldStyle14;
+
+                                ICell cel63 = row.CreateCell(14);
+                                row.CreateCell(14).SetCellValue(client.OrderAssemblyStage);
+                                cel63.CellStyle = boldStyle14;
+
+                                ICell cel65 = row.CreateCell(15);
+                                row.CreateCell(15).SetCellValue(client.ColorId);
+                                cel65.CellStyle = boldStyle14;
+
+                                ICell cel67 = row.CreateCell(16);
+                                row.CreateCell(16).SetCellValue(client.NameColor);
+                                cel67.CellStyle = boldStyle14;
+
+                                ICell cel69 = row.CreateCell(17);
+                                row.CreateCell(17).SetCellValue(client.LegalEntityId);
+                                cel69.CellStyle = boldStyle14;
+
+                                ICell cel71 = row.CreateCell(18);
+                                row.CreateCell(18).SetCellValue(client.NameLegalEntity);
+                                cel71.CellStyle = boldStyle14;
+
+                                ICell cel73 = row.CreateCell(19);
+                                row.CreateCell(19).SetCellValue(client.CategoryId);
+                                cel73.CellStyle = boldStyle14;
+
+                                ICell cel75 = row.CreateCell(20);
+                                row.CreateCell(20).SetCellValue(client.NameCategory);
+                                cel75.CellStyle = boldStyle14;
+
+                                ICell cel77 = row.CreateCell(21);
+                                row.CreateCell(21).SetCellValue(client.OfficesId);
+                                cel77.CellStyle = boldStyle14;
+
+                                ICell cel79 = row.CreateCell(22);
+                                row.CreateCell(22).SetCellValue(client.Name);
+                                cel79.CellStyle = boldStyle14;
+
+                                ICell cel85 = row.CreateCell(23);
+                                row.CreateCell(23).SetCellValue(client.StaffId);
+                                cel85.CellStyle = boldStyle14;
+
+                                ICell cel87 = row.CreateCell(24);
+                                row.CreateCell(24).SetCellValue(client.Manager);
+                                cel87.CellStyle = boldStyle14;
+
+                                ICell cel89 = row.CreateCell(25);
+                                row.CreateCell(25).SetCellValue(client.ClientId);
+                                cel89.CellStyle = boldStyle14;
+
+                                j++;
+                            }
+                        }
+                    }
+
+
+                    // Номер начальной строки
+                    int j1 = 1;
+                    // Страница клиенты
+                    if (id != null)
+                    {
+                        foreach (Client client in db.Clients)
+                        {
+                            //Проверка
+                            if (id == client.ClientId)
+                            {
+                                foreach (Product product in db.Products)
+                                {
+                                    //Проверка
+                                    if (product.ClientId == client.ClientId)
+                                    {
+                                        // Какая строка
+                                        row1 = excelSheet1.CreateRow(j1);
+                                        // Высота строки
+                                        row1.HeightInPoints = 60;
+
+                                        ICell cel35 = row1.CreateCell(0);
+                                        row1.CreateCell(0).SetCellValue(product.Description);
+                                        cel35.CellStyle = boldStyle14;
+
+                                        ICell cel37 = row1.CreateCell(1);
+                                        row1.CreateCell(1).SetCellValue(product.Colour);
+                                        cel37.CellStyle = boldStyle14;
+
+                                        ICell cel39 = row1.CreateCell(2);
+                                        row1.CreateCell(2).SetCellValue(product.Glass);
+                                        cel39.CellStyle = boldStyle14;
+
+                                        ICell cel41 = row1.CreateCell(3);
+                                        row1.CreateCell(3).SetCellValue((double)product.Quantity);
+                                        cel41.CellStyle = boldStyle14;
+
+                                        ICell cel43 = row1.CreateCell(4);
+                                        row1.CreateCell(4).SetCellValue((double)product.Price);
+                                        cel43.CellStyle = boldStyle14;
+
+                                        ICell cel45 = row1.CreateCell(5);
+                                        row1.CreateCell(5).SetCellValue((double)product.Amount);
+                                        cel45.CellStyle = boldStyle14;
+
+                                        ICell cel47 = row1.CreateCell(6);
+                                        row1.CreateCell(6).SetCellValue((double)product.Discount);
+                                        cel47.CellStyle = boldStyle14;
+
+                                        ICell cel49 = row1.CreateCell(7);
+                                        row1.CreateCell(7).SetCellValue(product.ClientId);
+                                        cel49.CellStyle = boldStyle14;
+
+                                        j1++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    // Номер начальной строки
+                    int j2 = 1;
+                    // Страница клиенты
+                    if (id != null)
+                    {
+                        foreach (Client client in db.Clients)
+                        {
+                            //Проверка
+                            if (id == client.ClientId)
+                            {
+                                foreach (Service service in db.Services)
+                                {
+                                    //Проверка
+                                    if (service.ClientId == client.ClientId)
+                                    {
+                                        // Какая строка
+                                        row2 = excelSheet2.CreateRow(j2);
+                                        // Высота строки
+                                        row2.HeightInPoints = 60;
+
+                                        ICell cel35 = row2.CreateCell(0);
+                                        row2.CreateCell(0).SetCellValue(service.ServiceDescription);
+                                        cel35.CellStyle = boldStyle14;
+
+                                        ICell cel37 = row2.CreateCell(1);
+                                        row2.CreateCell(1).SetCellValue((double)service.ServicePrice);
+                                        cel37.CellStyle = boldStyle14;
+
+                                        ICell cel39 = row2.CreateCell(2);
+                                        row2.CreateCell(2).SetCellValue(service.ClientId);
+                                        cel39.CellStyle = boldStyle14;
+
+
+                                        j2++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    workbook.Write(fs);
+                }
+                using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+                return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            }
+        }
+
         // Скачать все настройки
         public async Task<IActionResult> SaveSettings(string id)
         {

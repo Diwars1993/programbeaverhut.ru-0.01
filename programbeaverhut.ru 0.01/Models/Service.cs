@@ -10,6 +10,7 @@ namespace programbeaverhut.ru.Models
         public int ServiceId { get; set; } // Обрати внимание в отличии от класса модели где нет ссылки сдесь не просто Id, а ProductId ЭТО ВАЖНО!
         public string ServiceDescription { get; set; } // Описание
         public decimal ServicePrice { get; set; }// Цена
+        public decimal ServicePriceOld { get; set; }// Цена старая
 
 
         public int ClientId { get; set; } // ссылка на клиента
