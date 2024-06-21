@@ -1,4 +1,5 @@
-﻿using ExcelDataReader;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -959,7 +960,8 @@ namespace programbeaverhut.ru.Controllers
 
         // Страница, настройки
         [HttpGet]
-        public IActionResult Settings()
+        [ActionName("Settings")]
+        public async Task<IActionResult> ConfirmSettings()
         {
             // Это все нужно для того чтобы было Несколько моделей в одном представлении в MVC https://translated.turbopages.org/proxy_u/en-ru.ru.79cbbd31-62a37310-6f89da8b-74722d776562/https/www.c-sharpcorner.com/uploadfile/ff2f08/multiple-models-in-single-view-in-mvc/
             CombinedLoginRegisterViewModel mymodel = new CombinedLoginRegisterViewModel();
@@ -972,8 +974,159 @@ namespace programbeaverhut.ru.Controllers
             return View(mymodel);
         }
         [HttpPost]
-        public IActionResult Settings(Offices offices, Category category, ServiceName serviceName, LegalEntity legalEntity, Staff staff)
+        public async Task<IActionResult> Settings(Offices offices, Category category, ServiceName serviceName, LegalEntity legalEntity, Staff staff, IFormFile file)
         {
+
+            // ИМПОРТ настроек EXSEL
+            if (file != null)
+            {
+                // Создайте каталог, если он не существует
+                string dirPath = Path.Combine(Environment.WebRootPath, "ReceivedReports");
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+
+                // Убедитесь, что используется только файл Excel
+                string dataFileName = Path.GetFileName(file.FileName);
+
+                string extension = Path.GetExtension(dataFileName);
+
+                string[] allowedExtsnions = new string[] { ".xls", ".xlsx" };
+
+                if (!allowedExtsnions.Contains(extension))
+                    throw new Exception("Sorry! This file is not allowed, make sure that file having extension as either.xls or.xlsx is uploaded.");
+
+                // Сделайте копию опубликованного файла из полученного HTTP-запроса
+                string saveToPath = Path.Combine(dirPath, dataFileName);
+
+                using (FileStream stream = new FileStream(saveToPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                // USe this to handle Encodeing differences in .NET Core
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                // read the excel file
+                using (var stream = new FileStream(saveToPath, FileMode.Open))
+                {
+                    if (extension == ".xls")
+                        reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                    else
+                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+
+                    DataSet ds = new DataSet();
+                    ds = reader.AsDataSet();
+                    reader.Close();
+
+                    if (ds != null && ds.Tables.Count > 0)
+                    {
+                        // Read the the Table
+                        DataTable serviceDetails = ds.Tables[0];
+                        DataTable serviceDetails1 = ds.Tables[1];
+                        DataTable serviceDetails2 = ds.Tables[2];
+                        DataTable serviceDetails3 = ds.Tables[3];
+                        DataTable serviceDetails4 = ds.Tables[4];
+
+
+                        for (int i = 1; i < serviceDetails.Rows.Count; i++)
+                        {
+
+                            LegalEntity details2 = new LegalEntity();
+
+                            
+                            details2.LegalEntityName = serviceDetails.Rows[i][1].ToString();
+                            details2.Address = serviceDetails.Rows[i][2].ToString();
+                            details2.Telephone = serviceDetails.Rows[i][3].ToString();
+                            details2.LegalEntityINN = serviceDetails.Rows[i][4].ToString();
+                            details2.LegalEntityOGRIP = serviceDetails.Rows[i][5].ToString();
+                            details2.UserName = User.Identity.Name;
+                            details2.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                            // Add the record in Database
+                            db.LegalEntitys.Add(details2);
+                            await db.SaveChangesAsync();
+
+
+                        }
+
+                        for (int i = 1; i < serviceDetails1.Rows.Count; i++)
+                        {
+
+                            Offices details3 = new Offices();
+
+
+                            details3.Name = serviceDetails1.Rows[i][1].ToString();
+                            details3.Address = serviceDetails1.Rows[i][2].ToString();
+                            details3.Telephone = serviceDetails1.Rows[i][3].ToString();
+                            details3.UserName = User.Identity.Name;
+                            details3.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                            // Add the record in Database
+                            db.Officess.Add(details3);
+                            await db.SaveChangesAsync();
+
+
+                        }
+
+                        for (int i = 1; i < serviceDetails2.Rows.Count; i++)
+                        {
+
+                            Category details4 = new Category();
+
+
+                            details4.NameCategory = serviceDetails2.Rows[i][1].ToString();
+                            details4.UserName = User.Identity.Name;
+                            details4.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                            // Add the record in Database
+                            db.Categorys.Add(details4);
+                            await db.SaveChangesAsync();
+
+
+                        }
+
+                        for (int i = 1; i < serviceDetails3.Rows.Count; i++)
+                        {
+
+                            ServiceName details5 = new ServiceName();
+
+
+                            details5.ServName = serviceDetails3.Rows[i][1].ToString();
+                            details5.UserName = User.Identity.Name;
+                            details5.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                            // Add the record in Database
+                            db.ServiceNames.Add(details5);
+                            await db.SaveChangesAsync();
+
+
+                        }
+
+                        for (int i = 1; i < serviceDetails4.Rows.Count; i++)
+                        {
+
+                            Staff details6 = new Staff();
+
+
+                            details6.StaffName = serviceDetails4.Rows[i][1].ToString();
+                            details6.StaffTelephone = serviceDetails4.Rows[i][2].ToString();
+                            details6.UserName = User.Identity.Name;
+                            details6.UserId1 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                            // Add the record in Database
+                            db.Staffs.Add(details6);
+                            await db.SaveChangesAsync();
+
+
+                        }
+
+                    }
+                }
+                System.IO.File.Delete($"wwwroot/ReceivedReports/{file.FileName}");
+                return LocalRedirect($"~/Home/Settings");
+            }
+
             // Тут стоит обратить свое внимание на проверку полей на null. Это нужно что бы сохранялся в БД только один а не оба.
             if (offices.Name != null)
             {
@@ -2303,6 +2456,101 @@ namespace programbeaverhut.ru.Controllers
             db.MessagesRequestss.Update(messages);
             await db.SaveChangesAsync();
             return RedirectPermanent($"/Home/MessagesRequests/{messages.RequestHiId1}");
+        }
+
+        // Изменить Юридическое наименование(Вид предпринимательства)
+        public async Task<IActionResult> Edit9(int? id)
+        {
+            if (id != null)
+            {
+                LegalEntity legal = await db.LegalEntitys.FirstOrDefaultAsync(p => p.Id == id);
+                if (legal != null)
+                    return View(legal);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit9(LegalEntity legal)
+        {
+            db.LegalEntitys.Update(legal);
+            await db.SaveChangesAsync();
+            return RedirectPermanent($"/Home/Settings");
+        }
+
+        // Изменить Офисы
+        public async Task<IActionResult> Edit10(int? id)
+        {
+            if (id != null)
+            {
+                Offices offices = await db.Officess.FirstOrDefaultAsync(p => p.Id == id);
+                if (offices != null)
+                    return View(offices);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit10(Offices offices)
+        {
+            db.Officess.Update(offices);
+            await db.SaveChangesAsync();
+            return RedirectPermanent($"/Home/Settings");
+        }
+
+        // Изменить Категории товара
+        public async Task<IActionResult> Edit11(int? id)
+        {
+            if (id != null)
+            {
+                Category category = await db.Categorys.FirstOrDefaultAsync(p => p.Id == id);
+                if (category != null)
+                    return View(category);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit11(Category category)
+        {
+            db.Categorys.Update(category);
+            await db.SaveChangesAsync();
+            return RedirectPermanent($"/Home/Settings");
+        }
+
+        // Изменить Наименование услуги
+        public async Task<IActionResult> Edit12(int? id)
+        {
+            if (id != null)
+            {
+                ServiceName service = await db.ServiceNames.FirstOrDefaultAsync(p => p.Id == id);
+                if (service != null)
+                    return View(service);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit12(ServiceName service)
+        {
+            db.ServiceNames.Update(service);
+            await db.SaveChangesAsync();
+            return RedirectPermanent($"/Home/Settings");
+        }
+
+        // Изменить Наименование услуги
+        public async Task<IActionResult> Edit13(int? id)
+        {
+            if (id != null)
+            {
+                Staff staff = await db.Staffs.FirstOrDefaultAsync(p => p.Id == id);
+                if (staff != null)
+                    return View(staff);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit13(Staff staff)
+        {
+            db.Staffs.Update(staff);
+            await db.SaveChangesAsync();
+            return RedirectPermanent($"/Home/Settings");
         }
 
         // Копировать товар

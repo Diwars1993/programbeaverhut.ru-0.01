@@ -1,0 +1,57 @@
+﻿@model programbeaverhut.ru.Models.LegalEntity
+@{
+    ViewBag.Title = "Юридическое наименование(Вид предпринимательства)";
+}
+
+<div class="card border">
+
+    <!-- card-header -->
+    <div class="card-header">
+        <form class="form-row align-items-center ">
+            <h5>Редактировать Юридическое наименование(Вид предпринимательства)</h5>
+        </form>
+    </div>
+
+    <div class="card-body">
+        <form asp-action="edit9" asp-controller="home" asp-route-id="@Model.Id">
+
+            <div class="form-group">
+                <input type="hidden" asp-for="UserName" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="UserId1" />
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="LegalEntityName" class="control-label">Наименование юридического лица</label>
+                <input type="text" asp-for="LegalEntityName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LegalEntityINN" class="control-label">ИНН юридического лица</label>
+                <input type="text" asp-for="LegalEntityINN" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LegalEntityOGRIP" class="control-label">Юридическое лицо ОГРИП</label>
+                <input type="text" asp-for="LegalEntityOGRIP" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telephone" class="control-label">Телефон</label>
+                <input type="text" asp-for="Telephone" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label">Адрес</label>
+                <input type="text" asp-for="Address" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
+            </div>
+        </form>
+    </div>
+</div>

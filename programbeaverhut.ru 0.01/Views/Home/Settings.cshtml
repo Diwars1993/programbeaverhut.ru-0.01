@@ -55,6 +55,19 @@
                 <div class="col-md-4">
                     <a class=" btn-outline-dark test" data-tooltip="Изменить" asp-controller="Users" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">&#9999</a>
                     <a class=" btn-outline-dark test" data-tooltip="Пароль" asp-controller="Users" asp-action="ChangePassword" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">&#128274</a>
+
+                    <a style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-action="SaveSettings">Скачать все настройки &#11123</a>
+
+                </div>
+            </form>
+        </div>
+        <div class="form-row align-items-center" style="margin: 15px 0px 0px 0px;">
+            <form asp-controller="Home" asp-action="Settings" method="post" enctype="multipart/form-data">
+                <div class="form-group col-md-3">
+                    <input type="file" name="file" />
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="submit" value="Добавить" />
                 </div>
             </form>
         </div>
@@ -64,7 +77,7 @@
         <!-- card-header -->
         <div class="card-header">
             <h4>
-                Юридические лица 123123
+                Юридические лица
             </h4>
         </div>
 
@@ -86,6 +99,7 @@
                                     <td>@LegalEntity.LegalEntityINN</td>
                                     <td>@LegalEntity.LegalEntityOGRIP</td>
                                     <td align="right">
+                                        <a data-tooltip="Редактировать" asp-action="Edit9" asp-controller="Home" asp-route-id="@LegalEntity.Id" class="form-group btn btn-outline-dark test"> &#9999 </a>
                                         <a data-tooltip="Удалить" asp-action="Delete7" asp-controller="Home" asp-route-id="@LegalEntity.Id" class="form-group btn btn-outline-dark test">&#128465</a>
                                     </td>
                                 </tr>
@@ -103,7 +117,7 @@
                 <div class="card-header btn-outline-dark" type="button"  data-toggle="collapse" data-target="#footwear1"
                      aria-expanded="false" aria-controls="footwear">
 
-                    <h5>Добавить юридическое лицо</h5>
+                    <h5>+Добавить юридическое лицо</h5>
 
                 </div>
 
@@ -167,6 +181,7 @@
                                     <td>@offices.Address</td>
                                     <td>@offices.Telephone</td>
                                     <td align="right">
+                                        <a data-tooltip="Редактировать" asp-action="Edit10" asp-controller="Home" asp-route-id="@offices.Id" class="form-group btn btn-outline-dark test"> &#9999 </a>
                                         <a data-tooltip="Удалить" asp-action="Delete2" asp-controller="Home" asp-route-id="@offices.Id" class="form-group btn btn-outline-dark test">&#128465</a>
                                     </td>
                                 </tr>
@@ -182,7 +197,7 @@
                 <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear2"
                      aria-expanded="false" aria-controls="footwear">
 
-                    <h5>Добавить офис</h5>
+                    <h5>+Добавить офис</h5>
 
                 </div>
                 <div class="collapse" id="footwear2">
@@ -232,6 +247,7 @@
                                 <tr>
                                     <td>@category.NameCategory</td>
                                     <td align="right">
+                                        <a data-tooltip="Редактировать" asp-action="Edit11" asp-controller="Home" asp-route-id="@category.Id" class="form-group btn btn-outline-dark test"> &#9999 </a>
                                         <a data-tooltip="Удалить" asp-action="Delete3" asp-controller="Home" asp-route-id="@category.Id" class="form-group btn btn-outline-dark test">&#128465</a>
                                     </td>
                                 </tr>
@@ -245,7 +261,7 @@
                 <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear3"
                      aria-expanded="false" aria-controls="footwear">
 
-                    <h5>Добавить категорию</h5>
+                    <h5>+Добавить категорию</h5>
 
                 </div>
                 <div class="collapse" id="footwear3">
@@ -288,6 +304,7 @@
                                 <tr>
                                     <td>@serviceName.ServName</td>
                                     <td align="right">
+                                        <a data-tooltip="Редактировать" asp-action="Edit12" asp-controller="Home" asp-route-id="@serviceName.Id" class="form-group btn btn-outline-dark test"> &#9999 </a>
                                         <a data-tooltip="Удалить" asp-action="Delete4" asp-controller="Home" asp-route-id="@serviceName.Id" class="form-group btn btn-outline-dark test">&#128465</a>
                                     </td>
                                 </tr>
@@ -302,7 +319,7 @@
                 <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear4"
                      aria-expanded="false" aria-controls="footwear">
 
-                    <h5>Добавить услугу</h5>
+                    <h5>+Добавить услугу</h5>
 
                 </div>
                 <div class="collapse" id="footwear4">
@@ -347,6 +364,7 @@
                                     <td>@staff.StaffName</td>
                                     <td>@staff.StaffTelephone</td>
                                     <td align="right">
+                                        <a data-tooltip="Редактировать" asp-action="Edit13" asp-controller="Home" asp-route-id="@staff.Id" class="form-group btn btn-outline-dark test"> &#9999 </a>
                                         <a data-tooltip="Удалить" asp-action="Delete10" asp-controller="Home" asp-route-id="@staff.Id" class="form-group btn btn-outline-dark test">&#128465</a>
                                     </td>
                                 </tr>
@@ -361,7 +379,7 @@
                 <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear5"
                      aria-expanded="false" aria-controls="footwear">
 
-                    <h5>Добавить сотрудника</h5>
+                    <h5>+Добавить сотрудника</h5>
 
                 </div>
                 <div class="collapse" id="footwear5">
