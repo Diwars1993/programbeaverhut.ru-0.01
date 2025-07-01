@@ -127,24 +127,16 @@
 <body>
 
 	<div>
-		<div class="card border">
-			<!-- card-header -->
-			<div class="card-header d-flex justify-content-between align-items-center" style="background-color: #007bff; color: white;">
-				<div class="fw-semibold h4 mb-0">
-
+		<div class="card border mb-4">
+			<div class="card-header d-flex justify-content-between align-items-center flex-wrap" style="background-color: #007bff; color: white;">
+				<div class="fw-semibold h5 mb-2 mb-sm-0">
 					Группы клиентов
-
 				</div>
+				<a asp-action="ClientGroup" class="btn btn-light text-primary ms-sm-2">
+					+ Добавить группу клиентов
+				</a>
 			</div>
-
-			<div class="table-responsive card-body">
-
-
-				<form class="form-row align-items-center">
-					<a asp-action="ClientGroup" class="form-group btn" style="background-color: #007bff; color: white; margin: 0px 10px 10px 6px;">
-						+ Добавить группу клиентов
-					</a>
-				</form>
+		</div>
 
 				<table class="table table-striped hover">
 

@@ -1,126 +1,102 @@
 ﻿<!DOCTYPE html>
 
-<style>
-	.astext {
-		background: none;
-		border: none;
-		margin: 0;
-		padding: 0;
-		cursor: pointer;
-	}
-
-	footer {
-		height: 40px;
-		margin-top: -60px;
-	}
-</style>
-
-
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - programbeaverhut.ru</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" />
-
-	<meta charset="utf-8" />
-	<title>@ViewData["Title"] - MyApp</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DOORS PROGRAM</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
-			<div class="container d-flex justify-content-between align-items-end">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
+            <div class="container d-flex justify-content-between align-items-end">
+                <a class="navbar-brand me-4 d-flex align-items-end" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/Files/LogoDooraProgram4.png" alt="Logo" style="height: 72px; width: 230px; margin: 0;" />
+                </a>
 
-				<!-- Левая часть: логотип + меню -->
-				<div class="d-flex align-items-end">
-					<!-- ЛОГОТИП -->
-					<a class="navbar-brand me-4 d-flex align-items-end" asp-area="" asp-controller="Home" asp-action="Index">
-						<img src="/Files/LogoDooraProgram4.png" alt="Logo" style="height: 72px; width: 230px; margin: 0;" />
-					</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-					<!-- МЕНЮ -->
-					@if (User.Identity.IsAuthenticated)
-					{
-						<ul class="navbar-nav flex-row align-items-end" style="height: 72px;">
-							<li class="nav-item d-flex align-items-end me-3">
-								<a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="Index">Клиенты</a>
-							</li>
-							<li class="nav-item d-flex align-items-end me-3">
-								<a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="TaskGroupHi">Задачи</a>
-							</li>
-							<li class="nav-item d-flex align-items-end me-3">
-								<a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="Settings">Настройки</a>
-							</li>
-							@if (!User.IsInRole("admin"))
-							{
-								<li class="nav-item d-flex align-items-end me-3">
-									<a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
-								</li>
-							}
-							@if (User.IsInRole("admin"))
-							{
-								<li class="nav-item d-flex align-items-end me-3">
-									<a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Users" asp-action="UserManagement">Админка</a>
-								</li>
-							}
-						</ul>
-					}
-				</div>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav flex-row flex-wrap align-items-end" style="height: 72px;">
+                            <li class="nav-item d-flex align-items-end me-3">
+                                <a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="Index">Клиенты</a>
+                            </li>
+                            <li class="nav-item d-flex align-items-end me-3">
+                                <a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="TaskGroupHi">Задачи</a>
+                            </li>
+                            <li class="nav-item d-flex align-items-end me-3">
+                                <a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="Settings">Настройки</a>
+                            </li>
+                            @if (!User.IsInRole("admin"))
+                            {
+                                <li class="nav-item d-flex align-items-end me-3">
+                                    <a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
+                                </li>
+                            }
+                            @if (User.IsInRole("admin"))
+                            {
+                                <li class="nav-item d-flex align-items-end me-3">
+                                    <a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Users" asp-action="UserManagement">Админка</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
 
-				<!-- КНОПКА ВЫХОД -->
-				@if (User.Identity.IsAuthenticated)
-				{
-					<form method="post" asp-controller="Account" asp-action="Logout" class="d-flex align-items-end" style="height: 72px;">
-						<button class="btn btn-outline-primary btn-sm" type="submit">Выход</button>
-					</form>
-				}
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" asp-controller="Account" asp-action="Logout" class="d-flex align-items-end" style="height: 72px;">
+                        <button class="btn btn-outline-primary btn-sm" type="submit">Выход</button>
+                    </form>
+                }
+            </div>
+        </nav>
+    </header>
 
-			</div>
-		</nav>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
-	</header>
-	<div class="container">
-		<main role="main" class="pb-3">
-			@RenderBody()
-		</main>
-	</div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
 
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@RenderSection("Scripts", required: false)
+    @if (User.Identity.IsAuthenticated)
+    {
+        <footer class="border-top footer text-muted" style="background: #FFFFFF; display: inline;">
+            <div class="container">
+                <form>
+                    @if (!User.IsInRole("admin"))
+                    {
+                        <div class="form-group form-row align-items-center">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
+                        </div>
 
-
-	@if (User.Identity.IsAuthenticated)
-	{
-		<footer class="border-top footer text-muted" style="background: #FFFFFF; display: inline;">
-			<div class="container">
-				<form>
-					@if (!User.IsInRole("admin"))
-					{
-						<div class="form-group form-row align-items-center">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
-						</div>
-
-						<div class="form-group" style="margin-top: -40px;">
-							&copy; 2022 - programbeaverhut.ru
-						</div>
-					}
-					else
-					{
-						<div class="form-group">
-							&copy; 2022 - programbeaverhut.ru
-						</div>
-					}
-
-				</form>
-			</div>
-		</footer>
-	}
-
+                        <div class="form-group" style="margin-top: -40px;">
+                            &copy; 2022 - programbeaverhut.ru
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            &copy; 2022 - programbeaverhut.ru
+                        </div>
+                    }
+                </form>
+            </div>
+        </footer>
+    }
 </body>
 </html>
