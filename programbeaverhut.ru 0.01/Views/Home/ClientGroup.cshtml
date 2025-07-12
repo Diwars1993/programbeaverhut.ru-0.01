@@ -1,55 +1,65 @@
 ﻿@using System.Security.Claims;
 @using programbeaverhut.ru.Models
 @model programbeaverhut.ru.Models.ReportingPeriod
-
-
 @{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
-<html>
-<body>
 
+<style>
+    .form-control {
+        border: 2px solid #0d6efd !important;
+        border-radius: 6px;
+        font-weight: 500;
+    }
 
-    <div class="card border">
-        <!-- card-header -->
-        <div class="card-header">
-            <form class="form-row align-items-center ">
-                <h5>Создать группу клиентов</h5>
-            </form>
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        font-weight: 600;
+    }
+
+    .modal-header.bg-primary {
+        background-color: #0d6efd !important;
+    }
+</style>
+
+<div class="modal-body">
+    <form method="post" asp-action="ClientGroup" asp-controller="Home">
+        <div class="mb-3">
+            <label class="form-label">Название группы клиентов</label>
+            <input type="text" name="NameReportingPeriod" class="form-control" />
+            <span asp-validation-for="NameReportingPeriod" class="text-danger small"></span>
         </div>
 
-        <form method="post" asp-action="ClientGroup" asp-controller="home" class="card-body">
-            <div class="form-group">
-                <span asp-validation-for="PasswordVeri"></span>
-            </div>
-            <div class="form-group">
-                <span asp-validation-for="NameReportingPeriod"></span>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Выделить группу цветом</label>
+            <select name="ColorId" asp-items="ViewBag.ColorSelections" class="form-select form-control"></select>
+        </div>
 
-            <div class="form-group">
-                <label name="NameReportingPeriod" class="control-label">Название группы клиентов</label>
-                <input type="text" name="NameReportingPeriod" class="form-control" />
-            </div>
-            <!--Выпадающий список -->
-            <div class="form-group">
-                <label name="ColorId">Выделить группу цветом</label>
-                <select name="ColorId" asp-items="ViewBag.ColorSelections" class="form-control"></select>
-            </div>
-            <div class="form-group">
-                <label name="Password" class="control-label">Пароль</label>
-                <input type="password" name="Password" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label name="PasswordVeri" class="control-label">Проверка пароля</label>
-                <input type="password" name="PasswordVeri" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Сохранить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Пароль</label>
+            <input type="password" name="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger small"></span>
+        </div>
 
-        </form>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Проверка пароля</label>
+            <input type="password" name="PasswordVeri" class="form-control" />
+            <span asp-validation-for="PasswordVeri" class="text-danger small"></span>
+        </div>
 
-     
-</body>
-</html>
+        <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-primary">
+                💾 Сохранить
+            </button>
+        </div>
+    </form>
+</div>

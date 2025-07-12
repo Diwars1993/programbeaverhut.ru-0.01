@@ -26,7 +26,8 @@
 		}
 	</style>
 
-	<div class="card mt-3">
+
+	<div class="slide-in-right card mt-3" style="animation-delay: 0.2s;">
 
 		<div class="card-header d-flex justify-content-between align-items-center" style="background-color: #007bff; color: white;">
 			<div class="row align-items-center w-100">
@@ -116,19 +117,35 @@
 </body>
 </html>
 
+<div class="modal fade" id="clientGroupModal" tabindex="-1" aria-labelledby="clientGroupModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-danger text-white">
+				<h5 class="modal-title" id="clientGroupModalLabel">Создание группы клиентов</h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+			</div>
+			<div class="modal-body">
+				<div id="clientGroupModalContent" class="p-2">
+					<div class="text-center text-muted">Загрузка...</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <html>
 <body>
 
-	<div>
+	<div class="slide-in-right" style="animation-delay: 0.4s;">
 		<div class="card mt-3">
 			<div class="card-header d-flex justify-content-between align-items-center flex-wrap" style="background-color: #007bff; color: white;">
 				<div class="fw-semibold h5 mb-2 mb-sm-0">
 					Группы клиентов
 				</div>
-				<a asp-action="ClientGroup" class="btn btn-light text-primary ms-sm-2">
-					+ Добавить группу клиентов
-				</a>
+				<button type="button" class="btn btn-danger btn btn-sm btn-outline-light ms-sm-2" data-bs-toggle="modal" data-bs-target="#clientGroupModal">
+					Создать группу клиентов
+				</button>
+				
 			</div>
 		</div>
 
@@ -140,11 +157,11 @@
 				{
 					if ("Зеленый" == reportingPeriod.NameColor)
 					{
-						<tr style="background: #98FB98">
+						<tr class="hover-row">
 							@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
 							{
 
-								<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+								<td class="bg-green" width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
 
 									<h5> @reportingPeriod.NameReportingPeriod</h5>
 
@@ -154,7 +171,7 @@
 							}
 							@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
 							{
-								<td>
+								<td class="bg-green">
 									<h5>@reportingPeriod.NameReportingPeriod  </h5>
 
 
@@ -182,7 +199,7 @@
 								</td>
 							}
 
-							<td align="right">
+							<td class="bg-green" align="right">
 								<a asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id"
 								   class="btn btn-sm btn-outline-danger"
 								   data-bs-toggle="tooltip" title="Удалить группу клиентов"
@@ -195,11 +212,11 @@
 					}
 					if ("Желтый" == reportingPeriod.NameColor)
 					{
-						<tr style="background: #FFFF00 ">
+						<tr class="hover-row">
 							@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
 							{
 
-								<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+								<td class="bg-yellow" width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
 
 									<h5> @reportingPeriod.NameReportingPeriod</h5>
 
@@ -208,7 +225,7 @@
 							}
 							@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
 							{
-								<td>
+								<td class="bg-yellow">
 									<h5> @reportingPeriod.NameReportingPeriod  </h5>
 
 
@@ -236,7 +253,7 @@
 								</td>
 							}
 
-							<td align="right">
+							<td class="bg-yellow" align="right">
 								<a asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id"
 								   class="btn btn-sm btn-outline-danger"
 								   data-bs-toggle="tooltip" title="Удалить группу клиентов"
@@ -249,11 +266,11 @@
 					}
 					if ("Красный" == reportingPeriod.NameColor)
 					{
-						<tr style="background: #FA8072">
+						<tr class="hover-row">
 							@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
 							{
 
-								<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+								<td class="bg-red" width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
 
 									<h5> @reportingPeriod.NameReportingPeriod</h5>
 
@@ -262,7 +279,7 @@
 							}
 							@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
 							{
-								<td>
+								<td class="bg-red">
 									<h5> @reportingPeriod.NameReportingPeriod  </h5>
 
 
@@ -289,7 +306,7 @@
 
 								</td>
 							}
-							<td align="right">
+							<td class="bg-red" align="right">
 								<a asp-action="Delete6" asp-controller="Home" asp-route-id="@reportingPeriod.Id"
 								   class="btn btn-sm btn-outline-danger"
 								   data-bs-toggle="tooltip" title="Удалить группу клиентов"
@@ -303,7 +320,7 @@
 
 					if ("Без выделения" == reportingPeriod.NameColor)
 					{
-						<tr>
+						<tr> 
 							@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
 							{
 
@@ -366,11 +383,12 @@
 
 					if ("Зеленый" == reportingPeriod.NameColor)
 					{
-						<tr style="background: #98FB98">
+						<tr class="hover-row">
+							
 							@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
 							{
 
-								<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+								<td class="bg-green" width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
 
 									<h5> @reportingPeriod.NameReportingPeriod</h5>
 
@@ -379,7 +397,7 @@
 							}
 							@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
 							{
-								<td>
+								<td class="bg-green">
 									<h5> @reportingPeriod.NameReportingPeriod  </h5>
 
 
@@ -406,7 +424,7 @@
 
 								</td>
 							}
-							<td align="right">
+							<td class="bg-green" align="right">
 								<a asp-action="Edit3" asp-controller="Home" asp-route-id="@reportingPeriod.Id"
 								   class="btn btn-sm btn-outline-primary me-1"
 								   data-bs-toggle="tooltip" title="Редактировать группу клиентов">
@@ -425,11 +443,11 @@
 					}
 					if ("Желтый" == reportingPeriod.NameColor)
 					{
-						<tr style="background: #FFFF00 ">
+						<tr class="hover-row">
 							@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
 							{
 
-								<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+								<td class="bg-yellow" width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
 
 									<h5> @reportingPeriod.NameReportingPeriod</h5>
 
@@ -438,7 +456,7 @@
 							}
 							@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
 							{
-								<td>
+								<td class="bg-yellow">
 									<h5> @reportingPeriod.NameReportingPeriod  </h5>
 
 
@@ -466,7 +484,7 @@
 								</td>
 							}
 
-							<td align="right">
+							<td class="bg-yellow" align="right">
 								<a asp-action="Edit3" asp-controller="Home" asp-route-id="@reportingPeriod.Id"
 								   class="btn btn-sm btn-outline-primary me-1"
 								   data-bs-toggle="tooltip" title="Редактировать группу клиентов">
@@ -485,11 +503,11 @@
 					}
 					if ("Красный" == reportingPeriod.NameColor)
 					{
-						<tr style="background: #FA8072">
+						<tr class="hover-row">
 							@if (reportingPeriod.Password == reportingPeriod.AppliedPassword)
 							{
 
-								<td width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
+								<td class="bg-red" width="80%" onclick="document.location = 'https://doorsprogram.ru/Home/ClientRegistration/@reportingPeriod.Id';">
 
 									<h5> @reportingPeriod.NameReportingPeriod</h5>
 
@@ -498,7 +516,7 @@
 							}
 							@if (null == reportingPeriod.AppliedPassword & reportingPeriod.Password != null)
 							{
-								<td>
+								<td class="bg-red">
 									<h5> @reportingPeriod.NameReportingPeriod  </h5>
 
 
@@ -526,7 +544,7 @@
 								</td>
 							}
 
-							<td align="right">
+							<td class="bg-red" align="right">
 								<a asp-action="Edit3" asp-controller="Home" asp-route-id="@reportingPeriod.Id"
 								   class="btn btn-sm btn-outline-primary me-1"
 								   data-bs-toggle="tooltip" title="Редактировать группу клиентов">
@@ -613,7 +631,22 @@
 	</div>
 
 	
+	<script>
+		const modal = document.getElementById('clientGroupModal');
 
+		modal.addEventListener('show.bs.modal', function () {
+			document.getElementById('clientGroupModalContent').innerHTML = '<div class="text-center text-muted">Загрузка...</div>';
+
+			fetch('/Home/ClientGroup')
+				.then(response => response.text())
+				.then(html => {
+					document.getElementById('clientGroupModalContent').innerHTML = html;
+				})
+				.catch(() => {
+					document.getElementById('clientGroupModalContent').innerHTML = '<div class="text-danger">Не удалось загрузить форму.</div>';
+				});
+		});
+	</script>
 </body>
 </html>
 

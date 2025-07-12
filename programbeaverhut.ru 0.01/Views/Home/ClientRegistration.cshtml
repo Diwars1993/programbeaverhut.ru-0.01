@@ -50,18 +50,6 @@
 			background-color: #f0f0f0;
 		}
 
-	/* Эфекты при наведении таблицы */
-	.hover {
-	}
-
-		.hover tr:hover {
-			background: #9e9e9e !important; /* Цвет фона при наведении */
-			color: #fff !important; /* Цвет текста при наведении */
-		}
-		/* Изменяет на руку при наведении на таблицу */
-		.hover tr:hover {
-			cursor: pointer;
-		}
 	/* Могу путать но это стрелики перелистования */
 	@@font-face {
 		font-family: 'FontAwesome';
@@ -292,7 +280,7 @@
 	</form>
 
 	<!-- Таблица -->
-	<div class="table-responsive">
+	<div class="table table-striped hover">
 		<table class="table table-bordered table-hover table-sm align-middle">
 			<thead class="table-light">
 				<tr>
@@ -326,7 +314,6 @@
 					<th></th>
 				</tr>
 
-
 				<!-- ваши строки клиентов -->
 				@foreach (Client client in Model.Clients)
 				{
@@ -335,9 +322,9 @@
 					{
 						if ("Зеленый" == client.NameColor)
 						{
-							<tr style="background: #98FB98">
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
+							<tr class="hover-row">
+								<td class="bg-green" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
+								<td class="bg-green" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
 									<div class="dropdown">
 
 										<strong>
@@ -370,11 +357,11 @@
 										}
 									</div>
 								</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
-								<td>
+								<td class="bg-green" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
+								<td class="bg-green" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
+								<td class="bg-green" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
+								<td class="bg-green" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
+								<td class="bg-green">
 									<div class="table-responsive card-body" style="overflow-y: visible;">
 										<button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
 												style="padding: 4px 10px; min-width: 100px;">
@@ -437,9 +424,9 @@
 						}
 						if ("Желтый" == client.NameColor)
 						{
-							<tr style="background: #FFFF66 ">
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
+							<tr class="hover-row">
+								<td class="bg-yellow" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
+								<td class="bg-yellow" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
 									<div class="dropdown">
 
 										<strong>
@@ -472,11 +459,11 @@
 										}
 									</div>
 								</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
-								<td>
+								<td class="bg-yellow" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
+								<td class="bg-yellow" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
+								<td class="bg-yellow" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
+								<td class="bg-yellow" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
+								<td class="bg-yellow">
 									<div class="table-responsive card-body" style="overflow-y: visible;">
 										<button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
 												style="padding: 4px 10px; min-width: 100px;">
@@ -539,9 +526,9 @@
 						}
 						if ("Красный" == client.NameColor)
 						{
-							<tr style="background: #FA8072 ">
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
+							<tr class="hover-row">
+								<td class="bg-red" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
+								<td class="bg-red" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
 									<div class="dropdown">
 
 										<strong>
@@ -574,11 +561,11 @@
 										}
 									</div>
 								</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
-								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
-								<td>
+								<td class="bg-red" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
+								<td class="bg-red" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
+								<td class="bg-red" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
+								<td class="bg-red" onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
+								<td class="bg-red">
 									<div class="table-responsive card-body" style="overflow-y: visible;">
 										<button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
 												style="padding: 4px 10px; min-width: 100px;">
