@@ -3,617 +3,772 @@
 @model IndexViewModel
 
 @{
-    ViewBag.Title = "Все клиенты";
+	ViewBag.Title = "Все клиенты";
 }
 
+
+@section Scripts {
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const emojiToggle = document.getElementById("emojiToggle");
+			const emojiPicker = document.getElementById("emojiPicker");
+			const messageBox = document.getElementById("Message");
+
+			emojiToggle.addEventListener("click", function () {
+				emojiPicker.style.display = (emojiPicker.style.display === "none" || emojiPicker.style.display === "") ? "block" : "none";
+			});
+
+			document.querySelectorAll(".emoji-item").forEach(el => {
+				el.addEventListener("click", function () {
+					messageBox.value += this.textContent;
+					messageBox.focus();
+					emojiPicker.style.display = "none";
+				});
+			});
+
+			document.addEventListener("click", function (e) {
+				if (!emojiPicker.contains(e.target) && !emojiToggle.contains(e.target)) {
+					emojiPicker.style.display = "none";
+				}
+			});
+		});
+	</script>
+}
+
+
+
 <style>
-    /* Эфекты при наведении таблицы */
-    .hover {
-    }
+	.emoji-item {
+		font-size: 20px;
+		cursor: pointer;
+		padding: 3px 6px;
+		border-radius: 4px;
+		transition: background-color 0.2s ease-in-out;
+	}
 
-        .hover tr:hover {
-            background: #9e9e9e !important; /* Цвет фона при наведении */
-            color: #fff !important; /* Цвет текста при наведении */
-        }
-        /* Изменяет на руку при наведении на таблицу */
-        .hover tr:hover {
-            cursor: pointer;
-        }
-    /* Могу путать но это стрелики перелистования */
-    @@font-face {
-        font-family: 'FontAwesome';
-        src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal
-    }
+		.emoji-item:hover {
+			background-color: #f0f0f0;
+		}
 
-    .glyphicon {
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale
-    }
+	/* Эфекты при наведении таблицы */
+	.hover {
+	}
 
-    .glyphicon-chevron-right:before {
-        content: "\f054";
-    }
+		.hover tr:hover {
+			background: #9e9e9e !important; /* Цвет фона при наведении */
+			color: #fff !important; /* Цвет текста при наведении */
+		}
+		/* Изменяет на руку при наведении на таблицу */
+		.hover tr:hover {
+			cursor: pointer;
+		}
+	/* Могу путать но это стрелики перелистования */
+	@@font-face {
+		font-family: 'FontAwesome';
+		src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
+		font-weight: normal;
+		font-style: normal
+	}
 
-    .glyphicon-chevron-left:before {
-        content: "\f053";
-    }
+	.glyphicon {
+		display: inline-block;
+		font: normal normal normal 14px/1 FontAwesome;
+		font-size: inherit;
+		text-rendering: auto;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale
+	}
+
+	.glyphicon-chevron-right:before {
+		content: "\f054";
+	}
+
+	.glyphicon-chevron-left:before {
+		content: "\f053";
+	}
 </style>
 
 <html>
 <body>
-    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
-    @foreach (var chat1 in Model.Chat11)
-    {
-        if (chat1 != null)
-        {
-            <style>
-                .prokrutka {
-                    height: 200px; /* высота нашего блока */
-                    width: auto; /* ширина нашего блока */
-                    max-width: 1100px;
-                    background: #fff; /* цвет фона, белый */
-                    /*border: 1px solid #C1C1C1; /* размер и цвет границы блока */
-                    /*overflow-x: scroll; /* прокрутка по горизонтали */
-                    overflow-y: scroll; /* прокрутка по вертикали */
-                }
-            </style>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+	@foreach (var chat1 in Model.Chat11)
+	{
+		if (chat1 != null)
+		{
+			<style>
+				.prokrutka {
+					height: 200px; /* высота нашего блока */
+					width: auto; /* ширина нашего блока */
+					max-width: 1100px;
+					background: #fff; /* цвет фона, белый */
+					/*border: 1px solid #C1C1C1; /* размер и цвет границы блока */
+					/*overflow-x: scroll; /* прокрутка по горизонтали */
+					overflow-y: scroll; /* прокрутка по вертикали */
+				}
+			</style>
 
-        }
+		}
 
-    }
+	}
 
-    <script>
-        window.addEventListener('click', function (event) {
-            if (event.target.classList.contains('smile')) {
-                let edit = document.querySelector('.edit');
-                edit.value += event.target.attributes['my-data-smile'].value;
-            }
-        });
-    </script>
-    <style>
-        .smile {
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            margin-right: 5px;
-            cursor: pointer;
-        }
-    </style>
-
-
-    <div class="card border" style="margin: 0px 0px 15px 0px;">
-
-        <!-- card-header -->
-        <div class="card-header btn-outline-dark" type="button" data-toggle="collapse" data-target="#footwear4"
-             aria-expanded="false" aria-controls="footwear">
-
-            <form class="form-row align-items-center ">
-                <h5>Сообщения &#128172</h5>
-            </form>
-
-        </div>
-
-        <div class="collapse" id="footwear4">
-            <div class="card-body">
-                <div class="card border">
-                    <div class="prokrutka">
-                        <div class="card-body">
-                            @foreach (var chat1 in Model.Chat11)
-                            {
-                                @if (@User.FindFirstValue(ClaimTypes.NameIdentifier) == chat1.UserId1)
-                                {
-                                    @if (@ViewBag.reportingPeriodId == chat1.ReportingPeriodId)
-                                    {
-                                        <div style="margin: 0px 0px 15px 0px;">
-                                            <div class="card border">
-
-                                                <div class="card-body">
-
-                                                    <div class="form-row align-items-center">
-
-                                                        <a style="font-size: 70%;">(@chat1.Chat1Date)</a>
-
-                                                        <div class="dropdown">
-                                                            <a href="#" data-toggle="dropdown" class="nav-link text-dark">
-                                                                <strong>
-                                                                    &#9776
-                                                                </strong>
-
-                                                                <b class="caret"></b>
-                                                            </a>
-                                                            <ul class="dropdown-menu">
-                                                                <li> <a asp-action="Edit6" asp-controller="Home" asp-route-id="@chat1.Chat1Id" class="nav-link text-dark">Редактировать</a></li>
-
-                                                                <li><a asp-action="Delete22" asp-route-id="@chat1.Chat1Id" method="post" type="submit" class="nav-link text-dark">Удалить</a></li>
-
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-
-                                                        <div>
-                                                            <a><strong>@chat1.NameUser </strong></a>
-                                                        </div>
-                                                        <div>
-                                                            <a>@chat1.Message</a>
-                                                        </div>
-
-                                                    </div>
-                                                    <div style="margin: 10px 0px 0px 0px;">
-                                                        @foreach (var f in Model.FileModel1)
-                                                        {
-                                                            @if (f.Chat1Id == chat1.Chat1Id)
-                                                            {
-
-                                                                <a href="/Files/@Url.Content(f.Name)"><img style='width:80px; height:60px;' src="@Url.Content(f.Path)" alt=""></a>
-
-                                                            }
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                }
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
+	<script>
+		window.addEventListener('click', function (event) {
+			if (event.target.classList.contains('smile')) {
+				let edit = document.querySelector('.edit');
+				edit.value += event.target.attributes['my-data-smile'].value;
+			}
+		});
+	</script>
+	<style>
+		.smile {
+			display: inline-block;
+			width: 15px;
+			height: 15px;
+			margin-right: 5px;
+			cursor: pointer;
+		}
+	</style>
 
 
-            <div class="card-body">
-                <form method="post" asp-action="clientRegistration" asp-controller="home" enctype="multipart/form-data">
+	<div class="mb-4 mt-4 bg-white shadow-sm rounded-3">
+		<!-- Заголовок -->
+		<div class="card-header text-white py-2 px-3 d-flex justify-content-between align-items-center"
+			 style="background-color: #007bff; border-radius: 0.5rem 0.5rem 0 0;">
+			<h6 class="mb-0" style="font-size: 1rem;"><i class="bi bi-chat-dots"></i> Сообщения</h6>
+		</div>
 
-                    <!--Это нужно что бы передать ReportingPeriodId и так как нам не надо что бы туда внасили он в скрытом формате -->
-                    <input type="hidden" value="@ViewBag.reportingPeriodId" name="ReportingPeriodId" />
-                    <!--Это нужно что бы передать Chat1Date и так как нам не надо что бы туда внасили он в скрытом формате -->
-                    <input type="hidden" value="@ViewBag.Date" name="Chat1Date" />
+		<!-- Сообщения -->
+		<div class="px-3 py-2" style="max-height: 300px; overflow-y: auto;">
+			@foreach (var chat1 in Model.Chat11)
+			{
+				if (User.FindFirstValue(ClaimTypes.NameIdentifier) == chat1.UserId1 &&
+				ViewBag.reportingPeriodId == chat1.ReportingPeriodId)
+				{
+					<div class="p-2 mb-3 bg-light"
+						 style="border: 1px solid #999; border-radius: 0.375rem;">
+						<div class="d-flex justify-content-between align-items-center mb-1">
+							<small class="text-muted">@chat1.Chat1Date</small>
+							<div class="dropdown">
+								<a href="#" data-toggle="dropdown" class="text-dark small">
+									<i class="bi bi-three-dots-vertical"></i>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end">
+									<li><a class="dropdown-item small" asp-action="Edit6" asp-controller="Home" asp-route-id="@chat1.Chat1Id">✏️ Редактировать</a></li>
+									<li><a class="dropdown-item small" asp-action="Delete22" asp-route-id="@chat1.Chat1Id" method="post">🗑 Удалить</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="fw-semibold small">@chat1.NameUser</div>
+						<div class="small">@chat1.Message</div>
+						<div class="mt-2 d-flex flex-wrap gap-2">
+							@foreach (var f in Model.FileModel1)
+							{
+								if (f.Chat1Id == chat1.Chat1Id)
+								{
+									<a href="/Files/@Url.Content(f.Name)">
+										<img src="@Url.Content(f.Path)" class="img-thumbnail border border-dark"
+											 style="width: 80px; height: auto;" />
+									</a>
+								}
+							}
+						</div>
+					</div>
+				}
+			}
+		</div>
 
-                    <div class="form-group">
-                        <input type="text" name="NameUser" class="form-control" placeholder="Заголовок" />
-                    </div>
+		<!-- Форма -->
+		<div class="px-3 py-3 bg-white border-top" style="border-top: 1px solid #ccc;">
+			<form method="post" asp-action="clientRegistration" asp-controller="home" enctype="multipart/form-data">
+				<input type="hidden" name="ReportingPeriodId" value="@ViewBag.reportingPeriodId" />
+				<input type="hidden" name="Chat1Date" value="@ViewBag.Дата" />
 
-                    <div style="margin: 0px 0px 8px 0px;">
-                        <div class='smile' my-data-smile='&#9888;'>&#9888;</div>
-                        <div class='smile' my-data-smile='&#9940;'>&#9940;</div>
-                        <div class='smile' my-data-smile='&#9989;'>&#9989;</div>
-                        <div class='smile' my-data-smile='&#128512;'>&#128512;</div>
-                        <div class='smile' my-data-smile='&#128517;'>&#128517;</div>
-                        <div class='smile' my-data-smile='&#128521;'>&#128521;</div>
-                        <div class='smile' my-data-smile='&#128519;'>&#128519;</div>
-                        <div class='smile' my-data-smile='&#129392;'>&#129392;</div>
-                        <div class='smile' my-data-smile='&#128520;'>&#128520;</div>
-                        <div class='smile' my-data-smile='&#128169;'>&#128169;</div>
-                        <div class='smile' my-data-smile='&#128123;'>&#128123;</div>
-                        <div class='smile' my-data-smile='&#128554;'>&#128554;</div>
-                        <div class='smile' my-data-smile='&#129397;'>&#129397;</div>
-                        <div class='smile' my-data-smile='&#10084;'>&#10084;</div>
-                    </div>
-                    <div class="form-group" name="form1" method="post" action="">
-                        <textarea type="text" name="Message" class="form-control edit" placeholder="Ваше сообщение"></textarea>
-                    </div>
+				<div class="mb-2">
+					<input type="text" name="NameUser" class="form-control form-control-sm shadow-sm"
+						   style="border: 1px solid #999; border-radius: 0.375rem;" placeholder="Заголовок" />
+				</div>
 
-                    <div class="form-group">
-                        <label>Файл JPG или PNG:</label>
-                        <input type="file" name="uploads" multiple="multiple" accept=".jpg,.jpeg,.png">
-                    </div>
+				<!-- Сообщение + emoji -->
+				<div class="position-relative mb-2">
+					<div class="input-group input-group-sm">
+						<textarea id="Message" name="Message" class="form-control shadow-sm rounded-start"
+								  style="border: 1px solid #999;" rows="2" placeholder="Сообщение..."></textarea>
+						<button type="button" id="emojiToggle" class="btn btn-outline-secondary rounded-end"
+								style="border: 1px solid #999;">
+							<i class="bi bi-emoji-smile"></i>
+						</button>
+					</div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Отправить" class="form-group btn btn-outline-dark" style="margin-bottom: 4px;" />
-                    </div>
+					<div id="emojiPicker" class="border shadow-sm p-2 bg-white position-absolute"
+						 style="z-index:999; display:none; top:100%; right:0; width: 220px; border: 1px solid #999; border-radius: 0.375rem;">
+						<div class="d-flex flex-wrap gap-1">
+							<span class="emoji-item">😀</span><span class="emoji-item">😂</span><span class="emoji-item">😉</span>
+							<span class="emoji-item">😍</span><span class="emoji-item">😎</span><span class="emoji-item">🥳</span>
+							<span class="emoji-item">🤔</span><span class="emoji-item">😡</span><span class="emoji-item">💩</span>
+							<span class="emoji-item">❤️</span><span class="emoji-item">🔥</span><span class="emoji-item">😢</span>
+							<span class="emoji-item">👍</span><span class="emoji-item">👎</span>
+						</div>
+					</div>
+				</div>
 
-                </form>
-            </div>
+				<div class="mb-2">
+					<input type="file" name="uploads" class="form-control form-control-sm shadow-sm"
+						   style="border: 1px solid #999; border-radius: 0.375rem;" multiple accept=".jpg,.jpeg,.png" />
+				</div>
 
-        </div>
-    </div>
+				<div class="d-flex justify-content-end">
+					<button type="submit"
+							class="btn btn-sm text-white shadow"
+							style="background-color: #007bff; border: 1px solid #0056b3; border-radius: 0.375rem;">
+						📤 Отправить
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
 </body>
 </html>
 
 
 
+<div class="bg-white shadow-sm p-3 mt-4 mb-4 rounded-3" style="border: 1px solid #bbb;">
+	<!-- Заголовок -->
+	<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 pb-2 rounded-top-3 px-4 py-3"
+		 style="background-color: #007bff; color: white;">
+		<h5 class="mb-2 mb-md-0 text-white">
+			<i class="bi bi-people-fill me-2"></i>Все клиенты "@ViewBag.NameReportingPeriod"
+		</h5>
+		<a asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.reportingPeriodId" asp-action="TermsBig"
+		   class="text-white text-decoration-underline small">
+			Скачать всех клиентов ⭳
+		</a>
+	</div>
 
-<div class="card">
+	<!-- Форма фильтров -->
+	<form class="row align-items-end mb-3">
 
-    <!-- card-header1 -->
-    <div class="card-header table-responsive card-body">
+		<div class="col-md-3 col-sm-6 mb-2">
+			<input name="name" value="@Model.FilterViewModel.SelectedName"
+				   class="form-control form-control-sm border border-dark shadow-sm"
+				   placeholder="Поиск по клиенту ФИО..." />
+		</div>
 
-        <h4>Все клиенты "@ViewBag.NameReportingPeriod"</h4>
+		<div class="col-md-2 col-sm-6 mb-2">
+			<select name="company" asp-items="Model.FilterViewModel.Companies"
+					class="form-control form-control-sm border border-dark shadow-sm">
+			</select>
+		</div>
 
-        <a style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@ViewBag.reportingPeriodId" asp-action="TermsBig">Скачать всех клиентов &#11123</a>
+		<div class="col-auto mb-2">
+			<input type="submit" value="Применить фильтры"
+				   class="btn btn-sm btn-outline-dark shadow-sm" />
+		</div>
+	</form>
 
-    </div>
+	<!-- Форма импорта файла -->
+	<form asp-controller="Home" asp-action="ClientRegistration" method="post" enctype="multipart/form-data"
+		  class="row align-items-center mb-3">
+		<div class="col-md-4 col-sm-6 mb-2">
+			<input type="file" name="file" class="form-control form-control-sm border border-dark shadow-sm" />
+		</div>
+		<div class="col-auto mb-2">
+			<input type="submit" value="Добавить" class="btn btn-sm btn-success shadow-sm" />
+		</div>
+
+	</form>
+
+	<form asp-controller="Home" asp-action="ClientRegistration" method="post" enctype="multipart/form-data"
+		  class="row align-items-center mb-3">
+
+		<div class="col-auto mb-2">
+			<a asp-action="Create" asp-route-id="@ViewBag.reportingPeriodId"
+			   class="btn btn-sm shadow-sm text-white"
+			   style="background-color: #007bff; border-color: #007bff;">
+				+ Добавить клиента вручную
+			</a>
+		</div>
+	</form>
+
+	<!-- Таблица -->
+	<div class="table-responsive">
+		<table class="table table-bordered table-hover table-sm align-middle">
+			<thead class="table-light">
+				<tr>
+					<th><a>№</a></th>
+					<th>
+						<a asp-action="ClientRegistration"
+						   asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+						   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+						   asp-route-company="@(Model.FilterViewModel.SelectedCompany)">
+							ФИО
+						</a>
+					</th>
+					<th><a>Адрес</a></th>
+					<th><a>Телефон</a></th>
+					<th>
+						<a asp-action="ClientRegistration"
+						   asp-route-sortOrder="@(Model.SortViewModel.CompanySort)"
+						   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+						   asp-route-company="@(Model.FilterViewModel.SelectedCompany)">
+							Офис
+						</a>
+					</th>
+					<th>
+						<a asp-action="ClientRegistration"
+						   asp-route-sortOrder="@(Model.SortViewModel.AgeSort)"
+						   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+						   asp-route-company="@(Model.FilterViewModel.SelectedCompany)">
+							Данные
+						</a>
+					</th>
+					<th></th>
+				</tr>
 
 
-    <div class="table-responsive card-body">
+				<!-- ваши строки клиентов -->
+				@foreach (Client client in Model.Clients)
+				{
+					<!--Показывать только клиентов выброного отчотного периода-->
+					@if (@ViewBag.reportingPeriodId == client.ReportingPeriodId)
+					{
+						if ("Зеленый" == client.NameColor)
+						{
+							<tr style="background: #98FB98">
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
+									<div class="dropdown">
 
-        <form class="form-row align-items-center">
+										<strong>
+											@client.SNM
+										</strong>
 
-            <div>
-                <a asp-action="Create" asp-route-id="@ViewBag.reportingPeriodId" type="submit" class="form-group btn btn-primary" style="margin: 0px 10px 16px 6px;">+ Добавить клиента вручную</a>
-            </div>
+										@if ("Заказ не собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FF0000; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ не полностью собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FFFF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #00FF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ выполнен" == client.OrderAssemblyStage)
+										{
+											<div style="background: #B5B8B1; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+									</div>
+								</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
+								<td>
+									<div class="table-responsive card-body" style="overflow-y: visible;">
+										<button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+												style="padding: 4px 10px; min-width: 100px;">
+											☰ Действия
+										</button>
+										<ul class="dropdown-menu shadow-sm border rounded-2" style="min-width: 180px;">
+											<li>
+												<a asp-action="Buy" asp-controller="Home"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📦 Заказ
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="ImptExp"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📄 Документы
+												</a>
+											</li>
+											<li>
+												<a asp-action="FilesClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													🖼 Фото
+												</a>
+											</li>
+											<li>
+												<a asp-action="Edit" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													✏️ Редактировать
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="Copyclient"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													⬇️ Скачать
+												</a>
+											</li>
+											<li>
+												<a asp-action="CopyClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													📋 Копировать
+												</a>
+											</li>
+											<li>
+												<a asp-action="Delete" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item text-danger">
+													🗑 Удалить
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						}
+						if ("Желтый" == client.NameColor)
+						{
+							<tr style="background: #FFFF66 ">
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
+									<div class="dropdown">
 
-            <div class="form-group col-md-3">
-                <input name="name" value="@Model.FilterViewModel.SelectedName" class="form-control" placeholder="Поиск по ФИО клиента..." />
-            </div>
-            <div class="form-group col-md-2">
-                <select name="company" asp-items="Model.FilterViewModel.Companies" class="form-control"></select>
-            </div>
+										<strong>
+											@client.SNM
+										</strong>
 
-            <input type="submit" value="Применить фильтры" class="form-group btn btn-outline-dark" style="margin: 0px 0px 16px 5px;" />
+										@if ("Заказ не собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FF0000; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ не полностью собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FFFF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #00FF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ выполнен" == client.OrderAssemblyStage)
+										{
+											<div style="background: #B5B8B1; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+									</div>
+								</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
+								<td>
+									<div class="table-responsive card-body" style="overflow-y: visible;">
+										<button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+												style="padding: 4px 10px; min-width: 100px;">
+											☰ Действия
+										</button>
+										<ul class="dropdown-menu shadow-sm border rounded-2" style="min-width: 180px;">
+											<li>
+												<a asp-action="Buy" asp-controller="Home"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📦 Заказ
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="ImptExp"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📄 Документы
+												</a>
+											</li>
+											<li>
+												<a asp-action="FilesClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													🖼 Фото
+												</a>
+											</li>
+											<li>
+												<a asp-action="Edit" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													✏️ Редактировать
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="Copyclient"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													⬇️ Скачать
+												</a>
+											</li>
+											<li>
+												<a asp-action="CopyClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													📋 Копировать
+												</a>
+											</li>
+											<li>
+												<a asp-action="Delete" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item text-danger">
+													🗑 Удалить
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						}
+						if ("Красный" == client.NameColor)
+						{
+							<tr style="background: #FA8072 ">
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
+									<div class="dropdown">
 
-        </form>
+										<strong>
+											@client.SNM
+										</strong>
 
-        <div class="form-row align-items-center">
-            <form asp-controller="Home" asp-action="ClientRegistration" method="post" enctype="multipart/form-data">
-                <div class="form-group col-md-3">
-                    <input type="file" name="file" />
-                </div>
-                <div class="form-group col-md-2">
-                    <input type="submit" value="Добавить" />
-                </div>
-            </form>
-        </div>
+										@if ("Заказ не собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FF0000; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ не полностью собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FFFF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #00FF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ выполнен" == client.OrderAssemblyStage)
+										{
+											<div style="background: #B5B8B1; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+									</div>
+								</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
+								<td>
+									<div class="table-responsive card-body" style="overflow-y: visible;">
+										<button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+												style="padding: 4px 10px; min-width: 100px;">
+											☰ Действия
+										</button>
+										<ul class="dropdown-menu shadow-sm border rounded-2" style="min-width: 180px;">
+											<li>
+												<a asp-action="Buy" asp-controller="Home"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📦 Заказ
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="ImptExp"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📄 Документы
+												</a>
+											</li>
+											<li>
+												<a asp-action="FilesClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													🖼 Фото
+												</a>
+											</li>
+											<li>
+												<a asp-action="Edit" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													✏️ Редактировать
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="Copyclient"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													⬇️ Скачать
+												</a>
+											</li>
+											<li>
+												<a asp-action="CopyClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													📋 Копировать
+												</a>
+											</li>
+											<li>
+												<a asp-action="Delete" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item text-danger">
+													🗑 Удалить
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						}
+						if ("Без выделения" == client.NameColor)
+						{
+							<tr>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
+									<div class="dropdown">
 
-        <table class="table table-striped hover">
-            <tr>
+										<strong>
+											@client.SNM
+										</strong>
 
-                <th>
-                    <a>№</a>
-                </th>
-                <th>
-                    <a asp-action="ClientRegistration"
-                       asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
-                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-                       asp-route-company="@(Model.FilterViewModel.SelectedCompany)">ФИО</a>
-                </th>
-                <th>
-                    <a>Адрес</a>
-                </th>
-                <th>
-                    <a>Телефон</a>
-                </th>
-                <th>
-                    <a asp-action="ClientRegistration" asp-route-sortOrder="@(Model.SortViewModel.CompanySort)"
-                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-                       asp-route-company="@(Model.FilterViewModel.SelectedCompany)">Офис</a>
-                </th>
-                <th>
-                    <a asp-action="ClientRegistration" asp-route-sortOrder="@(Model.SortViewModel.AgeSort)"
-                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-                       asp-route-company="@(Model.FilterViewModel.SelectedCompany)">Дата</a>
-                </th>
-                <th>
-
-                </th>
-            </tr>
-            @foreach (Client client in Model.Clients)
-            {
-                <!--Показывать только клиентов выброного отчотного периода-->
-                @if (@ViewBag.reportingPeriodId == client.ReportingPeriodId)
-                {
-                    if ("Зеленый" == client.NameColor)
-                    {
-                        <tr style="background: #98FB98">
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
-                                <div class="dropdown">
-
-                                    <strong>
-                                        @client.SNM
-                                    </strong>
-
-                                    @if ("Заказ не собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FF0000; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ не полностью собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FFFF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #00FF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #B5B8B1; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                </div>
-                            </td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a href="#" data-toggle="dropdown" class="form-group btn btn-outline-dark">
-
-                                        &#9776
-
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a asp-action="Buy" asp-controller="Home" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" class="nav-link text-dark" style="margin-bottom: 4px;">Заказ</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-dark" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" asp-action="ImptExp">Документы</a>
-                                        </li>
-                                        <li> <a asp-action="FilesClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Фото</a></li>
-                                        <li>
-                                            <a asp-action="Edit" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Редактировать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-action="Copyclient" class="nav-link text-dark" style="margin-bottom: 4px;">Скачать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="CopyClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Копировать</a>
-                                        </li>
-                                        <li> <a asp-action="Delete" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Удалить</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                    if ("Желтый" == client.NameColor)
-                    {
-                        <tr style="background: #FFFF66 ">
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
-                                <div class="dropdown">
-
-                                    <strong>
-                                        @client.SNM
-                                    </strong>
-
-                                    @if ("Заказ не собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FF0000; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ не полностью собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FFFF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #00FF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #B5B8B1; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                </div>
-                            </td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a href="#" data-toggle="dropdown" class="form-group btn btn-outline-dark">
-
-                                        &#9776
-
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a asp-action="Buy" asp-controller="Home" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" class="nav-link text-dark" style="margin-bottom: 4px;">Заказ</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-dark" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" asp-action="ImptExp">Документы</a>
-                                        </li>
-                                        <li> <a asp-action="FilesClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Фото</a></li>
-                                        <li>
-                                            <a asp-action="Edit" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Редактировать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-action="Copyclient" class="nav-link text-dark" style="margin-bottom: 4px;">Скачать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="CopyClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Копировать</a>
-                                        </li>
-                                        <li> <a asp-action="Delete" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Удалить</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                    if ("Красный" == client.NameColor)
-                    {
-                        <tr style="background: #FA8072 ">
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
-                                <div class="dropdown">
-
-                                    <strong>
-                                        @client.SNM
-                                    </strong>
-
-                                    @if ("Заказ не собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FF0000; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ не полностью собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FFFF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #00FF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #B5B8B1; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                </div>
-                            </td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a href="#" data-toggle="dropdown" class="form-group btn btn-outline-dark">
-
-                                        &#9776
-
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a asp-action="Buy" asp-controller="Home" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" class="nav-link text-dark" style="margin-bottom: 4px;">Заказ</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-dark" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" asp-action="ImptExp">Документы</a>
-                                        </li>
-                                        <li> <a asp-action="FilesClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Фото</a></li>
-                                        <li>
-                                            <a asp-action="Edit" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Редактировать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-action="Copyclient" class="nav-link text-dark" style="margin-bottom: 4px;">Скачать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="CopyClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Копировать</a>
-                                        </li>
-                                        <li> <a asp-action="Delete" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Удалить</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                    if ("Без выделения" == client.NameColor)
-                    {
-                        <tr>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.ContractNumber</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">
-                                <div class="dropdown">
-
-                                    <strong>
-                                        @client.SNM
-                                    </strong>
-
-                                    @if ("Заказ не собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FF0000; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ не полностью собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #FFFF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ собран" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #00FF00; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                    @if ("Заказ выполнен" == client.OrderAssemblyStage)
-                                    {
-                                        <div style="background: #B5B8B1; text-align: center; ">
-                                            @client.OrderAssemblyStage
-                                        </div>
-                                    }
-                                </div>
-                            </td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
-                            <td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a href="#" data-toggle="dropdown" class="form-group btn btn-outline-dark">
-
-                                        &#9776
-
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a asp-action="Buy" asp-controller="Home" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" class="nav-link text-dark" style="margin-bottom: 4px;">Заказ</a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-dark" style="margin-bottom: 4px;" asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId" asp-action="ImptExp">Документы</a>
-                                        </li>
-                                        <li> <a asp-action="FilesClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Фото</a></li>
-                                        <li>
-                                            <a asp-action="Edit" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Редактировать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-area="" asp-controller="ImportExport" asp-route-id="@client.ClientId" asp-action="Copyclient" class="nav-link text-dark" style="margin-bottom: 4px;">Скачать</a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="CopyClient" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Копировать</a>
-                                        </li>
-                                        <li> <a asp-action="Delete" asp-controller="Home" asp-route-id="@client.ClientId" class="nav-link text-dark" style="margin-bottom: 4px;">Удалить</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-            }
-        </table>
-    </div>
+										@if ("Заказ не собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FF0000; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ не полностью собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #FFFF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ собран" == client.OrderAssemblyStage)
+										{
+											<div style="background: #00FF00; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+										@if ("Заказ выполнен" == client.OrderAssemblyStage)
+										{
+											<div style="background: #B5B8B1; text-align: center; ">
+												@client.OrderAssemblyStage
+											</div>
+										}
+									</div>
+								</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Address</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Telephone</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Offices.Name</td>
+								<td onclick="document.location = 'https://doorsprogram.ru/Home/Buy/@client.ClientId?id1=2';">@client.Date</td>
+								<td>
+									<div class="table-responsive card-body" style="overflow-y: visible;">
+										<button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+												style="padding: 4px 10px; min-width: 100px;">
+											☰ Действия
+										</button>
+										<ul class="dropdown-menu shadow-sm border rounded-2" style="min-width: 180px;">
+											<li>
+												<a asp-action="Buy" asp-controller="Home"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📦 Заказ
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="ImptExp"
+												   asp-route-id="@client.ClientId" asp-route-id1="@client.ReportingPeriodId"
+												   class="dropdown-item">
+													📄 Документы
+												</a>
+											</li>
+											<li>
+												<a asp-action="FilesClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													🖼 Фото
+												</a>
+											</li>
+											<li>
+												<a asp-action="Edit" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													✏️ Редактировать
+												</a>
+											</li>
+											<li>
+												<a asp-controller="ImportExport" asp-action="Copyclient"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													⬇️ Скачать
+												</a>
+											</li>
+											<li>
+												<a asp-action="CopyClient" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item">
+													📋 Копировать
+												</a>
+											</li>
+											<li>
+												<a asp-action="Delete" asp-controller="Home"
+												   asp-route-id="@client.ClientId"
+												   class="dropdown-item text-danger">
+													🗑 Удалить
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						}
+					}
+				}
+			</thead>
+		</table>
+	</div>
 </div>
 
 @if (Model.PageViewModel.HasPreviousPage)
 {
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
-       asp-route-sortorder="@(Model.SortViewModel.Current)"
-       class="btn  btn-outline-dark">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Назад
-    </a>
+	<a asp-action="Index"
+	   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+	   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+	   asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+	   asp-route-sortorder="@(Model.SortViewModel.Current)"
+	   class="btn  btn-outline-dark">
+		<i class="glyphicon glyphicon-chevron-left"></i>
+		Назад
+	</a>
 }
 @if (Model.PageViewModel.HasNextPage)
 {
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
-       asp-route-sortorder="@(Model.SortViewModel.Current)"
-       class="btn btn-outline-dark">
-        Вперед
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
+	<a asp-action="Index"
+	   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+	   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+	   asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+	   asp-route-sortorder="@(Model.SortViewModel.Current)"
+	   class="btn btn-outline-dark">
+		Вперед
+		<i class="glyphicon glyphicon-chevron-right"></i>
+	</a>
 }

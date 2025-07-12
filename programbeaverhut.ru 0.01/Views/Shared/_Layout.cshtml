@@ -95,13 +95,13 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <footer class="border-top footer text-muted" style="background: #FFFFFF; display: inline;">
+        <footer class="border-top footer text-muted">
             <div class="container">
                 <form>
                     @if (!User.IsInRole("admin"))
                     {
-                        <div class="form-group form-row align-items-center">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
+                        <div class="nav-item">
+                            <a class="nav-link fw-semibold" style="color: #0d72ee;" asp-controller="Home" asp-action="RequestPageHi">Поддержка</a>
                         </div>
 
                         <div class="form-group" style="margin-top: -40px;">
